@@ -1,5 +1,6 @@
 rootProject.name = 'rest_crud_library'
 
-include 'crud'
-include 'search'
 include 'common'
+include 'errors'
+include 'crud'
+include 'components'
