@@ -1,10 +1,10 @@
-package ca.billybolton.rest_crud_library;
+package ca.billybolton.crud;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestCrudLibraryApplicationTests {
+class CrudApplicationTests {
 
     @Test
     void contextLoads() {
