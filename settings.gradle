@@ -2,3 +2,4 @@ rootProject.name = 'rest_crud_library'
 
 include 'crud'
 include 'search'
+include 'common'
