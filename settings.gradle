@@ -1,4 +1,4 @@
-rootProject.name = 'rest_crud_library'
+rootProject.name = 'springharvest'
 
 include 'common'
 include 'errors'

@@ -15,7 +15,7 @@ configurations {
 }
 
 allprojects {
-    group = 'ca.rest_crud_library'
+    group = 'dev.springharvest'
     version = '0.0.1-SNAPSHOT'
 
     java {
