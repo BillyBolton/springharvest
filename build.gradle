@@ -40,7 +40,7 @@ subprojects {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/billybolton/rest_crud_library")
+                url = uri("https://maven.pkg.github.com/billybolton/springharvest")
                 credentials {
                     username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
                     password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")

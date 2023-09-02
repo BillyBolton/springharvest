@@ -2,7 +2,6 @@
 .DS_Store
 
 # Exclude other files/directories you've listed above
-HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
