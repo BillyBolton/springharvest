@@ -1,4 +1,4 @@
-package ca.springharvest.errors;
+package dev.springharvest.errors;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

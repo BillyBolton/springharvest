@@ -1,4 +1,4 @@
-package ca.springharvest.errors.constants;
+package dev.springharvest.errors.constants;
 
 /**
  * This class contains all the exception messages used in the application.

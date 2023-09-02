@@ -1,6 +1,6 @@
-package ca.springharvest.errors.rest;
+package dev.springharvest.errors.rest;
 
-import ca.springharvest.errors.models.ClientException;
+import dev.springharvest.errors.models.ClientException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

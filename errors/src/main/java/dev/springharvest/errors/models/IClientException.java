@@ -1,4 +1,4 @@
-package ca.springharvest.errors.models;
+package dev.springharvest.errors.models;
 
 import org.springframework.http.HttpStatus;
 

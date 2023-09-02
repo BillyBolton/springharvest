@@ -1,7 +1,7 @@
 package dev.springharvest.crud.rest;
 
-import ca.springharvest.errors.models.ClientException;
-import ca.springharvest.errors.models.ExceptionDetail;
+import dev.springharvest.errors.models.ClientException;
+import dev.springharvest.errors.models.ExceptionDetail;
 import dev.springharvest.crud.rest.constants.ControllerUri;
 import dev.springharvest.crud.service.AbstractBaseCrudService;
 import dev.springhavest.common.models.dtos.BaseDTO;

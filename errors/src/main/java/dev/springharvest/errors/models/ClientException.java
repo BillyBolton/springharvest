@@ -1,4 +1,4 @@
-package ca.springharvest.errors.models;
+package dev.springharvest.errors.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
