@@ -2,4 +2,6 @@ rootProject.name = 'springharvest'
 
 include 'common'
 include 'errors'
-include 'components'
+include ':components:crud'
+include ':components:search'
+include ':examples:library'

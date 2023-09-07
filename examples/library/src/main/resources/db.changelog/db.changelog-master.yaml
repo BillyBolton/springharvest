@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: PUBLISHERS/master.yaml
+      relativeToChangelogFile: true
