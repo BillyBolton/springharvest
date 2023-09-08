@@ -24,7 +24,7 @@ public class BookDTO extends BaseDTO<UUID> {
 
     private PublisherDTO publisher;
 
-    @Schema(name = "id", description = "The id of the book.", example = "1")
+    @Schema(name = "id", description = "The id of the book.", example = "00000000-0000-0000-0000-000000000001")
     public UUID getId() {
         return id;
     }
