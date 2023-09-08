@@ -1,4 +1,4 @@
 --liquibase formatted sql
 --changeset BillyBolton:insert-publishers
 INSERT INTO publishers (id, name)
-values (DEFAULT, 'Penguin Random House');
+values (DEFAULT, 'Random House');
