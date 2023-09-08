@@ -8,8 +8,10 @@ import dev.springharvest.library.books.persistence.IBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class BookService extends AbstractBaseCrudService<BookDTO, BookEntity, Long> {
+public class BookService extends AbstractBaseCrudService<BookDTO, BookEntity, UUID> {
 
     @Autowired
     protected BookService(IBookMapper baseMapper, IBookRepository baseRepository) {

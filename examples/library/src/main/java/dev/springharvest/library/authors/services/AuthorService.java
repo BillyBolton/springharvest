@@ -8,8 +8,10 @@ import dev.springharvest.library.authors.persistence.IAuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class AuthorService extends AbstractBaseCrudService<AuthorDTO, AuthorEntity, Long> {
+public class AuthorService extends AbstractBaseCrudService<AuthorDTO, AuthorEntity, UUID> {
     @Autowired
     protected AuthorService(IAuthorMapper baseMapper, IAuthorRepository baseRepository) {
         super(baseMapper, baseRepository);

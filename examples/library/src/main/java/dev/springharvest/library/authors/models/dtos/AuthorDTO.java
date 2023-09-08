@@ -7,18 +7,20 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Schema(name = "AuthorDTO", description = "A book's author.")
-public class AuthorDTO extends BaseDTO<Long> {
+public class AuthorDTO extends BaseDTO<UUID> {
 
     @Schema(name = "name", description = "The name of the author.", example = "Dr. Seuss")
     protected String name;
 
     @Schema(name = "id", description = "The id of the author.", example = "1")
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

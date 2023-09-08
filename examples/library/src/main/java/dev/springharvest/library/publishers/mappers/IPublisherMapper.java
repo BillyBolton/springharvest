@@ -10,8 +10,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.UUID;
+
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
-public interface IPublisherMapper extends IBaseModelMapper<PublisherDTO, PublisherEntity, Long> {
+public interface IPublisherMapper extends IBaseModelMapper<PublisherDTO, PublisherEntity, UUID> {
 
     @Override
     PublisherDTO entityToDto(PublisherEntity entity);

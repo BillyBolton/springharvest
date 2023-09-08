@@ -12,9 +12,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true), uses = {IAuthorMapper.class, IPublisherMapper.class})
-public interface IBookMapper extends IBaseModelMapper<BookDTO, BookEntity, Long> {
+public interface IBookMapper extends IBaseModelMapper<BookDTO, BookEntity, UUID> {
 
     @Override
     @Mapping(target = "author", source = ".")

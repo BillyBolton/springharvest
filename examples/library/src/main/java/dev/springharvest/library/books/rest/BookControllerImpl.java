@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @Slf4j
 @RestController
 @Tag(name = BookConstants.Controller.TAG)
 @RequestMapping(BookConstants.Controller.DOMAIN_CONTEXT)
-public class BookControllerImpl extends AbstractBaseCrudController<BookDTO, BookEntity, Long> {
+public class BookControllerImpl extends AbstractBaseCrudController<BookDTO, BookEntity, UUID> {
 
     protected BookControllerImpl(BookService baseService) {
         super(baseService);

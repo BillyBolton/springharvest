@@ -11,6 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -19,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "authors")
 @AttributeOverride(name = "id", column = @Column(name = "id"))
-public class AuthorEntity extends BaseEntity<Long> {
+public class AuthorEntity extends BaseEntity<UUID> {
 
     @Column(name = "name")
     protected String name;

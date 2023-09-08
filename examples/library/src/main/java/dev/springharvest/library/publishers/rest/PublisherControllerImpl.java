@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @Slf4j
 @RestController
 @Tag(name = PublisherConstants.Controller.TAG)
 @RequestMapping(PublisherConstants.Controller.DOMAIN_CONTEXT)
-public class PublisherControllerImpl extends AbstractBaseCrudController<PublisherDTO, PublisherEntity, Long> {
+public class PublisherControllerImpl extends AbstractBaseCrudController<PublisherDTO, PublisherEntity, UUID> {
 
     protected PublisherControllerImpl(PublisherService baseService) {
         super(baseService);
