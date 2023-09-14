@@ -26,18 +26,17 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
     }
 
     @Nested
-    class CrudPaths {
+    class ConfigTest {
 
-
-        @Nested
-        class ConfigTest {
-
-            @Test
-            void contextLoads() {
-                assertTrue(true);
-            }
-
+        @Test
+        void contextLoads() {
+            assertTrue(true);
         }
+
+    }
+
+    @Nested
+    class CrudPaths {
 
         @Nested
         class PostPaths {
