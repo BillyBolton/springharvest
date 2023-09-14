@@ -46,11 +46,8 @@ public class ReflectionUtils {
             paths.add(path);
 
             // Recursively add nested paths
-            if (!(visited.getOrDefault(fieldType, 0) == 2) &&
-                    !fieldType.isPrimitive() &&
-                    !fieldType.equals(Boolean.class) &&
-                    !fieldType.equals(Long.class) &&
-                    !fieldType.equals(String.class)) {
+            if (!(visited.getOrDefault(fieldType, 0) == 2) && !fieldType.isPrimitive() && !fieldType.equals(
+                    Boolean.class) && !fieldType.equals(Long.class) && !fieldType.equals(String.class)) {
 
                 visited.put(fieldType, (visited.getOrDefault(fieldType, 0)) + 1);
 
@@ -86,7 +83,9 @@ public class ReflectionUtils {
 
             Map<String, Object> map = new LinkedHashMap<>();
 
-            Class<?> superClass = object.getClass().getSuperclass();
+            Class<?> superClass = object
+                    .getClass()
+                    .getSuperclass();
 
             if (superClass != null) {
                 Field[] superFields = superClass.getDeclaredFields();
@@ -108,19 +107,21 @@ public class ReflectionUtils {
                 }
             }
 
-            Field[] fields = object.getClass().getDeclaredFields();
+            Field[] fields = object
+                    .getClass()
+                    .getDeclaredFields();
             for (Field field : fields) {
                 try {
                     log.info("Field: {}", field.getName());
                     field.setAccessible(true);
                     Object value = field.get(object);
                     if (value == null && !includeNulls) {
-//                        putToMap(map, field.getName(), value, includeNulls);
+                        //                        putToMap(map, field.getName(), value, includeNulls);
                         continue;
                     }
                     if (value instanceof List<?> nestedObjects) {
                         List<Map<String, Object>> nestedResult = transform(nestedObjects, includeNulls);
-//                        map.put(field.getName(), nestedResult);
+                        //                        map.put(field.getName(), nestedResult);
                         if (CollectionUtils.isEmpty(nestedResult) && !includeNulls) {
                             continue;
                         } else {
@@ -133,7 +134,9 @@ public class ReflectionUtils {
                             if (entry.getValue() == null && !includeNulls) {
                                 continue;
                             }
-                            nestedResult.put(entry.getKey().toString(), entry.getValue());
+                            nestedResult.put(entry
+                                                     .getKey()
+                                                     .toString(), entry.getValue());
                         }
                         putToMap(map, field.getName(), nestedResult, includeNulls);
                     } else if (value != null && !isSimpleType(value.getClass())) {
@@ -146,7 +149,7 @@ public class ReflectionUtils {
                         }
 
                     } else if (value == null && includeNulls) {
-//                        map.put(field.getName(), null);
+                        //                        map.put(field.getName(), null);
                         putToMap(map, field.getName(), value, includeNulls);
                     } else if (value != null) {
                         putToMap(map, field.getName(), value, includeNulls);
@@ -167,7 +170,9 @@ public class ReflectionUtils {
 
         Map<String, Object> map = new LinkedHashMap<>();
 
-        Class<?> superClass = object.getClass().getSuperclass();
+        Class<?> superClass = object
+                .getClass()
+                .getSuperclass();
         if (superClass != null) {
             Field[] superFields = superClass.getDeclaredFields();
             for (Field superField : superFields) {
@@ -202,7 +207,7 @@ public class ReflectionUtils {
                     for (Object nestedObject : (List<?>) value) {
                         nestedList.add(transformObject(nestedObject, includeNulls));
                     }
-//                    map.put(field.getName(), nestedList);
+                    //                    map.put(field.getName(), nestedList);
                     putToMap(map, field.getName(), nestedList, includeNulls);
                 } else if (value instanceof DomainModel) {
                     Map<String, Object> nestedResult = transformObject(value, includeNulls);
@@ -228,32 +233,15 @@ public class ReflectionUtils {
 
     public static boolean isSimpleType(@Nullable Class<?> type) {
         if (type == null) return true;
-        return type.isPrimitive() ||
-                type.equals(Boolean.class) ||
-                type.equals(Date.class) ||
-                type.equals(String.class) ||
-                type.equals(Character.class) ||
-                type.equals(Long.class) ||
-                type.equals(Integer.class) ||
-                type.equals(Double.class) ||
-                type.equals(Float.class) ||
-                type.equals(Short.class) ||
-                type.equals(Byte.class) ||
-                Number.class.isAssignableFrom(type);
+        return type.isPrimitive() || type.equals(Boolean.class) || type.equals(Date.class) || type.equals(
+                String.class) || type.equals(Character.class) || type.equals(Long.class) || type.equals(
+                Integer.class) || type.equals(Double.class) || type.equals(Float.class) || type.equals(
+                Short.class) || type.equals(Byte.class) || Number.class.isAssignableFrom(type);
     }
 
     public static boolean isPrimitive(@Nullable Object object) {
         if (object == null) return true;
-        return object instanceof Boolean ||
-                object instanceof Character ||
-                object instanceof Byte ||
-                object instanceof Short ||
-                object instanceof Integer ||
-                object instanceof Long ||
-                object instanceof Float ||
-                object instanceof Double ||
-                object instanceof String ||
-                object instanceof Enum;
+        return object instanceof Boolean || object instanceof Character || object instanceof Byte || object instanceof Short || object instanceof Integer || object instanceof Long || object instanceof Float || object instanceof Double || object instanceof String || object instanceof Enum;
     }
 
     private static void putToMap(Map<String, Object> map, String key, @Nullable Object value, boolean includeNulls) {

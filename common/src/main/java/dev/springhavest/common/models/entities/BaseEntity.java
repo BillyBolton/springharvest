@@ -1,6 +1,8 @@
 package dev.springhavest.common.models.entities;
 
 import dev.springhavest.common.models.domains.DomainModel;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -28,6 +30,7 @@ import lombok.experimental.SuperBuilder;
 public abstract class BaseEntity<K> extends DomainModel implements IBaseEntity<K> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected K id;
 
 }

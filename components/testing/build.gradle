@@ -1,5 +1,21 @@
 plugins {}
 
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:$TESTCONTAINERS_VERSION"
+    }
+}
+
 dependencies {
     implementation project(':common')
+
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api "org.mapstruct:mapstruct-processor:$MAPSTRUCT_VERSION"
+    api "io.rest-assured:spring-mock-mvc:$RESTASSURED_VERSION"
+    api "org.hamcrest:hamcrest-all:$HAMCREST_VERSION"
+    api 'org.springframework.boot:spring-boot-starter-test'
+
+    api 'org.testcontainers:junit-jupiter'
+    api "org.testcontainers:postgresql"
+    implementation 'org.liquibase:liquibase-core'
 }
