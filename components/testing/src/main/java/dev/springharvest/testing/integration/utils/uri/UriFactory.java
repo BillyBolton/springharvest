@@ -2,7 +2,17 @@ package dev.springharvest.testing.integration.utils.uri;
 
 import dev.springhavest.common.constants.ControllerEndpoints;
 
-public abstract class AbstractBaseUriFactoryImpl implements IBaseUriFactory {
+public class UriFactory implements IUriFactory {
+
+    private final String DOMAIN_CONTEXT;
+
+    public UriFactory(String domainContext) {
+        DOMAIN_CONTEXT = domainContext;
+    }
+
+    public String getDomainContext() {
+        return DOMAIN_CONTEXT;
+    }
 
     @Override
     public String getExistsByIdUri() {

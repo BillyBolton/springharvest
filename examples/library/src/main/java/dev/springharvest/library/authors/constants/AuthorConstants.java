@@ -18,8 +18,12 @@ public class AuthorConstants {
     }
 
     public static class Paths {
-        public static final String AUTHOR = "author";
         public static final String AUTHORS = "authors";
+
+        public static final String AUTHOR = "author";
+
+        public static final String AUTHOR_ID = AUTHOR + ".id";
+        public static final String AUTHOR_NAME = AUTHOR + ".name";
 
         private Paths() {
             throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);

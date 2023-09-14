@@ -13,8 +13,6 @@ public interface IBaseCrudTestHelper<D extends BaseDTO<K>, E extends BaseEntity<
 
     Class<D> getClassType();
 
-    String getIdPath();
-
     K getRandomId();
 
     D buildValidDto();

@@ -3,7 +3,6 @@ package dev.springharvest.testing.integration.crud;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
 import dev.springharvest.testing.integration.utils.helpers.IBaseCrudTestHelper;
-import dev.springharvest.testing.integration.utils.uri.AbstractBaseUriFactoryImpl;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
@@ -20,13 +19,10 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
     protected RestClientImpl clientHelper;
     protected IBaseCrudTestHelper<D, E, K> testHelper;
-    protected AbstractBaseUriFactoryImpl uriFactory;
 
-    protected AbstractBaseCrudIT(RestClientImpl clientHelper, AbstractBaseCrudTestHelperImpl<D, E, K> testHelper,
-                                 AbstractBaseUriFactoryImpl uriFactory) {
+    protected AbstractBaseCrudIT(RestClientImpl clientHelper, AbstractBaseCrudTestHelperImpl<D, E, K> testHelper) {
         this.clientHelper = clientHelper;
         this.testHelper = testHelper;
-        this.uriFactory = uriFactory;
     }
 
     @Nested
@@ -56,12 +52,11 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
                 expectedResponseCode = 200;
                 D toCreate = testHelper.buildValidDto();
                 response = testHelper.create(toCreate);
-                D created = response
-                        .statusCode(expectedResponseCode)
-                        .extract()
-                        .body()
-                        .jsonPath()
-                        .getObject("", testHelper.getClassType());
+                D created = response.statusCode(expectedResponseCode)
+                                    .extract()
+                                    .body()
+                                    .jsonPath()
+                                    .getObject("", testHelper.getClassType());
 
                 toCreate.setId(created.getId());
 
@@ -80,12 +75,11 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
                 D toCreate = testHelper.buildValidDto();
                 ValidatableResponse response = testHelper.createAll(List.of(toCreate));
-                List<D> allCreated = response
-                        .statusCode(expectedResponseCode)
-                        .extract()
-                        .body()
-                        .jsonPath()
-                        .getList("", testHelper.getClassType());
+                List<D> allCreated = response.statusCode(expectedResponseCode)
+                                             .extract()
+                                             .body()
+                                             .jsonPath()
+                                             .getList("", testHelper.getClassType());
 
                 D lastCreated = allCreated.get(allCreated.size() - 1);
                 K id = lastCreated.getId();
@@ -107,23 +101,21 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
             int expectedResponseCode = 200;
             ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getList("", testHelper.getClassType());
+            List<D> dtos = response.statusCode(expectedResponseCode)
+                                   .extract()
+                                   .body()
+                                   .jsonPath()
+                                   .getList("", testHelper.getClassType());
             assertTrue(dtos.size() > 0);
             D firstDto = dtos.get(0);
             K id = firstDto.getId();
 
             response = testHelper.findById(id);
-            D dto = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getObject("", testHelper.getClassType());
+            D dto = response.statusCode(expectedResponseCode)
+                            .extract()
+                            .body()
+                            .jsonPath()
+                            .getObject("", testHelper.getClassType());
             assertNotNull(dto);
         }
 
@@ -132,12 +124,11 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
             int expectedResponseCode = 200;
             ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getList("", testHelper.getClassType());
+            List<D> dtos = response.statusCode(expectedResponseCode)
+                                   .extract()
+                                   .body()
+                                   .jsonPath()
+                                   .getList("", testHelper.getClassType());
             assertTrue(dtos.size() > 0);
         }
     }
@@ -150,24 +141,22 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
             int expectedResponseCode = 200;
 
             ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getList("", testHelper.getClassType());
+            List<D> dtos = response.statusCode(expectedResponseCode)
+                                   .extract()
+                                   .body()
+                                   .jsonPath()
+                                   .getList("", testHelper.getClassType());
             assertTrue(dtos.size() > 0);
             D firstDto = dtos.get(dtos.size() - 1);
             K id = firstDto.getId();
 
             D toUpdate = testHelper.buildValidUpdatedDto(id);
             response = testHelper.update(id, toUpdate);
-            D updated = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getObject("", testHelper.getClassType());
+            D updated = response.statusCode(expectedResponseCode)
+                                .extract()
+                                .body()
+                                .jsonPath()
+                                .getObject("", testHelper.getClassType());
 
 
             SoftAssertions softly = new SoftAssertions();
@@ -181,24 +170,22 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
             int expectedResponseCode = 200;
 
             ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getList("", testHelper.getClassType());
+            List<D> dtos = response.statusCode(expectedResponseCode)
+                                   .extract()
+                                   .body()
+                                   .jsonPath()
+                                   .getList("", testHelper.getClassType());
             assertTrue(dtos.size() > 0);
             D firstDto = dtos.get(0);
             K id = firstDto.getId();
 
             List<D> toUpdate = List.of(testHelper.buildValidUpdatedDto(firstDto));
             response = testHelper.updateAll(toUpdate);
-            List<D> updated = response
-                    .statusCode(expectedResponseCode)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getList("", testHelper.getClassType());
+            List<D> updated = response.statusCode(expectedResponseCode)
+                                      .extract()
+                                      .body()
+                                      .jsonPath()
+                                      .getList("", testHelper.getClassType());
 
             SoftAssertions softly = new SoftAssertions();
             testHelper.softlyAssert(softly, toUpdate, updated);
@@ -214,16 +201,14 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
             D toCreate = testHelper.buildValidDto();
             ValidatableResponse response = testHelper.create(toCreate);
-            D created = response
-                    .statusCode(200)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getObject("", testHelper.getClassType());
+            D created = response.statusCode(200)
+                                .extract()
+                                .body()
+                                .jsonPath()
+                                .getObject("", testHelper.getClassType());
 
-            testHelper
-                    .deleteById(created.getId())
-                    .statusCode(204);
+            testHelper.deleteById(created.getId())
+                      .statusCode(204);
         }
 
         @Test
@@ -231,16 +216,14 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
             D toCreate = testHelper.buildValidDto();
             ValidatableResponse response = testHelper.create(toCreate);
-            D created = response
-                    .statusCode(200)
-                    .extract()
-                    .body()
-                    .jsonPath()
-                    .getObject("", testHelper.getClassType());
+            D created = response.statusCode(200)
+                                .extract()
+                                .body()
+                                .jsonPath()
+                                .getObject("", testHelper.getClassType());
 
-            testHelper
-                    .deleteAllByIds(List.of(created.getId()))
-                    .statusCode(204);
+            testHelper.deleteAllByIds(List.of(created.getId()))
+                      .statusCode(204);
         }
 
     }

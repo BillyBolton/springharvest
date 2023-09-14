@@ -10,7 +10,7 @@ package dev.springharvest.testing.integration.utils.uri;
  * @author Billy Bolton
  * @version 1.0
  */
-public interface IBaseUriFactory {
+public interface IUriFactory {
 
     String getDomainContext();
 

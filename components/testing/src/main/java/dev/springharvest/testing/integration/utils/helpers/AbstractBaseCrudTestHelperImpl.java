@@ -1,8 +1,8 @@
 package dev.springharvest.testing.integration.utils.helpers;
 
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
-import dev.springharvest.testing.integration.utils.uri.AbstractBaseUriFactoryImpl;
-import dev.springharvest.testing.integration.utils.uri.IBaseUriFactory;
+import dev.springharvest.testing.integration.utils.uri.IUriFactory;
+import dev.springharvest.testing.integration.utils.uri.UriFactory;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
@@ -18,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public abstract class AbstractBaseCrudTestHelperImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K> implements IBaseCrudTestHelper<D, E, K> {
 
     protected RestClientImpl clientHelper;
-    protected IBaseUriFactory uriFactory;
+    protected IUriFactory uriFactory;
 
     // Do not remove Autowired here
     @Autowired(required = true)
-    protected AbstractBaseCrudTestHelperImpl(RestClientImpl clientHelper, AbstractBaseUriFactoryImpl uriFactory) {
+    protected AbstractBaseCrudTestHelperImpl(RestClientImpl clientHelper, UriFactory uriFactory) {
         this.clientHelper = clientHelper;
         this.uriFactory = uriFactory;
 
@@ -99,9 +99,11 @@ public abstract class AbstractBaseCrudTestHelperImpl<D extends BaseDTO<K>, E ext
             if (actual instanceof String && expected instanceof String) {
                 String actualString = capitalizeFirstLetters((String) actual);
                 String expectedString = capitalizeFirstLetters((String) expected);
-                softly.assertThat(actualString).isEqualTo(expectedString);
+                softly.assertThat(actualString)
+                      .isEqualTo(expectedString);
             } else {
-                softly.assertThat(actual).isEqualTo(expected);
+                softly.assertThat(actual)
+                      .isEqualTo(expected);
             }
         }
     }
@@ -110,9 +112,12 @@ public abstract class AbstractBaseCrudTestHelperImpl<D extends BaseDTO<K>, E ext
         String[] words = str.split(" ");
         StringBuilder sb = new StringBuilder();
         for (String word : words) {
-            sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
+            sb.append(Character.toUpperCase(word.charAt(0)))
+              .append(word.substring(1))
+              .append(" ");
         }
-        return sb.toString().trim();
+        return sb.toString()
+                 .trim();
     }
 
 }

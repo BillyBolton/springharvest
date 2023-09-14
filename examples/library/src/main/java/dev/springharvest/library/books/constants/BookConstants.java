@@ -18,8 +18,16 @@ public class BookConstants {
     }
 
     public static class Paths {
-        public static final String BOOK = "Book";
         public static final String BOOKS = "Books";
+
+        public static final String BOOK = "Book";
+
+        public static final String BOOK_ID = BOOK + ".id";
+        public static final String BOOK_TITLE = BOOK + ".title";
+
+        public static final String BOOK_AUTHOR_ID = BOOK + ".authorId";
+
+        public static final String BOOK_PUBLISHER_ID = BOOK + ".publisherId";
 
         private Paths() {
             throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);

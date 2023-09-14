@@ -1,11 +1,12 @@
-package dev.springharvest.library.domains.authors.integration.crud;
+package dev.springharvest.library.domains.publishers.integration.crud;
 
-import dev.springharvest.library.authors.models.dtos.AuthorDTO;
-import dev.springharvest.library.authors.models.entities.AuthorEntity;
+
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.constants.TestConstants;
-import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsTestHelper;
+import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublishersTestHelper;
+import dev.springharvest.library.publishers.models.dtos.PublisherDTO;
+import dev.springharvest.library.publishers.models.entities.PublisherEntity;
 import dev.springharvest.testing.integration.crud.AbstractBaseCrudIT;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.listeners.LiquibaseTestExecutionListener;
@@ -26,10 +27,10 @@ import java.util.UUID;
         listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @TestPropertySource(locations = "classpath:application.properties")
-class AuthorsCrudIT extends AbstractBaseCrudIT<AuthorDTO, AuthorEntity, UUID> {
+class PublishersCrudIT extends AbstractBaseCrudIT<PublisherDTO, PublisherEntity, UUID> {
 
     @Autowired
-    public AuthorsCrudIT(RestClientImpl clientHelper, AuthorsTestHelper testHelper) {
+    public PublishersCrudIT(RestClientImpl clientHelper, PublishersTestHelper testHelper) {
         super(clientHelper, testHelper);
     }
 
