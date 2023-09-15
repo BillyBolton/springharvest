@@ -5,9 +5,11 @@ import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface ICrudTestHelper<D extends BaseDTO<K>, E extends BaseEntity<K>, K> extends IBaseTestHelper<D, E, K> {
+public interface ICrudTestHelper<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
+        extends IBaseTestHelper<D, E, K> {
 
     ValidatableResponse existsById(K id);
 

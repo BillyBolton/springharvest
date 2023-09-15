@@ -5,12 +5,9 @@ import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsCrudTestHelper;
 import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
-import dev.springharvest.testing.constants.TestConstants;
 import dev.springharvest.testing.integration.crud.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -31,11 +28,6 @@ class AuthorsCrudIT extends AbstractCrudIT<AuthorDTO, AuthorEntity, UUID> {
     @Autowired
     public AuthorsCrudIT(RestClientImpl clientHelper, AuthorsCrudTestHelper testHelper) {
         super(clientHelper, testHelper);
-    }
-
-    @Test
-    void contextLoads() {
-        Assertions.assertTrue(true, TestConstants.Messages.CONTEXT_LOADS);
     }
 
 }

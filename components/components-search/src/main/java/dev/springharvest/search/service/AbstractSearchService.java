@@ -13,12 +13,13 @@ import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Set;
 
 @Slf4j
-public abstract class AbstractSearchService<D extends BaseDTO<K>, E extends BaseEntity<K>, K,
+public abstract class AbstractSearchService<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable,
         RD extends BaseFilterRequestDTO, RB extends BaseFilterRequestBO, FD extends BaseFilterDTO,
         FB extends BaseFilterBO>
         implements ISearchService<D, K, RD> {
@@ -41,22 +42,17 @@ public abstract class AbstractSearchService<D extends BaseDTO<K>, E extends Base
 
     @Override
     public D findByUnique(D dto) {
-        return search(SearchRequestDTO.<RD>builder()
-                                      .filters(buildUniqueFilters(dto))
-                                      .build()).stream()
-                                               .findFirst()
-                                               .orElse(null);
+        return search(SearchRequestDTO.<RD>builder().filters(buildUniqueFilters(dto)).build()).stream()
+                                                                                              .findFirst()
+                                                                                              .orElse(null);
     }
 
     @Override
     public boolean existsByUnique(D dto) {
 
-        SearchRequestDTO<RD> searchRequestDTO = SearchRequestDTO.<RD>builder()
-                                                                .filters(buildUniqueFilters(dto))
-                                                                .build();
+        SearchRequestDTO<RD> searchRequestDTO = SearchRequestDTO.<RD>builder().filters(buildUniqueFilters(dto)).build();
 
-        return !searchRequestDTO.getFilters()
-                                .isEmpty() &&
+        return !searchRequestDTO.getFilters().isEmpty() &&
                criteriaSearchRepository.existsByUnique(filterMapper.toSearchRequest(searchRequestDTO));
     }
 
@@ -86,4 +82,5 @@ public abstract class AbstractSearchService<D extends BaseDTO<K>, E extends Base
     protected List<E> dtoToEntity(List<D> dtos) {
         return baseMapper.dtoToEntity(dtos);
     }
+
 }

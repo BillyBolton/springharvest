@@ -1,16 +1,18 @@
 package dev.springharvest.crud.service;
 
-import dev.springhavest.common.models.dtos.BaseDTO;
+import dev.springhavest.common.models.entities.BaseEntity;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The interface used to define the contract for a base service.
  *
- * @param <D> The type of the DTO.
+ * @param <E> The type of the Entity.
  * @param <K> The type of the id (primary key) field.
  */
-public interface IBaseService<D extends BaseDTO<K>, K> {
+public interface IBaseService<E extends BaseEntity<K>, K extends Serializable> {
 
     /**
      * Returns the number of entities of the entity domain.
@@ -35,16 +37,16 @@ public interface IBaseService<D extends BaseDTO<K>, K> {
      *
      * @return The entity with the given id.
      */
-    D findById(K id);
+    Optional<E> findById(K id);
 
-    List<D> findAllByIds(List<K> ids);
+    List<E> findAllByIds(List<K> ids);
 
     /**
      * Returns all entities of the entity domain.
      *
      * @return All entities of the entity domain.
      */
-    List<D> findAll();
+    List<E> findAll();
 
     /**
      * Saves a new entity to the database if it does not already exist.
@@ -53,7 +55,7 @@ public interface IBaseService<D extends BaseDTO<K>, K> {
      *
      * @return The saved DTO.
      */
-    D create(D dto);
+    E create(E dto);
 
     /**
      * Saves a list of new entities to the database if they do not already exist.
@@ -62,7 +64,7 @@ public interface IBaseService<D extends BaseDTO<K>, K> {
      *
      * @return The list of saved DTOs.
      */
-    List<D> create(List<D> dtos);
+    List<E> create(List<E> dtos);
 
     /**
      * Updates an existing entity in the database.
@@ -71,7 +73,7 @@ public interface IBaseService<D extends BaseDTO<K>, K> {
      *
      * @return The updated DTO.
      */
-    D update(D dto);
+    E update(E dto);
 
     /**
      * Updates a list of existing entities in the database.
@@ -80,7 +82,7 @@ public interface IBaseService<D extends BaseDTO<K>, K> {
      *
      * @return The list of updated DTOs.
      */
-    List<D> update(List<D> dtos);
+    List<E> update(List<E> dtos);
 
     /**
      * Deletes an entity from the database.

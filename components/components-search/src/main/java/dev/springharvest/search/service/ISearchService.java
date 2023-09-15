@@ -4,6 +4,7 @@ import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequest
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
 import dev.springhavest.common.models.dtos.BaseDTO;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * @param <K>  The type of the id (primary key) field.
  * @param <RD> The type of the request DTO.
  */
-public interface ISearchService<D extends BaseDTO<K>, K, RD extends BaseFilterRequestDTO> {
+public interface ISearchService<D extends BaseDTO<K>, K extends Serializable, RD extends BaseFilterRequestDTO> {
 
     /**
      * Returns the entity with the given unique fields of the entity related to the DTO.
@@ -41,4 +42,5 @@ public interface ISearchService<D extends BaseDTO<K>, K, RD extends BaseFilterRe
      * @return A list of DTOs that are retrieved by the search request.
      */
     List<D> search(SearchRequestDTO<RD> query);
+
 }

@@ -43,6 +43,7 @@ dependencies {
 
     if (profiles.contains("liquibase")) {
         implementation 'org.liquibase:liquibase-core'
+        testImplementation 'org.liquibase:liquibase-core'
     }
 
 }

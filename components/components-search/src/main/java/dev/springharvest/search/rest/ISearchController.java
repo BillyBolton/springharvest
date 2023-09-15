@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  * @param <D>  The DTO object for a domain
  * @param <K>  The type of the id (primary key) field pertaining to the entity relating to the DTO
  */
-public interface ISearchController<RD extends BaseFilterRequestDTO, D extends BaseDTO<K>, K> {
+public interface ISearchController<RD extends BaseFilterRequestDTO, D extends BaseDTO<K>, K extends Serializable> {
 
     @Operation(operationId = "search", summary = "Retrieves entities by a filtered search.",
                description = "Use this API to retrieve entities by a filtered search.",

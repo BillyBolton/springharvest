@@ -8,10 +8,12 @@ import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public interface ISearchTestHelper<D extends BaseDTO<K>, E extends BaseEntity<K>, K, B extends BaseFilterRequestDTO>
+public interface ISearchTestHelper<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable,
+        B extends BaseFilterRequestDTO>
         extends IBaseTestHelper<D, E, K> {
 
     String getIdPath();

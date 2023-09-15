@@ -8,9 +8,10 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractCrudTestHelperImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K>
+public abstract class AbstractCrudTestHelperImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
         implements ICrudTestHelper<D, E, K> {
 
     protected RestClientImpl clientHelper;

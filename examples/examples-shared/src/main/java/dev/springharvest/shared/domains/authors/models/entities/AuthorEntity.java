@@ -5,6 +5,7 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @AttributeOverride(name = "id", column = @Column(name = "id"))
 public class AuthorEntity extends BaseEntity<UUID> {
 
+    @NotBlank
     @Column(name = "name")
     protected String name;
 

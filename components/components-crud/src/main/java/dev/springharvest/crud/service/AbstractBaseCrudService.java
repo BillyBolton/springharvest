@@ -1,28 +1,25 @@
 package dev.springharvest.crud.service;
 
-import dev.springharvest.crud.mappers.CyclicMappingHandler;
-import dev.springharvest.crud.mappers.IBaseModelMapper;
 import dev.springharvest.crud.persistence.IBaseCrudRepository;
-import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
-public abstract class AbstractBaseCrudService<D extends BaseDTO<K>, E extends BaseEntity<K>, K>
-        implements IBaseService<D, K> {
+public abstract class AbstractBaseCrudService<E extends BaseEntity<K>, K extends Serializable>
+        implements IBaseService<E, K> {
 
-    protected IBaseModelMapper<D, E, K> baseMapper;
     protected IBaseCrudRepository<E, K> baseRepository;
 
-    protected AbstractBaseCrudService(IBaseModelMapper<D, E, K> baseMapper,
-                                      IBaseCrudRepository<E, K> baseRepository) {
-        this.baseMapper = baseMapper;
+    protected AbstractBaseCrudService(IBaseCrudRepository<E, K> baseRepository) {
         this.baseRepository = baseRepository;
     }
 
@@ -43,27 +40,25 @@ public abstract class AbstractBaseCrudService<D extends BaseDTO<K>, E extends Ba
     }
 
     @Override
-    public D findById(K id) {
-        return entityToDto(baseRepository.findById(id).orElse(null));
+    public Optional<E> findById(K id) {
+        return baseRepository.findById(id);
     }
 
     @Override
-    public List<D> findAllByIds(List<K> ids) {
-        return entityToDto(baseRepository.findAllById(ids));
+    public List<E> findAllByIds(List<K> ids) {
+        return baseRepository.findAllById(ids);
     }
 
     @Override
-    public List<D> findAll() {
-        List<E> entities = baseRepository.findAll();
-        return entityToDto(entities);
+    public List<E> findAll() {
+        return baseRepository.findAll();
     }
 
     @Transactional
-    public D create(D dto) {
-        beforeCreation(dto);
-        E entity = dtoToEntity(dto);
+    public E create(@Valid E entity) {
+        entity = beforeCreation(entity);
         try {
-            return entityToDto(baseRepository.save(entity));
+            return baseRepository.save(entity);
         } catch (EntityExistsException e) {
             log.error("Entity already exists", e);
             throw e;
@@ -71,19 +66,18 @@ public abstract class AbstractBaseCrudService<D extends BaseDTO<K>, E extends Ba
     }
 
     @Transactional
-    public List<D> create(List<D> dtos) {
-        beforeCreation(dtos);
-        return entityToDto(baseRepository.saveAll(dtoToEntity(dtos)));
+    public List<E> create(@Valid List<E> entities) {
+        return baseRepository.saveAll(beforeCreation(entities));
     }
 
     @Transactional
-    public D update(D dto) {
-        return entityToDto(baseRepository.save(dtoToEntity(beforeUpdate(dto))));
+    public E update(@Valid E entity) {
+        return baseRepository.save(beforeUpdate(entity));
     }
 
     @Transactional
-    public List<D> update(List<D> source) {
-        return source.stream().map(this::update).toList();
+    public List<E> update(@Valid List<E> entities) {
+        return entities.stream().map(this::update).toList();
     }
 
     @Transactional
@@ -96,49 +90,27 @@ public abstract class AbstractBaseCrudService<D extends BaseDTO<K>, E extends Ba
         baseRepository.deleteAllById(ids);
     }
 
+    protected E beforeCreation(E entity) {
+        entity.setId(null);
+        return entity;
+    }
 
-    protected D beforeCreation(D source) {
-        scrubId(source);
+    protected List<E> beforeCreation(List<E> source) {
+        source.forEach(this::beforeCreation);
         return source;
     }
 
-    protected List<D> beforeCreation(List<D> source) {
-        source.stream().forEach(this::beforeCreation);
-        return source;
-    }
-
-    protected D beforeUpdate(D source) {
+    protected E beforeUpdate(E source) {
         validate(source);
         K id = source.getId();
         if (!existsById(id)) {
             throw new EntityNotFoundException();
         }
-
-        return baseMapper.setDirtyFields(source, findById(id), new CyclicMappingHandler());
+        return source;
     }
 
-    protected void validate(D dto) {
+    protected void validate(E entity) {
         // TODO: implement update validation
-    }
-
-    private void scrubId(D dto) {
-        dto.setId(null);
-    }
-
-    protected D entityToDto(E entity) {
-        return baseMapper.entityToDto(entity);
-    }
-
-    protected E dtoToEntity(D dto) {
-        return baseMapper.dtoToEntity(dto);
-    }
-
-    protected List<D> entityToDto(List<E> entities) {
-        return baseMapper.entityToDto(entities);
-    }
-
-    protected List<E> dtoToEntity(List<D> dtos) {
-        return baseMapper.dtoToEntity(dtos);
     }
 
 

@@ -14,13 +14,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K, B extends BaseFilterRequestDTO>
+public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable,
+        B extends BaseFilterRequestDTO>
         implements ISearchIT<D, E, K, B> {
 
     protected RestClientImpl clientHelper;

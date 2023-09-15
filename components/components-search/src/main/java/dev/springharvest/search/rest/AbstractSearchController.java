@@ -16,10 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Slf4j
-public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity<K>, K,
+public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable,
         RD extends BaseFilterRequestDTO, RB extends BaseFilterRequestBO, FD extends BaseFilterDTO,
         FB extends BaseFilterBO>
         implements ISearchController<RD, D, K> {

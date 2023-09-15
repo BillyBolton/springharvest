@@ -1,7 +1,6 @@
 package dev.springharvest.library.domains.books.integration.utils.helpers;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
-import dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata;
 import dev.springharvest.library.domains.books.models.entities.BookEntityMetadata;
 import dev.springharvest.library.domains.books.models.queries.BookFilterDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
@@ -64,8 +63,6 @@ public class BooksSearchTestHelper
         List<SelectionDTO> selections = new ArrayList<>(
                 List.of(SelectionDTO.builder().alias(BookEntityMetadata.Paths.BOOK_ID).build(),
                         SelectionDTO.builder().alias(BookEntityMetadata.Paths.BOOK_TITLE).build()));
-
-        AuthorEntityMetadata.Paths.
 
         return selections;
     }

@@ -11,6 +11,7 @@ import org.mapstruct.Context;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.MappingTarget;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.Map;
  * @author Billy Bolton
  * @since 1.0
  */
-public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>, K> {
+public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable> {
 
     /**
      * This method is used to map a DTO object to an Entity.
@@ -141,12 +142,10 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
     default List<D> toList(String source, @Context CyclicMappingHandler context) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            List<D> target = objectMapper.readValue(source, new TypeReference<ArrayList<D>>() {
-            });
+            List<D> target = objectMapper.readValue(source, new TypeReference<ArrayList<D>>() {});
             List<D> contextTarget =
-                    context.getMappedInstance(objectMapper.readValue(source, new TypeReference<ArrayList<D>>() {
-                            }),
-                            List.class);
+                    context.getMappedInstance(objectMapper.readValue(source, new TypeReference<ArrayList<D>>() {}),
+                                              List.class);
             if (contextTarget != null) {
                 return contextTarget;
             }
@@ -167,12 +166,10 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
     default List<E> entityToList(String source, @Context CyclicMappingHandler context) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            List<E> target = objectMapper.readValue(source, new TypeReference<ArrayList<E>>() {
-            });
+            List<E> target = objectMapper.readValue(source, new TypeReference<ArrayList<E>>() {});
             List<E> contextTarget =
-                    context.getMappedInstance(objectMapper.readValue(source, new TypeReference<ArrayList<E>>() {
-                            }),
-                            List.class);
+                    context.getMappedInstance(objectMapper.readValue(source, new TypeReference<ArrayList<E>>() {}),
+                                              List.class);
             if (contextTarget != null) {
                 return contextTarget;
             }

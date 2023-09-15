@@ -10,14 +10,15 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractSearchTestHelperImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K,
-        B extends BaseFilterRequestDTO>
+public abstract class AbstractSearchTestHelperImpl<D extends BaseDTO<K>, E extends BaseEntity<K>,
+        K extends Serializable, B extends BaseFilterRequestDTO>
         implements ISearchTestHelper<D, E, K, B> {
 
     protected RestClientImpl restClient;

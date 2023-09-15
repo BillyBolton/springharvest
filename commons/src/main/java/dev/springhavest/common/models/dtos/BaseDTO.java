@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
+
 /**
  * This class is used to represent the base data-transfer-object, (DTO).
  *
@@ -18,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(name = "BaseDTO", description = "The base class for all DTOs that have a String id.")
-public abstract class BaseDTO<K> implements IBaseDTO<K> {
+public abstract class BaseDTO<K extends Serializable> implements IBaseDTO<K> {
 
     @Schema(name = "id",
             description = "The id of the entity. The 'ExplPrfx_' is the prefix of the domain object that this DTO " +

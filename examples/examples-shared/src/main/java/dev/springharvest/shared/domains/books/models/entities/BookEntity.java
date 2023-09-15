@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,13 +32,16 @@ import java.util.UUID;
 @AttributeOverride(name = "id", column = @Column(name = "id"))
 public class BookEntity extends BaseEntity<UUID> {
 
+    @NotBlank
     @Column(name = "title")
     private String title;
 
+    @NotNull
     @JoinColumn(name = "author_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private AuthorEntity author;
 
+    @NotNull
     @JoinColumn(name = "publisher_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private PublisherEntity publisher;

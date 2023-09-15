@@ -1,5 +1,7 @@
 package dev.springhavest.common.models.dtos;
 
+import java.io.Serializable;
+
 /**
  * A generic interface for the base data-transfer-object, (DTO).
  *
@@ -8,7 +10,7 @@ package dev.springhavest.common.models.dtos;
  * @author Billy Bolton
  * @since 1.0
  */
-public interface IBaseDTO<K> {
+public interface IBaseDTO<K extends Serializable> {
 
     /**
      * This method is used to get the id of the DTO.

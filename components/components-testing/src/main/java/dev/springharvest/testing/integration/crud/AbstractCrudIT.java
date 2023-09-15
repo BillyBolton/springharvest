@@ -10,12 +10,14 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K> implements ICrudIT<D, E, K> {
+public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
+        implements ICrudIT<D, E, K> {
 
     protected RestClientImpl clientHelper;
     protected ICrudTestHelper<D, E, K> testHelper;
@@ -92,131 +94,133 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
 
         }
 
-    }
+        @Nested
+        class GetPaths {
 
-    @Nested
-    class GetPaths {
+            @Test
+            void canGetOne() {
 
-        @Test
-        void canGetOne() {
+                int expectedResponseCode = 200;
+                ValidatableResponse response = testHelper.findAll();
+                List<D> dtos = response.statusCode(expectedResponseCode)
+                                       .extract()
+                                       .body()
+                                       .jsonPath()
+                                       .getList("", testHelper.getClassType());
+                assertTrue(dtos.size() > 0);
+                D firstDto = dtos.get(0);
+                K id = firstDto.getId();
 
-            int expectedResponseCode = 200;
-            ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response.statusCode(expectedResponseCode)
-                                   .extract()
-                                   .body()
-                                   .jsonPath()
-                                   .getList("", testHelper.getClassType());
-            assertTrue(dtos.size() > 0);
-            D firstDto = dtos.get(0);
-            K id = firstDto.getId();
-
-            response = testHelper.findById(id);
-            D dto = response.statusCode(expectedResponseCode)
-                            .extract()
-                            .body()
-                            .jsonPath()
-                            .getObject("", testHelper.getClassType());
-            assertNotNull(dto);
-        }
-
-        @Test
-        void canGetMany() {
-
-            int expectedResponseCode = 200;
-            ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response.statusCode(expectedResponseCode)
-                                   .extract()
-                                   .body()
-                                   .jsonPath()
-                                   .getList("", testHelper.getClassType());
-            assertTrue(dtos.size() > 0);
-        }
-
-    }
-
-    @Nested
-    class PatchPaths {
-
-        @Test
-        void canUpdateOne() {
-            int expectedResponseCode = 200;
-
-            ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response.statusCode(expectedResponseCode)
-                                   .extract()
-                                   .body()
-                                   .jsonPath()
-                                   .getList("", testHelper.getClassType());
-            assertTrue(dtos.size() > 0);
-            D firstDto = dtos.get(dtos.size() - 1);
-            K id = firstDto.getId();
-
-            D toUpdate = testHelper.buildValidUpdatedDto(id);
-            response = testHelper.update(id, toUpdate);
-            D updated = response.statusCode(expectedResponseCode)
+                response = testHelper.findById(id);
+                D dto = response.statusCode(expectedResponseCode)
                                 .extract()
                                 .body()
                                 .jsonPath()
                                 .getObject("", testHelper.getClassType());
+                assertNotNull(dto);
+            }
 
+            @Test
+            void canGetMany() {
 
-            SoftAssertions softly = new SoftAssertions();
-            testHelper.softlyAssert(softly, toUpdate, updated);
-            softly.assertAll();
+                int expectedResponseCode = 200;
+                ValidatableResponse response = testHelper.findAll();
+                List<D> dtos = response.statusCode(expectedResponseCode)
+                                       .extract()
+                                       .body()
+                                       .jsonPath()
+                                       .getList("", testHelper.getClassType());
+                assertTrue(dtos.size() > 0);
+            }
 
         }
 
-        @Test
-        void canUpdateMany() {
-            int expectedResponseCode = 200;
+        @Nested
+        class PatchPaths {
 
-            ValidatableResponse response = testHelper.findAll();
-            List<D> dtos = response.statusCode(expectedResponseCode)
-                                   .extract()
-                                   .body()
-                                   .jsonPath()
-                                   .getList("", testHelper.getClassType());
-            assertTrue(dtos.size() > 0);
-            D firstDto = dtos.get(0);
-            K id = firstDto.getId();
+            @Test
+            void canUpdateOne() {
+                int expectedResponseCode = 200;
 
-            List<D> toUpdate = List.of(testHelper.buildValidUpdatedDto(firstDto));
-            response = testHelper.updateAll(toUpdate);
-            List<D> updated = response.statusCode(expectedResponseCode)
-                                      .extract()
-                                      .body()
-                                      .jsonPath()
-                                      .getList("", testHelper.getClassType());
+                ValidatableResponse response = testHelper.findAll();
+                List<D> dtos = response.statusCode(expectedResponseCode)
+                                       .extract()
+                                       .body()
+                                       .jsonPath()
+                                       .getList("", testHelper.getClassType());
+                assertTrue(dtos.size() > 0);
+                D firstDto = dtos.get(dtos.size() - 1);
+                K id = firstDto.getId();
 
-            SoftAssertions softly = new SoftAssertions();
-            testHelper.softlyAssert(softly, toUpdate, updated);
-            softly.assertAll();
+                D toUpdate = testHelper.buildValidUpdatedDto(id);
+                response = testHelper.update(id, toUpdate);
+                D updated = response.statusCode(expectedResponseCode)
+                                    .extract()
+                                    .body()
+                                    .jsonPath()
+                                    .getObject("", testHelper.getClassType());
+
+
+                SoftAssertions softly = new SoftAssertions();
+                testHelper.softlyAssert(softly, toUpdate, updated);
+                softly.assertAll();
+
+            }
+
+            @Test
+            void canUpdateMany() {
+                int expectedResponseCode = 200;
+
+                ValidatableResponse response = testHelper.findAll();
+                List<D> dtos = response.statusCode(expectedResponseCode)
+                                       .extract()
+                                       .body()
+                                       .jsonPath()
+                                       .getList("", testHelper.getClassType());
+                assertTrue(dtos.size() > 0);
+                D firstDto = dtos.get(0);
+                K id = firstDto.getId();
+
+                List<D> toUpdate = List.of(testHelper.buildValidUpdatedDto(firstDto));
+                response = testHelper.updateAll(toUpdate);
+                List<D> updated = response.statusCode(expectedResponseCode)
+                                          .extract()
+                                          .body()
+                                          .jsonPath()
+                                          .getList("", testHelper.getClassType());
+
+                SoftAssertions softly = new SoftAssertions();
+                testHelper.softlyAssert(softly, toUpdate, updated);
+                softly.assertAll();
+            }
+
         }
 
-    }
+        @Nested
+        class DeletePaths {
 
-    @Nested
-    class DeletePaths {
+            @Test
+            void canDeleteOneAndCanExistsById() {
 
-        @Test
-        void canDeleteOneAndCanExistsById() {
+                D toCreate = testHelper.buildValidDto();
+                ValidatableResponse response = testHelper.create(toCreate);
+                D created =
+                        response.statusCode(200).extract().body().jsonPath().getObject("", testHelper.getClassType());
 
-            D toCreate = testHelper.buildValidDto();
-            ValidatableResponse response = testHelper.create(toCreate);
-            D created = response.statusCode(200).extract().body().jsonPath().getObject("", testHelper.getClassType());
+                testHelper.deleteById(created.getId()).statusCode(204);
+            }
 
-            testHelper.deleteById(created.getId()).statusCode(204);
-        }
+            @Test
+            void canDeleteAllByIds() {
 
-        @Test
-        void canDeleteAllByIds() {
+                D toCreate = testHelper.buildValidDto();
+                ValidatableResponse response = testHelper.create(toCreate);
+                D created =
+                        response.statusCode(200).extract().body().jsonPath().getObject("", testHelper.getClassType());
 
-            D toCreate = testHelper.buildValidDto();
-            ValidatableResponse response = testHelper.create(toCreate);
-            D created = response.statusCode(200).extract().body().jsonPath().getObject("", testHelper.getClassType());
+                testHelper.deleteAllByIds(List.of(created.getId())).statusCode(204);
+            }
 
-            testHelper.deleteAllByIds(List.of(created.getId())).statusCode(204);
         }
 
     }

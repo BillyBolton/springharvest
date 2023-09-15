@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
@@ -57,7 +58,8 @@ import java.util.function.Function;
  * @see SearchRequest
  */
 @Slf4j
-public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K, RB extends BaseFilterRequestBO>
+public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K extends Serializable,
+        RB extends BaseFilterRequestBO>
         implements ICriteriaSearchRepository<E, RB> {
 
     @Getter
@@ -375,8 +377,9 @@ public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K, 
          * @see Root
          * @see Path
          */
-        private static <E extends BaseEntity<K>, K> Path<E> getPath(BaseParameterBO parameterBO, Root<E> root,
-                                                                    String rootPath, Map<String, Path<E>> joinMap) {
+        private static <E extends BaseEntity<K>, K extends Serializable> Path<E> getPath(BaseParameterBO parameterBO,
+                                                                                         Root<E> root, String rootPath,
+                                                                                         Map<String, Path<E>> joinMap) {
 
             String[] pathArray = getPathArray(parameterBO.getPath());
 
@@ -459,7 +462,7 @@ public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K, 
          * @see Path
          * @see CriteriaBuilder
          */
-        private static <E extends BaseEntity<K>, K> List<Predicate> getPredicateValues(
+        private static <E extends BaseEntity<K>, K extends Serializable> List<Predicate> getPredicateValues(
                 Map.Entry<String, FilterParameterBO> entry, Root<E> root, String rootPath, Map<String, Path<E>> joinMap,
                 CriteriaBuilder cb) {
 
@@ -547,7 +550,7 @@ public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K, 
          * @see Path
          * @see CriteriaQuery
          */
-        private static <RB extends BaseFilterRequestBO, E extends BaseEntity<K>, K> void buildAndSetPredicates(
+        private static <RB extends BaseFilterRequestBO, E extends BaseEntity<K>, K extends Serializable> void buildAndSetPredicates(
                 CriteriaBuilder cb, SearchRequest<RB> searchRequest, Root<E> root, String rootPath,
                 Map<String, Path<E>> joinMap, CriteriaQuery<?> query) {
 

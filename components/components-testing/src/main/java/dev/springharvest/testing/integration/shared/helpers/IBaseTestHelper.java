@@ -5,12 +5,13 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import jakarta.annotation.Nullable;
 import org.assertj.core.api.SoftAssertions;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public interface IBaseTestHelper<D extends BaseDTO<K>, E extends BaseEntity<K>, K> {
+public interface IBaseTestHelper<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable> {
 
     Class<D> getClassType();
 

@@ -1,5 +1,7 @@
 package dev.springhavest.common.models.entities;
 
+import java.io.Serializable;
+
 /**
  * > A generic interface for the base Entity.
  *
@@ -8,7 +10,7 @@ package dev.springhavest.common.models.entities;
  * @author Billy Bolton
  * @since 1.0
  */
-public interface IBaseEntity<K> {
+public interface IBaseEntity<K extends Serializable> {
 
     /**
      * This method is used to get the id of the Entity.

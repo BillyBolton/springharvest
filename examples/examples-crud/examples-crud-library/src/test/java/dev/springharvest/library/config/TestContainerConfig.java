@@ -18,7 +18,6 @@ public class TestContainerConfig {
         PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:13").withDatabaseName("test")
                                                                                    .withUsername("test")
                                                                                    .withPassword("test");
-        container.start();
         return container;
     }
 
