@@ -1,8 +1,2 @@
 plugins {
 }
-
-dependencies {
-    api project(':components:components-crud')
-    api project(':commons')
-    api project(':errors')
-}
