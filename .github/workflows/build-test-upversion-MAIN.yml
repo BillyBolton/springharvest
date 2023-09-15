@@ -94,6 +94,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/BillyBolton/springharvest.git
           git add env.properties
           git commit -m "Bump version to $INCREMENTED_VERSION"
           git push
