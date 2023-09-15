@@ -8,9 +8,8 @@ import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequ
 import dev.springharvest.library.domains.authors.persistence.AuthorSearchRepository;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.search.service.AbstractSearchService;
-import dev.springharvest.shared.domains.authors.mappers.IAuthorMapper;
-import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,24 +19,24 @@ import java.util.UUID;
 
 @Service
 public class AuthorSearchService
-        extends AbstractSearchService<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO, AuthorFilterRequestBO,
+        extends AbstractSearchService<AuthorEntity, UUID, AuthorFilterRequestDTO, AuthorFilterRequestBO,
         AuthorFilterDTO, AuthorFilterBO> {
 
     @Autowired
-    protected AuthorSearchService(IAuthorMapper baseMapper, AuthorSearchMapper filterMapper,
-                                  AuthorSearchRepository searchRepository) {
-        super(baseMapper, filterMapper, searchRepository);
+    protected AuthorSearchService(AuthorSearchMapper filterMapper, AuthorSearchRepository searchRepository) {
+        super(filterMapper, searchRepository);
     }
 
     @Override
-    protected Set<AuthorFilterRequestDTO> buildUniqueFilters(AuthorDTO dto) {
+    protected Set<AuthorFilterRequestDTO> buildUniqueFilters(AuthorEntity entity) {
         Set<AuthorFilterRequestDTO> filters = new HashSet<>();
 
-        if (dto.getId() != null) {
+        if (ObjectUtils.isNotEmpty(entity.getId())) {
             filters.add(AuthorFilterRequestDTO.builder()
                                               .author(AuthorFilterDTO.builder()
                                                                      .id(FilterParameterDTO.builder()
-                                                                                           .values(Set.of(dto.getId()))
+                                                                                           .values(Set.of(
+                                                                                                   entity.getId()))
                                                                                            .build())
                                                                      .build())
                                               .build());

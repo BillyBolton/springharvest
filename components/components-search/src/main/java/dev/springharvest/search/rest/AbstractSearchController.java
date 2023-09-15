@@ -1,5 +1,6 @@
 package dev.springharvest.search.rest;
 
+import dev.springharvest.crud.mappers.IBaseModelMapper;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterBO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestBO;
@@ -25,9 +26,12 @@ public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity
         FB extends BaseFilterBO>
         implements ISearchController<RD, D, K> {
 
-    protected AbstractSearchService<D, E, K, RD, RB, FD, FB> baseService;
+    protected IBaseModelMapper<D, E, K> baseModelMapper;
+    protected AbstractSearchService<E, K, RD, RB, FD, FB> baseService;
 
-    protected AbstractSearchController(AbstractSearchService<D, E, K, RD, RB, FD, FB> baseService) {
+    protected AbstractSearchController(IBaseModelMapper<D, E, K> baseModelMapper,
+                                       AbstractSearchService<E, K, RD, RB, FD, FB> baseService) {
+        this.baseModelMapper = baseModelMapper;
         this.baseService = baseService;
     }
 
@@ -35,7 +39,7 @@ public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity
     @PostMapping(value = {ControllerEndpoints.SEARCH}, consumes = MediaType.APPLICATION_JSON_VALUE,
                  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<D>> search(@RequestBody SearchRequestDTO<RD> searchQuery) {
-        List<D> dtos = baseService.search(searchQuery);
+        List<D> dtos = baseModelMapper.entityToDto(baseService.search(searchQuery));
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
     }
 

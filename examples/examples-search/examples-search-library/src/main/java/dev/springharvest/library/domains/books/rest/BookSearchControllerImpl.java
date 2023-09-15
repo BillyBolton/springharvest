@@ -8,26 +8,26 @@ import dev.springharvest.library.domains.books.models.queries.BookFilterRequestD
 import dev.springharvest.library.domains.books.services.BookSearchService;
 import dev.springharvest.search.rest.AbstractSearchController;
 import dev.springharvest.shared.domains.books.constants.BookConstants;
+import dev.springharvest.shared.domains.books.mappers.IBookMapper;
 import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @Slf4j
 @RestController
 @Tag(name = BookConstants.Controller.TAG)
 @RequestMapping(BookConstants.Controller.DOMAIN_CONTEXT)
 public class BookSearchControllerImpl
-        extends AbstractSearchController<BookDTO, BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO,
-        BookFilterDTO, BookFilterBO> {
+    extends AbstractSearchController<BookDTO, BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO,
+    BookFilterDTO, BookFilterBO> {
 
-    protected BookSearchControllerImpl(BookSearchService baseService) {
-        super(baseService);
-    }
+  protected BookSearchControllerImpl(IBookMapper baseModelMapper, BookSearchService baseService) {
+    super(baseModelMapper, baseService);
+  }
 
 }
 

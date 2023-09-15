@@ -7,25 +7,25 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.services.PublisherSearchService;
 import dev.springharvest.search.rest.AbstractSearchController;
 import dev.springharvest.shared.domains.publishers.constants.PublisherConstants;
+import dev.springharvest.shared.domains.publishers.mappers.IPublisherMapper;
 import dev.springharvest.shared.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @Slf4j
 @RestController
 @Tag(name = PublisherConstants.Controller.TAG)
 @RequestMapping(PublisherConstants.Controller.DOMAIN_CONTEXT)
 public class PublisherSearchControllerImpl
-        extends AbstractSearchController<PublisherDTO, PublisherEntity, UUID, PublisherFilterRequestDTO,
-        PublisherFilterRequestBO, PublisherFilterDTO, PublisherFilterBO> {
+    extends AbstractSearchController<PublisherDTO, PublisherEntity, UUID, PublisherFilterRequestDTO,
+    PublisherFilterRequestBO, PublisherFilterDTO, PublisherFilterBO> {
 
-    protected PublisherSearchControllerImpl(PublisherSearchService baseService) {
-        super(baseService);
-    }
+  protected PublisherSearchControllerImpl(IPublisherMapper publisherMapper, PublisherSearchService baseService) {
+    super(publisherMapper, baseService);
+  }
 
 }

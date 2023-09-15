@@ -10,8 +10,8 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.search.service.AbstractSearchService;
 import dev.springharvest.shared.domains.books.mappers.IBookMapper;
-import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,31 +21,31 @@ import java.util.UUID;
 
 @Service
 public class BookSearchService
-        extends AbstractSearchService<BookDTO, BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO,
-        BookFilterDTO, BookFilterBO> {
+        extends AbstractSearchService<BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO, BookFilterDTO,
+        BookFilterBO> {
 
     @Autowired
     protected BookSearchService(IBookMapper baseMapper, BookSearchMapper filterMapper,
                                 BookSearchRepository searchRepository) {
-        super(baseMapper, filterMapper, searchRepository);
+        super(filterMapper, searchRepository);
     }
 
     @Override
-    protected Set<BookFilterRequestDTO> buildUniqueFilters(BookDTO dto) {
+    protected Set<BookFilterRequestDTO> buildUniqueFilters(BookEntity entity) {
         Set<BookFilterRequestDTO> filters = new HashSet<>();
 
-        if (dto.getId() != null) {
+        if (ObjectUtils.isNotEmpty(entity.getId())) {
             filters.add(BookFilterRequestDTO.builder()
                                             .book(BookFilterDTO.builder()
                                                                .id(FilterParameterDTO.builder()
-                                                                                     .values(Set.of(dto.getId()))
+                                                                                     .values(Set.of(entity.getId()))
                                                                                      .build())
                                                                .build())
                                             .publisher(PublisherFilterDTO.builder()
                                                                          .id(FilterParameterDTO.builder()
                                                                                                .values(Set.of(
-                                                                                                       dto.getPublisher()
-                                                                                                          .getId()))
+                                                                                                       entity.getPublisher()
+                                                                                                             .getId()))
                                                                                                .build())
                                                                          .build())
                                             .build());
