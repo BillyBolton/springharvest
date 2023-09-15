@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
 
@@ -26,5 +27,10 @@ public class PublisherEntity extends BaseEntity<UUID> {
 
     @Column(name = "name")
     protected String name;
+
+    @Override
+    public boolean isEmpty() {
+        return super.isEmpty() && StringUtils.isBlank(name);
+    }
 
 }

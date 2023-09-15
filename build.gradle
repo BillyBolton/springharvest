@@ -110,8 +110,9 @@ subprojects {
         implementation 'org.springframework.batch.extensions:spring-batch-excel:0.1.1'
 
         implementation 'org.modelmapper:modelmapper:3.1.1'
-        
+
         implementation 'org.apache.commons:commons-collections4:4.4'
+        implementation 'org.apache.commons:commons-lang3:3.13.0'
     }
 }
 

@@ -33,4 +33,9 @@ public abstract class BaseEntity<K> extends DomainModel implements IBaseEntity<K
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected K id;
 
+    @Override
+    public boolean isEmpty() {
+        return id == null;
+    }
+
 }

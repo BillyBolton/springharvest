@@ -83,7 +83,7 @@ import java.util.function.Function;
             mapTupleElement(entity, alias, value);
         }
 
-        return entity;
+        return entity.isEmpty() ? null : entity;
     }
 
     /**
@@ -113,7 +113,9 @@ import java.util.function.Function;
     public M apply(Tuple tuple) {
 
         M entity = mapTuple(tuple);
-
+        if (entity == null) {
+            entity = getNewEntity();
+        }
         upsertAssociatedEntities(entity, tuple);
 
         return entity;
