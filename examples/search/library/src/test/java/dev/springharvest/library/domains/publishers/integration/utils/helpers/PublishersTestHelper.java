@@ -2,8 +2,8 @@ package dev.springharvest.library.domains.publishers.integration.utils.helpers;
 
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
-import dev.springharvest.library.domains.publishers.constants.PublisherConstants;
-import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
+import dev.springharvest.shared.domains.publishers.constants.PublisherConstants;
+import dev.springharvest.shared.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;

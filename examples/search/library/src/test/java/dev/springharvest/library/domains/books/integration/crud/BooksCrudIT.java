@@ -2,10 +2,10 @@ package dev.springharvest.library.domains.books.integration.crud;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
-import dev.springharvest.library.constants.TestConstants;
 import dev.springharvest.library.domains.books.integration.utils.helpers.BooksTestHelper;
-import dev.springharvest.library.domains.books.models.dtos.BookDTO;
-import dev.springharvest.library.domains.books.models.entities.BookEntity;
+import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
+import dev.springharvest.shared.domains.books.models.entities.BookEntity;
+import dev.springharvest.testing.constants.TestConstants;
 import dev.springharvest.testing.integration.crud.AbstractBaseCrudIT;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.listeners.LiquibaseTestExecutionListener;

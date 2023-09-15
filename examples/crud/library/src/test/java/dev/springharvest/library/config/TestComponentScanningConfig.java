@@ -1,10 +1,9 @@
 package dev.springharvest.library.config;
 
-import dev.springharvest.testing.config.BeanConfig;
+import dev.springharvest.testing.config.ScanTestingLibraryComponentsConfig;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Import;
 
 @TestConfiguration
-@Import(value = {BeanConfig.class})
-public class TestComponentScanningConfig {
-}
+@Import(value = {ScanTestingLibraryComponentsConfig.class})
+public class TestComponentScanningConfig {}

@@ -1,8 +1,9 @@
 package dev.springharvest.library.domains.authors.integration.utils.helpers;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
-import dev.springharvest.library.domains.authors.constants.AuthorConstants;
-import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
+import dev.springharvest.shared.domains.authors.constants.AuthorConstants;
+import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
+import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
 import dev.springharvest.testing.integration.utils.uri.UriFactory;

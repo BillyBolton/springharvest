@@ -2,10 +2,10 @@ package dev.springharvest.library.domains.books.integration.utils.helpers;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsTestHelper;
-import dev.springharvest.library.domains.books.constants.BookConstants;
-import dev.springharvest.library.domains.books.models.dtos.BookDTO;
-import dev.springharvest.library.domains.books.models.entities.BookEntity;
 import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublishersTestHelper;
+import dev.springharvest.shared.domains.books.constants.BookConstants;
+import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
+import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
 import dev.springharvest.testing.integration.utils.uri.UriFactory;
@@ -77,8 +77,7 @@ public class BooksTestHelper extends AbstractBaseCrudTestHelperImpl<BookDTO, Boo
 
     @Override
     public BookDTO buildInvalidDto() {
-        return BookDTO.builder()
-                      .build();
+        return BookDTO.builder().build();
     }
 
     @Override
@@ -92,21 +91,16 @@ public class BooksTestHelper extends AbstractBaseCrudTestHelperImpl<BookDTO, Boo
 
     @Override
     public BookEntity buildInvalidEntity() {
-        return BookEntity.builder()
-                         .build();
+        return BookEntity.builder().build();
     }
 
     @Override
     public void softlyAssert(SoftAssertions softly, BookDTO actual, BookDTO expected) {
         super.softlyAssert(softly, actual, expected);
-        softly.assertThat(actual.getId())
-              .isEqualTo(expected.getId());
-        softly.assertThat(actual.getTitle())
-              .isEqualToIgnoringCase(expected.getTitle());
-        softly.assertThat(actual.getAuthor())
-              .isEqualTo(expected.getAuthor());
-        softly.assertThat(actual.getPublisher())
-              .isEqualTo(expected.getPublisher());
+        softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+        softly.assertThat(actual.getTitle()).isEqualToIgnoringCase(expected.getTitle());
+        softly.assertThat(actual.getAuthor()).isEqualTo(expected.getAuthor());
+        softly.assertThat(actual.getPublisher()).isEqualTo(expected.getPublisher());
     }
 
 }

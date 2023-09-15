@@ -15,10 +15,9 @@ public class TestContainerConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public PostgreSQLContainer<?> postgreSQLContainer() {
-        PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:13")
-                .withDatabaseName("test")
-                .withUsername("test")
-                .withPassword("test");
+        PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:13").withDatabaseName("test")
+                                                                                   .withUsername("test")
+                                                                                   .withPassword("test");
         container.start();
         return container;
     }
@@ -33,24 +32,5 @@ public class TestContainerConfig {
         dataSource.setPassword(container.getPassword());
         return dataSource;
     }
-
-    //    @Bean
-    //    public Liquibase liquibase(DataSource dataSource) throws Exception {
-    //        try (Connection connection = dataSource.getConnection()) {
-    //            DatabaseConnection databaseConnection = new JdbcConnection(connection);
-    //            Database database = DatabaseFactory
-    //                    .getInstance()
-    //                    .findCorrectDatabaseImplementation(databaseConnection);
-    //
-    //            Liquibase liquibase =
-    //                    new liquibase.Liquibase("db.changelog/db.changelog-master.yaml", new ClassLoaderResourceAccessor(),
-    //                                            database);
-    //
-    //            // Drop all tables and re-run all changesets
-    //            liquibase.dropAll();
-    //            liquibase.update(new Contexts());
-    //            return liquibase;
-    //        }
-    //    }
 
 }
