@@ -22,14 +22,18 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+      - name: Identity if Last Commit is Version Bump
+        id: check_commit
+        run: |
+          latest_commit_message=$(git log -1 --pretty=format:"%s")
+          if [[ $latest_commit_message == "Bump version to"* ]]; then
+            echo "::set-output name=match::true"
+          else
+            echo "::set-output name=match::false"
+          fi
 
       - name: Cache Gradle packages
+        if: steps.check_commit.outputs.match == 'false'
         uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
@@ -37,7 +41,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Cache SonarCloud packages
+        if: steps.check_commit.outputs.match == 'false'
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: Build and Test
+        if: steps.check_commit.outputs.match == 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -55,17 +68,31 @@ jobs:
         with:
           java-version: "17"
           distribution: "adopt"
+
+      - name: Identity if Last Commit is Version Bump
+        id: check_commit
+        run: |
+          latest_commit_message=$(git log -1 --pretty=format:"%s")
+          if [[ $latest_commit_message == "Bump version to"* ]]; then
+            echo "::set-output name=match::true"
+          else
+            echo "::set-output name=match::false"
+          fi
+
       - name: Validate Gradle wrapper
+        if: steps.check_commit.outputs.match == 'false'
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
       - name: Get Current Version
         id: get_version
+        if: steps.check_commit.outputs.match == 'false'
         run: |
           CURRENT_VERSION=$(grep "APPLICATION_VERSION" env.properties | cut -d'=' -f2)
           echo "Current version is $CURRENT_VERSION"
           echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
 
       - name: Update Version
+        if: steps.check_commit.outputs.match == 'false'
         run: |
           # Logic to calculate new version based on the current version
           if [[ "${{ env.CURRENT_VERSION }}" == *"-SNAPSHOT" ]]; then
@@ -88,6 +115,7 @@ jobs:
             } 1' env.properties > temp.properties && mv temp.properties env.properties
 
       - name: Commit and Push Changes
+        if: steps.check_commit.outputs.match == 'false'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -95,3 +123,21 @@ jobs:
           git add env.properties
           git commit -m "Bump version to ${{env.NEW_VERSION}}"
           git push
+
+      - name: Identity if Last Commit is Version Bump
+        id: verify_bump_commit_message
+        run: |
+          latest_commit_message=$(git log -1 --pretty=format:"%s")
+          if [[ $latest_commit_message == "Bump version to"* ]]; then
+            echo "::set-output name=match::true"
+          else
+            echo "::set-output name=match::false"
+          fi
+
+      - name: Publish package
+        if: steps.verify_bump_commit_message.outputs.match == 'true'
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: publish -PcommitSHA=${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
