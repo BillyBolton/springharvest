@@ -10,10 +10,8 @@ jobs:
     strategy:
       matrix:
         submodule:
-          [
-            examples:examples-crud:examples-crud-library,
-            :examples:examples-search:examples-search-library,
-          ]
+          - ":examples:examples-crud:examples-crud-library"
+          - ":examples:examples-search:examples-search-library"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,10 +39,8 @@ jobs:
     strategy:
       matrix:
         submodule:
-          [
-            examples:examples-crud:examples-crud-library,
-            :examples:examples-search:examples-search-library,
-          ]
+          - ":examples:examples-crud:examples-crud-library"
+          - ":examples:examples-search:examples-search-library"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
