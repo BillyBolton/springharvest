@@ -5,7 +5,7 @@ import dev.springharvest.library.domains.authors.models.queries.AuthorFilterDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestBO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.library.domains.authors.services.AuthorSearchService;
-import dev.springharvest.search.rest.AbstractBaseSearchController;
+import dev.springharvest.search.rest.AbstractSearchController;
 import dev.springharvest.shared.domains.authors.constants.AuthorConstants;
 import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
@@ -21,8 +21,8 @@ import java.util.UUID;
 @Tag(name = AuthorConstants.Controller.TAG)
 @RequestMapping(AuthorConstants.Controller.DOMAIN_CONTEXT)
 public class AuthorSearchControllerImpl
-        extends AbstractBaseSearchController<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO,
-        AuthorFilterRequestBO, AuthorFilterDTO, AuthorFilterBO> {
+        extends AbstractSearchController<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO, AuthorFilterRequestBO
+        , AuthorFilterDTO, AuthorFilterBO> {
 
     protected AuthorSearchControllerImpl(AuthorSearchService baseService) {
         super(baseService);

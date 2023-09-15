@@ -5,9 +5,9 @@ import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.shared.domains.publishers.constants.PublisherConstants;
 import dev.springharvest.shared.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
-import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
-import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
-import dev.springharvest.testing.integration.utils.uri.UriFactory;
+import dev.springharvest.testing.integration.crud.helpers.AbstractCrudTestHelperImpl;
+import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
+import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class PublishersTestHelper extends AbstractBaseCrudTestHelperImpl<PublisherDTO, PublisherEntity, UUID> {
+public class PublishersTestHelper extends AbstractCrudTestHelperImpl<PublisherDTO, PublisherEntity, UUID> {
 
     @Autowired(required = true)
     protected PublishersTestHelper(RestClientImpl clientHelper) {

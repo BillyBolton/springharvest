@@ -1,14 +1,14 @@
 package dev.springharvest.library.domains.books.integration.utils.helpers;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
-import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsTestHelper;
+import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsCrudTestHelper;
 import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublishersTestHelper;
 import dev.springharvest.shared.domains.books.constants.BookConstants;
 import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
-import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
-import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
-import dev.springharvest.testing.integration.utils.uri.UriFactory;
+import dev.springharvest.testing.integration.crud.helpers.AbstractCrudTestHelperImpl;
+import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
+import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +19,16 @@ import java.util.UUID;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class BooksTestHelper extends AbstractBaseCrudTestHelperImpl<BookDTO, BookEntity, UUID> {
+public class BooksTestHelper extends AbstractCrudTestHelperImpl<BookDTO, BookEntity, UUID> {
 
-    private final AuthorsTestHelper authorsTestHelper;
+    private final AuthorsCrudTestHelper authorsCrudTestHelper;
     private final PublishersTestHelper publishersTestHelper;
 
     @Autowired(required = true)
-    protected BooksTestHelper(RestClientImpl clientHelper, AuthorsTestHelper authorsTestHelper,
+    protected BooksTestHelper(RestClientImpl clientHelper, AuthorsCrudTestHelper authorsCrudTestHelper,
                               PublishersTestHelper publishersTestHelper) {
         super(clientHelper, new UriFactory(BookConstants.Controller.DOMAIN_CONTEXT));
-        this.authorsTestHelper = authorsTestHelper;
+        this.authorsCrudTestHelper = authorsCrudTestHelper;
         this.publishersTestHelper = publishersTestHelper;
     }
 
@@ -47,12 +47,12 @@ public class BooksTestHelper extends AbstractBaseCrudTestHelperImpl<BookDTO, Boo
         return BookDTO.builder()
                       .id(getRandomId())
                       .title(RandomStringUtils.randomAlphabetic(5))
-                      .author(authorsTestHelper.create(authorsTestHelper.buildValidDto())
-                                               .statusCode(200)
-                                               .extract()
-                                               .body()
-                                               .jsonPath()
-                                               .getObject("", authorsTestHelper.getClassType()))
+                      .author(authorsCrudTestHelper.create(authorsCrudTestHelper.buildValidDto())
+                                                   .statusCode(200)
+                                                   .extract()
+                                                   .body()
+                                                   .jsonPath()
+                                                   .getObject("", authorsCrudTestHelper.getClassType()))
                       .publisher(publishersTestHelper.create(publishersTestHelper.buildValidDto())
                                                      .statusCode(200)
                                                      .extract()
@@ -84,7 +84,7 @@ public class BooksTestHelper extends AbstractBaseCrudTestHelperImpl<BookDTO, Boo
     public BookEntity buildValidEntity() {
         return BookEntity.builder()
                          .title(RandomStringUtils.randomAlphabetic(5))
-                         .author(authorsTestHelper.buildValidEntity())
+                         .author(authorsCrudTestHelper.buildValidEntity())
                          .publisher(publishersTestHelper.buildValidEntity())
                          .build();
     }

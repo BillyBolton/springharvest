@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.utils.clients;
+package dev.springharvest.testing.integration.shared.clients;
 
 import groovy.util.logging.Slf4j;
 import io.restassured.http.ContentType;
@@ -48,7 +48,8 @@ public class RestClientImpl implements IRestClient {
     }
 
     public ValidatableResponse postAndThen(String uri, Object body, Object... pathParams) {
-        return body != null ? givenJson().body(body).when().post(uri, pathParams).prettyPeek().then() : givenJson().when().post(uri, pathParams).prettyPeek().then();
+        return body != null ? givenJson().body(body).when().post(uri, pathParams).prettyPeek().then()
+                            : givenJson().when().post(uri, pathParams).prettyPeek().then();
     }
 
     public ValidatableResponse postAndThen(String uri, Object body, Map<String, Object> params) {

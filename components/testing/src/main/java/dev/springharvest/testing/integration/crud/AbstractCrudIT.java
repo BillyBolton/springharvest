@@ -1,8 +1,8 @@
 package dev.springharvest.testing.integration.crud;
 
-import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
-import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
-import dev.springharvest.testing.integration.utils.helpers.IBaseCrudTestHelper;
+import dev.springharvest.testing.integration.crud.helpers.AbstractCrudTestHelperImpl;
+import dev.springharvest.testing.integration.crud.helpers.ICrudTestHelper;
+import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
@@ -15,12 +15,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K> implements IBaseCrudIT<D, E, K> {
+public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K> implements ICrudIT<D, E, K> {
 
     protected RestClientImpl clientHelper;
-    protected IBaseCrudTestHelper<D, E, K> testHelper;
+    protected ICrudTestHelper<D, E, K> testHelper;
 
-    protected AbstractBaseCrudIT(RestClientImpl clientHelper, AbstractBaseCrudTestHelperImpl<D, E, K> testHelper) {
+    protected AbstractCrudIT(RestClientImpl clientHelper, AbstractCrudTestHelperImpl<D, E, K> testHelper) {
         this.clientHelper = clientHelper;
         this.testHelper = testHelper;
     }
@@ -89,7 +89,9 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
                 softly.assertAll();
 
             }
+
         }
+
     }
 
     @Nested
@@ -130,6 +132,7 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
                                    .getList("", testHelper.getClassType());
             assertTrue(dtos.size() > 0);
         }
+
     }
 
     @Nested
@@ -190,6 +193,7 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
             testHelper.softlyAssert(softly, toUpdate, updated);
             softly.assertAll();
         }
+
     }
 
     @Nested
@@ -200,14 +204,9 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
             D toCreate = testHelper.buildValidDto();
             ValidatableResponse response = testHelper.create(toCreate);
-            D created = response.statusCode(200)
-                                .extract()
-                                .body()
-                                .jsonPath()
-                                .getObject("", testHelper.getClassType());
+            D created = response.statusCode(200).extract().body().jsonPath().getObject("", testHelper.getClassType());
 
-            testHelper.deleteById(created.getId())
-                      .statusCode(204);
+            testHelper.deleteById(created.getId()).statusCode(204);
         }
 
         @Test
@@ -215,15 +214,11 @@ public abstract class AbstractBaseCrudIT<D extends BaseDTO<K>, E extends BaseEnt
 
             D toCreate = testHelper.buildValidDto();
             ValidatableResponse response = testHelper.create(toCreate);
-            D created = response.statusCode(200)
-                                .extract()
-                                .body()
-                                .jsonPath()
-                                .getObject("", testHelper.getClassType());
+            D created = response.statusCode(200).extract().body().jsonPath().getObject("", testHelper.getClassType());
 
-            testHelper.deleteAllByIds(List.of(created.getId()))
-                      .statusCode(204);
+            testHelper.deleteAllByIds(List.of(created.getId())).statusCode(204);
         }
 
     }
+
 }

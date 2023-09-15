@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Slf4j
-public class AbstractBaseSearchController<D extends BaseDTO<K>, E extends BaseEntity<K>, K,
+public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity<K>, K,
         RD extends BaseFilterRequestDTO, RB extends BaseFilterRequestBO, FD extends BaseFilterDTO,
         FB extends BaseFilterBO>
-        implements IBaseSearchController<RD, D, K> {
+        implements ISearchController<RD, D, K> {
 
     protected AbstractSearchService<D, E, K, RD, RB, FD, FB> baseService;
 
-    protected AbstractBaseSearchController(AbstractSearchService<D, E, K, RD, RB, FD, FB> baseService) {
+    protected AbstractSearchController(AbstractSearchService<D, E, K, RD, RB, FD, FB> baseService) {
         this.baseService = baseService;
     }
 

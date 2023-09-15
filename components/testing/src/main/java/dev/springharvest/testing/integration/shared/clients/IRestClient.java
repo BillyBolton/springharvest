@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.utils.clients;
+package dev.springharvest.testing.integration.shared.clients;
 
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;

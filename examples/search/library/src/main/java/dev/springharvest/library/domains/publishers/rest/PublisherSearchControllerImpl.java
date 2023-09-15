@@ -5,7 +5,7 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.library.domains.publishers.services.PublisherSearchService;
-import dev.springharvest.search.rest.AbstractBaseSearchController;
+import dev.springharvest.search.rest.AbstractSearchController;
 import dev.springharvest.shared.domains.publishers.constants.PublisherConstants;
 import dev.springharvest.shared.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
@@ -21,7 +21,8 @@ import java.util.UUID;
 @Tag(name = PublisherConstants.Controller.TAG)
 @RequestMapping(PublisherConstants.Controller.DOMAIN_CONTEXT)
 public class PublisherSearchControllerImpl
-        extends AbstractBaseSearchController<PublisherDTO, PublisherEntity, UUID, PublisherFilterRequestDTO, PublisherFilterRequestBO, PublisherFilterDTO, PublisherFilterBO> {
+        extends AbstractSearchController<PublisherDTO, PublisherEntity, UUID, PublisherFilterRequestDTO,
+        PublisherFilterRequestBO, PublisherFilterDTO, PublisherFilterBO> {
 
     protected PublisherSearchControllerImpl(PublisherSearchService baseService) {
         super(baseService);

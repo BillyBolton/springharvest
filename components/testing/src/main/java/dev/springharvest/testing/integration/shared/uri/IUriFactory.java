@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.utils.uri;
+package dev.springharvest.testing.integration.shared.uri;
 
 
 // This is an interface that will be used to create the URIs for the endpoints that will be used to

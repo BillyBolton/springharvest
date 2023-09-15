@@ -6,7 +6,7 @@ import dev.springharvest.library.domains.books.models.queries.BookFilterDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestBO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
 import dev.springharvest.library.domains.books.services.BookSearchService;
-import dev.springharvest.search.rest.AbstractBaseSearchController;
+import dev.springharvest.search.rest.AbstractSearchController;
 import dev.springharvest.shared.domains.books.constants.BookConstants;
 import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Tag(name = BookConstants.Controller.TAG)
 @RequestMapping(BookConstants.Controller.DOMAIN_CONTEXT)
 public class BookSearchControllerImpl
-        extends AbstractBaseSearchController<BookDTO, BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO,
+        extends AbstractSearchController<BookDTO, BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO,
         BookFilterDTO, BookFilterBO> {
 
     protected BookSearchControllerImpl(BookSearchService baseService) {

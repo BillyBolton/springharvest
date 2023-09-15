@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.utils.listeners;
+package dev.springharvest.testing.integration.shared.listeners;
 
 import liquibase.Contexts;
 import liquibase.Liquibase;
@@ -15,28 +15,14 @@ public class LiquibaseTestExecutionListener implements TestExecutionListener {
 
     @Override
     public void beforeTestMethod(TestContext testContext) throws Exception {
-        JdbcTemplate jdbcTemplate = testContext
-                .getApplicationContext()
-                .getBean(JdbcTemplate.class);
-        String url = jdbcTemplate
-                .getDataSource()
-                .getConnection()
-                .getMetaData()
-                .getURL();
-        String user = jdbcTemplate
-                .getDataSource()
-                .getConnection()
-                .getMetaData()
-                .getUserName();
+        JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
+        String url = jdbcTemplate.getDataSource().getConnection().getMetaData().getURL();
+        String user = jdbcTemplate.getDataSource().getConnection().getMetaData().getUserName();
         String password = "test";  // Replace with actual password or get it dynamically
 
-        try (var connection = jdbcTemplate
-                .getDataSource()
-                .getConnection()) {
+        try (var connection = jdbcTemplate.getDataSource().getConnection()) {
             DatabaseConnection databaseConnection = new JdbcConnection(connection);
-            Database database = DatabaseFactory
-                    .getInstance()
-                    .findCorrectDatabaseImplementation(databaseConnection);
+            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(databaseConnection);
 
             Liquibase liquibase =
                     new Liquibase("db.changelog/db.changelog-master.yaml", new ClassLoaderResourceAccessor(), database);
@@ -46,4 +32,5 @@ public class LiquibaseTestExecutionListener implements TestExecutionListener {
             liquibase.update(new Contexts());
         }
     }
+
 }

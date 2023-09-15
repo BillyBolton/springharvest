@@ -9,6 +9,7 @@ dependencyManagement {
 dependencies {
     implementation project(':common')
     api project(':errors')
+    implementation project(':components:search')
 
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     api "org.mapstruct:mapstruct-processor:$MAPSTRUCT_VERSION"

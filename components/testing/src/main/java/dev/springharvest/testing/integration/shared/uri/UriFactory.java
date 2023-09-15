@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.utils.uri;
+package dev.springharvest.testing.integration.shared.uri;
 
 import dev.springhavest.common.constants.ControllerEndpoints;
 

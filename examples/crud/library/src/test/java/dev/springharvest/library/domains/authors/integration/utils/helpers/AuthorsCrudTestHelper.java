@@ -4,9 +4,9 @@ import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.shared.domains.authors.constants.AuthorConstants;
 import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
-import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
-import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
-import dev.springharvest.testing.integration.utils.uri.UriFactory;
+import dev.springharvest.testing.integration.crud.helpers.AbstractCrudTestHelperImpl;
+import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
+import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,10 @@ import java.util.UUID;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorsTestHelper extends AbstractBaseCrudTestHelperImpl<AuthorDTO, AuthorEntity, UUID> {
+public class AuthorsCrudTestHelper extends AbstractCrudTestHelperImpl<AuthorDTO, AuthorEntity, UUID> {
 
     @Autowired(required = true)
-    protected AuthorsTestHelper(RestClientImpl clientHelper) {
+    protected AuthorsCrudTestHelper(RestClientImpl clientHelper) {
         super(clientHelper, new UriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT));
     }
 
