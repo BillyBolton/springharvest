@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  publish:
+  debug:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,6 +26,15 @@ jobs:
           else
             echo "::set-output name=match::false"
           fi
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        if: steps.check_commit.outputs.match == 'true'
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Publish package
         if: steps.check_commit.outputs.match == 'true'
