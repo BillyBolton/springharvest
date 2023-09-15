@@ -68,18 +68,25 @@ jobs:
       - name: Update Version
         run: |
           # Logic to calculate new version based on the current version
-          INCREMENTED_VERSION=$(echo $CURRENT_VERSION | awk -F'.' '{$NF++; print $1"."$2"."$NF}')
-          NEW_VERSION="${CURRENT_VERSION}-SNAPSHOT"  # Replace with your own logic
-          echo "New Version: $NEW_VERSION"
-          CURRENT_VERSION=$(grep "version = " build.gradle | sed "s/version = '\(.*\)'/\1/")
+          run: |
+          # Check if version has '-SNAPSHOT'
+          if [[ "$CURRENT_VERSION" == *"-SNAPSHOT" ]]; then
+            # Increment $3 if it has '-SNAPSHOT'
+            INCREMENTED_VERSION=$(echo $CURRENT_VERSION | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
+          else
+            # Increment $3 if it doesn't have '-SNAPSHOT'
+            INCREMENTED_VERSION=$(echo $CURRENT_VERSION | awk -F'.' '{$3++; print $1"."$2"."$3}')
+          fi
+
+          echo "New Version: $INCREMENTED_VERSION"
 
           # Update the build.gradle file with the new version
-          sed -i "s/version = '$CURRENT_VERSION'/version = '$NEW_VERSION'/" build.gradle
+          sed -i "s/version = '$CURRENT_VERSION'/version = '$INCREMENTED_VERSION'/" build.gradle
 
       - name: Commit and Push Changes
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add build.gradle
-          git commit -m "Bump version to $NEW_VERSION"
+          git commit -m "Bump version to $INCREMENTED_VERSION"
           git push
