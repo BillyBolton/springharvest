@@ -15,9 +15,15 @@ configurations {
     }
 }
 
+Properties env = new Properties()
+File subPropertiesFile = new File("$projectDir/env.properties")
+subPropertiesFile.withInputStream {
+    env.load(it)
+}
+
 allprojects {
-    group = 'dev.springharvest'
-    version = '0.0.1-SNAPSHOT'
+    group = env.getProperty("APPLICATION_GROUP")
+    version = env.getProperty("APPLICATION_VERSION")
 
     java {
         sourceCompatibility = '17'
