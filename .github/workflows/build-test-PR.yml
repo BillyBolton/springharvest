@@ -1,8 +1,6 @@
 name: Build and Test
 
-on:
-  pull_request:
-    types: [converted_to_draft, opened, synchronize, reopened]
+on: pull_request
 
 jobs:
   build:
