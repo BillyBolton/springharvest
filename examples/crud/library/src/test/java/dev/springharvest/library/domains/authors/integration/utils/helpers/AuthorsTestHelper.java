@@ -1,9 +1,9 @@
 package dev.springharvest.library.domains.authors.integration.utils.helpers;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
-import dev.springharvest.library.domains.authors.constants.AuthorConstants;
-import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
-import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
+import dev.springharvest.shared.domains.authors.constants.AuthorConstants;
+import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
+import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
 import dev.springharvest.testing.integration.utils.uri.UriFactory;
@@ -36,10 +36,7 @@ public class AuthorsTestHelper extends AbstractBaseCrudTestHelperImpl<AuthorDTO,
 
     @Override
     public AuthorDTO buildValidDto() {
-        return AuthorDTO.builder()
-                        .id(getRandomId())
-                        .name(RandomStringUtils.randomAlphabetic(5))
-                        .build();
+        return AuthorDTO.builder().id(getRandomId()).name(RandomStringUtils.randomAlphabetic(5)).build();
     }
 
     @Override
@@ -57,30 +54,24 @@ public class AuthorsTestHelper extends AbstractBaseCrudTestHelperImpl<AuthorDTO,
 
     @Override
     public AuthorDTO buildInvalidDto() {
-        return AuthorDTO.builder()
-                        .build();
+        return AuthorDTO.builder().build();
     }
 
     @Override
     public AuthorEntity buildValidEntity() {
-        return AuthorEntity.builder()
-                           .name(RandomStringUtils.randomAlphabetic(5))
-                           .build();
+        return AuthorEntity.builder().name(RandomStringUtils.randomAlphabetic(5)).build();
     }
 
     @Override
     public AuthorEntity buildInvalidEntity() {
-        return AuthorEntity.builder()
-                           .build();
+        return AuthorEntity.builder().build();
     }
 
     @Override
     public void softlyAssert(SoftAssertions softly, AuthorDTO actual, AuthorDTO expected) {
         super.softlyAssert(softly, actual, expected);
-        softly.assertThat(actual.getId())
-              .isEqualTo(expected.getId());
-        softly.assertThat(actual.getName())
-              .isEqualToIgnoringCase(expected.getName());
+        softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+        softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
     }
 
 }

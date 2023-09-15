@@ -18,12 +18,15 @@ dependencyManagement {
 }
 
 dependencies {
+    annotationProcessor project(':examples:shared')
+    implementation project(':examples:shared')
     implementation project(':components:crud')
+    implementation project(':common')
+    implementation project(':errors')
     api project(':components:testing')
     testImplementation project(':components:testing')
     testAnnotationProcessor project(':components:testing')
-    implementation project(':common')
-    implementation project(':errors')
+
 
     testImplementation 'org.testcontainers:junit-jupiter'
 
