@@ -5,9 +5,8 @@ on:
       - main
 
 jobs:
-  build:
+  debug:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'Bump version to')
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,7 +25,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Identity if Last Commit is Version Bump
+        id: check_commit
+        run: |
+          latest_commit_message=$(git log -1 --pretty=format:"%s")
+          if [[ $latest_commit_message == "Bump version to"* ]]; then
+            echo "::set-output name=match::true"
+          else
+            echo "::set-output name=match::false"
+          fi
+
       - name: Publish package
+        if: steps.check_commit.outputs.match == 'true'
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: publish -PcommitSHA=${{ github.sha }}
