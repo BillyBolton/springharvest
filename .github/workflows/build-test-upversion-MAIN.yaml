@@ -11,7 +11,7 @@ jobs:
       matrix:
         submodule:
           [
-            examples:examples-crud:examples-crud-library,
+            :examples:examples-crud:examples-crud-library,
             :examples:examples-search:examples-search-library,
           ]
     steps:
