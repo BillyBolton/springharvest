@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Set;
 
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
-public abstract class IAuthorSearchMapper
+public abstract class AuthorSearchMapper
         implements ISearchMapper<AuthorFilterRequestDTO, AuthorFilterRequestBO, AuthorFilterDTO, AuthorFilterBO> {
 
     @Autowired

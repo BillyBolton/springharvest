@@ -1,8 +1,8 @@
 package dev.springharvest.library.domains.authors.mappers.tuples;
 
-import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata;
 import dev.springharvest.search.mapper.transformers.AbstractBaseTupleTransformer;
+import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import jakarta.persistence.Tuple;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,9 @@ import java.util.UUID;
 @Component
 public class AuthorRootTupleTransformer extends AbstractBaseTupleTransformer<AuthorEntity> {
 
-    private final AuthorEntityMetadata authorMetadata;
-
     @Autowired
     public AuthorRootTupleTransformer(AuthorEntityMetadata entityMetadata) {
         super(entityMetadata);
-        this.authorMetadata = entityMetadata;
     }
 
     @Override

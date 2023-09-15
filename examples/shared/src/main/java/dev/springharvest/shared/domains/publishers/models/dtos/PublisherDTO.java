@@ -13,10 +13,10 @@ import java.util.UUID;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Schema(name = "PublisherDTO", description = "A book publisher.")
+@Schema(name = "PublisherDTO", description = "A book's publisher.")
 public class PublisherDTO extends BaseDTO<UUID> {
 
-    @Schema(name = "name", description = "The name of the publisher.", example = "The Cat in the Hat")
+    @Schema(name = "name", description = "The name of the publisher.", example = "Random House")
     protected String name;
 
     @Schema(name = "id", description = "The id of the publisher.", example = "00000000-0000-0000-0000-000000000001")

@@ -4,7 +4,7 @@ package dev.springharvest.library.domains.publishers.integration.utils.helpers;
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.publishers.constants.PublisherConstants;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.library.domains.publishers.models.entities.PublisherEntity;
+import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
 import dev.springharvest.testing.integration.utils.clients.RestClientImpl;
 import dev.springharvest.testing.integration.utils.helpers.AbstractBaseCrudTestHelperImpl;
 import dev.springharvest.testing.integration.utils.uri.UriFactory;
@@ -37,10 +37,7 @@ public class PublishersTestHelper extends AbstractBaseCrudTestHelperImpl<Publish
 
     @Override
     public PublisherDTO buildValidDto() {
-        return PublisherDTO.builder()
-                           .id(getRandomId())
-                           .name(RandomStringUtils.randomAlphabetic(5))
-                           .build();
+        return PublisherDTO.builder().id(getRandomId()).name(RandomStringUtils.randomAlphabetic(5)).build();
     }
 
     @Override
@@ -58,30 +55,24 @@ public class PublishersTestHelper extends AbstractBaseCrudTestHelperImpl<Publish
 
     @Override
     public PublisherDTO buildInvalidDto() {
-        return PublisherDTO.builder()
-                           .build();
+        return PublisherDTO.builder().build();
     }
 
     @Override
     public PublisherEntity buildValidEntity() {
-        return PublisherEntity.builder()
-                              .name(RandomStringUtils.randomAlphabetic(5))
-                              .build();
+        return PublisherEntity.builder().name(RandomStringUtils.randomAlphabetic(5)).build();
     }
 
     @Override
     public PublisherEntity buildInvalidEntity() {
-        return PublisherEntity.builder()
-                              .build();
+        return PublisherEntity.builder().build();
     }
 
     @Override
     public void softlyAssert(SoftAssertions softly, PublisherDTO actual, PublisherDTO expected) {
         super.softlyAssert(softly, actual, expected);
-        softly.assertThat(actual.getId())
-              .isEqualTo(expected.getId());
-        softly.assertThat(actual.getName())
-              .isEqualToIgnoringCase(expected.getName());
+        softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+        softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
     }
 
 }

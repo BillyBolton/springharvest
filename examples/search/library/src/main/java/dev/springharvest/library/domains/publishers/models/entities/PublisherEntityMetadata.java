@@ -2,6 +2,7 @@ package dev.springharvest.library.domains.publishers.models.entities;
 
 import dev.springharvest.errors.constants.ExceptionMessages;
 import dev.springharvest.search.model.entities.IEntityMetadata;
+import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -37,7 +38,7 @@ public class PublisherEntityMetadata implements IEntityMetadata<PublisherEntity>
 
     @Override
     public Set<String> getRootPaths() {
-        return Set.of(Paths.PUBLISHER_ID, Paths.PUBLISHER_NAME);
+        return Set.of(Paths.PUBLISHER);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class PublisherEntityMetadata implements IEntityMetadata<PublisherEntity>
         return Set.of();
     }
 
-    private static class Paths {
+    public static class Paths {
 
         public static final String PUBLISHERS = "publishers";
 

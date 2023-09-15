@@ -18,6 +18,8 @@ dependencyManagement {
 }
 
 dependencies {
+    annotationProcessor project(':examples:shared')
+    implementation project(':examples:shared')
     implementation project(':components:crud')
     implementation project(':components:search')
     api project(':components:testing')

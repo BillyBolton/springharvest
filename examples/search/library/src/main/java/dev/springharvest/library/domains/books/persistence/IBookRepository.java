@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.books.persistence;
 
 import dev.springharvest.crud.persistence.IBaseCrudRepository;
-import dev.springharvest.library.domains.books.models.entities.BookEntity;
+import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;

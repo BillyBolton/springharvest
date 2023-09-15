@@ -2,6 +2,7 @@ package dev.springharvest.library.domains.authors.models.entities;
 
 import dev.springharvest.errors.constants.ExceptionMessages;
 import dev.springharvest.search.model.entities.IEntityMetadata;
+import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
