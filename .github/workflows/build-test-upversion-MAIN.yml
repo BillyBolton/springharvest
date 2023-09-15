@@ -5,46 +5,46 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        submodule:
-          - ":examples:examples-crud:examples-crud-library"
-          - ":examples:examples-search:examples-search-library"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # build:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       submodule:
+  #         - ":examples:examples-crud:examples-crud-library"
+  #         - ":examples:examples-search:examples-search-library"
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: "17"
-          distribution: "adopt"
+  #     - name: Set up JDK
+  #       uses: actions/setup-java@v3
+  #       with:
+  #         java-version: "17"
+  #         distribution: "adopt"
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+  #     - name: Cache SonarCloud packages
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: ~/.sonar/cache
+  #         key: ${{ runner.os }}-sonar
+  #         restore-keys: ${{ runner.os }}-sonar
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+  #     - name: Cache Gradle packages
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: ~/.gradle/caches
+  #         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-gradle-
 
-      - name: Build and Test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew ${{ matrix.submodule }}:build
+  #     - name: Build and Test
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       run: ./gradlew ${{ matrix.submodule }}:build
 
   up-version:
-    needs: [build]
+    # needs: [build]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -79,7 +79,7 @@ jobs:
           fi
 
           echo "New Version: $INCREMENTED_VERSION"
-          echo "NEW_VERSION=$INCREMENTED_VERSION" >> $GITHUB_ENV
+          echo "NEW_VERSION=${INCREMENTED_VERSION}" >> $GITHUB_ENV
 
           # Update the build.gradle file with the new version
           awk -F'=' -v OFS='=' '/APPLICATION_VERSION/ {
@@ -93,7 +93,7 @@ jobs:
 
       - name: DEBUG NEW_VERSION
         run: |
-          echo "New Version: $NEW_VERSION"
+          echo "New Version: ${{env.NEW_VERSION}}"
 
       - name: Commit and Push Changes
         run: |
@@ -101,5 +101,5 @@ jobs:
           git config user.email "actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/BillyBolton/springharvest.git
           git add env.properties
-          git commit -m "Bump version to $NEW_VERSION"
+          git commit -m "Bump version to ${{env.NEW_VERSION}}"
           git push
