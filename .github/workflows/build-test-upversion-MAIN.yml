@@ -43,7 +43,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew ${{ matrix.submodule }}:build
 
-  publish:
+  up-version:
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
@@ -79,6 +79,7 @@ jobs:
           fi
 
           echo "New Version: $INCREMENTED_VERSION"
+          echo "NEW_VERSION=$INCREMENTED_VERSION" >> $GITHUB_ENV
 
           # Update the build.gradle file with the new version
           awk -F'=' -v OFS='=' '/APPLICATION_VERSION/ {
@@ -96,5 +97,5 @@ jobs:
           git config user.email "actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/BillyBolton/springharvest.git
           git add env.properties
-          git commit -m "Bump version to $INCREMENTED_VERSION"
+          git commit -m "Bump version to $NEW_VERSION"
           git push
