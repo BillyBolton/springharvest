@@ -17,7 +17,6 @@ jobs:
       - name: Publish package
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
-          arguments: publish
-          tags: type=sha
+          arguments: publish -PcommitSHA=${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
