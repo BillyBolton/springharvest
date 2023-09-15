@@ -70,16 +70,14 @@ jobs:
           # Logic to calculate new version based on the current version
           run: |
           # Check if version has '-SNAPSHOT'
-          if [[ "$CURRENT_VERSION" == *"-SNAPSHOT" ]]; then
-            # Increment $3 if it has '-SNAPSHOT'
-            INCREMENTED_VERSION=$(echo $CURRENT_VERSION | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
+          if [[ "${{env.CURRENT_VERSION}}" == *"-SNAPSHOT" ]]; then
+            INCREMENTED_VERSION=$(echo ${{env.CURRENT_VERSION}} | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
           else
-            # Increment $3 if it doesn't have '-SNAPSHOT'
-            INCREMENTED_VERSION=$(echo $CURRENT_VERSION | awk -F'.' '{$3++; print $1"."$2"."$3}')
+            INCREMENTED_VERSION=$(echo ${{env.CURRENT_VERSION}} | awk -F'.' '{$3++; print $1"."$2"."$3}')
           fi
 
           echo "New Version: $INCREMENTED_VERSION"
-          echo "NEW_VERSION=${INCREMENTED_VERSION}" >> $GITHUB_ENV
+          echo "NEW_VERSION=$INCREMENTED_VERSION" >> $GITHUB_ENV
 
           # Update the build.gradle file with the new version
           awk -F'=' -v OFS='=' '/APPLICATION_VERSION/ {
