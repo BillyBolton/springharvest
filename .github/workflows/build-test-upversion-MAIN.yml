@@ -94,6 +94,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add build.gradle
+          git add env.properties
           git commit -m "Bump version to $INCREMENTED_VERSION"
           git push
