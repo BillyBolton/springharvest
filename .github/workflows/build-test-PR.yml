@@ -20,6 +20,9 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
+      - name: Fetch main branch
+        run: git fetch origin main:main
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
