@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: PUBLISHERS/master.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: AUTHORS/master.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: BOOKS/master.yaml
+      relativeToChangelogFile: true

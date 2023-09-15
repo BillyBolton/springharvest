@@ -1,5 +1,7 @@
 package dev.springharvest.crud.rest.constants;
 
+import dev.springharvest.errors.constants.ExceptionMessages;
+
 /**
  * Contains constants for the REST endpoints of the default CRUD controllers.
  *
@@ -28,6 +30,7 @@ public class ControllerUri {
     public static final String DELETE_ALL = DELETE + ControllerContexts.ALL;
 
     private ControllerUri() {
+        throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
     }
 
     /**
@@ -46,6 +49,7 @@ public class ControllerUri {
         public static final String DELETE = "/delete";
 
         private ControllerContexts() {
+            throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
         }
     }
 
@@ -63,6 +67,7 @@ public class ControllerUri {
         public static final String INCLUDE_NULLS_QUERY = QUERY + "includeNulls=";
 
         private ControllerParameters() {
+            throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
         }
     }
 }

@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * This class contains utility methods for Java Reflection This class is beta for now. JavaDocs for each method will be
@@ -46,8 +47,8 @@ public class ReflectionUtils {
             paths.add(path);
 
             // Recursively add nested paths
-            if (!(visited.getOrDefault(fieldType, 0) == 2) && !fieldType.isPrimitive() && !fieldType.equals(
-                    Boolean.class) && !fieldType.equals(Long.class) && !fieldType.equals(String.class)) {
+            if (!(visited.getOrDefault(fieldType, 0) == 2) && !fieldType.isPrimitive() &&
+                !fieldType.equals(Boolean.class) && !fieldType.equals(Long.class) && !fieldType.equals(String.class)) {
 
                 visited.put(fieldType, (visited.getOrDefault(fieldType, 0)) + 1);
 
@@ -83,9 +84,7 @@ public class ReflectionUtils {
 
             Map<String, Object> map = new LinkedHashMap<>();
 
-            Class<?> superClass = object
-                    .getClass()
-                    .getSuperclass();
+            Class<?> superClass = object.getClass().getSuperclass();
 
             if (superClass != null) {
                 Field[] superFields = superClass.getDeclaredFields();
@@ -107,9 +106,7 @@ public class ReflectionUtils {
                 }
             }
 
-            Field[] fields = object
-                    .getClass()
-                    .getDeclaredFields();
+            Field[] fields = object.getClass().getDeclaredFields();
             for (Field field : fields) {
                 try {
                     log.info("Field: {}", field.getName());
@@ -134,9 +131,7 @@ public class ReflectionUtils {
                             if (entry.getValue() == null && !includeNulls) {
                                 continue;
                             }
-                            nestedResult.put(entry
-                                                     .getKey()
-                                                     .toString(), entry.getValue());
+                            nestedResult.put(entry.getKey().toString(), entry.getValue());
                         }
                         putToMap(map, field.getName(), nestedResult, includeNulls);
                     } else if (value != null && !isSimpleType(value.getClass())) {
@@ -170,9 +165,7 @@ public class ReflectionUtils {
 
         Map<String, Object> map = new LinkedHashMap<>();
 
-        Class<?> superClass = object
-                .getClass()
-                .getSuperclass();
+        Class<?> superClass = object.getClass().getSuperclass();
         if (superClass != null) {
             Field[] superFields = superClass.getDeclaredFields();
             for (Field superField : superFields) {
@@ -232,16 +225,22 @@ public class ReflectionUtils {
     }
 
     public static boolean isSimpleType(@Nullable Class<?> type) {
-        if (type == null) return true;
-        return type.isPrimitive() || type.equals(Boolean.class) || type.equals(Date.class) || type.equals(
-                String.class) || type.equals(Character.class) || type.equals(Long.class) || type.equals(
-                Integer.class) || type.equals(Double.class) || type.equals(Float.class) || type.equals(
-                Short.class) || type.equals(Byte.class) || Number.class.isAssignableFrom(type);
+        if (type == null)
+            return true;
+        return type.isPrimitive() || type.equals(Boolean.class) || type.equals(Date.class) ||
+               type.equals(String.class) || type.equals(Character.class) || type.equals(Long.class) ||
+               type.equals(Integer.class) || type.equals(Double.class) || type.equals(Float.class) ||
+               type.equals(Short.class) || type.equals(Byte.class) || Number.class.isAssignableFrom(type) ||
+               UUID.class.isAssignableFrom(type);
     }
 
     public static boolean isPrimitive(@Nullable Object object) {
-        if (object == null) return true;
-        return object instanceof Boolean || object instanceof Character || object instanceof Byte || object instanceof Short || object instanceof Integer || object instanceof Long || object instanceof Float || object instanceof Double || object instanceof String || object instanceof Enum;
+        if (object == null)
+            return true;
+        return object instanceof Boolean || object instanceof Character || object instanceof Byte ||
+               object instanceof Short || object instanceof Integer || object instanceof Long ||
+               object instanceof Float || object instanceof Double || object instanceof String ||
+               object instanceof Enum;
     }
 
     private static void putToMap(Map<String, Object> map, String key, @Nullable Object value, boolean includeNulls) {
