@@ -22,6 +22,9 @@ subPropertiesFile.withInputStream {
 }
 
 allprojects {
+    apply plugin: 'jacoco'
+    apply plugin: 'org.sonarqube'
+
     group = env.getProperty("APPLICATION_GROUP")
     version = env.getProperty("APPLICATION_VERSION")
 
@@ -33,6 +36,24 @@ allprojects {
         mavenCentral()
     }
 
+    jacocoTestReport {
+        reports {
+            xml.required = true
+            html.required = true
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/*Mapper*.*",
+                        "**/constants/**",
+                        "**/models/**",
+                        "**/config/*",
+                        "**/*Application.*"
+                ])
+            }))
+        }
+    }
+    test.finalizedBy jacocoTestReport
 
     sonar {
         properties {
@@ -71,25 +92,6 @@ subprojects {
             }
         }
     }
-
-    jacocoTestReport {
-        reports {
-            xml.required = true
-            html.required = true
-        }
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        "**/*Mapper*.*",
-                        "**/constants/**",
-                        "**/models/**",
-                        "**/config/*",
-                        "**/*Application.*"
-                ])
-            }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
 
     ext {
         set('testcontainersVersion', "1.17.6")
