@@ -68,12 +68,10 @@ jobs:
       - name: Update Version
         run: |
           # Logic to calculate new version based on the current version
-          run: |
-          # Check if version has '-SNAPSHOT'
-          if [[ "${{env.CURRENT_VERSION}}" == *"-SNAPSHOT" ]]; then
-            INCREMENTED_VERSION=$(echo ${{env.CURRENT_VERSION}} | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
+          if [[ "${{ env.CURRENT_VERSION }}" == *"-SNAPSHOT" ]]; then
+            INCREMENTED_VERSION=$(echo "${{ env.CURRENT_VERSION }}" | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
           else
-            INCREMENTED_VERSION=$(echo ${{env.CURRENT_VERSION}} | awk -F'.' '{$3++; print $1"."$2"."$3}')
+            INCREMENTED_VERSION=$(echo "${{ env.CURRENT_VERSION }}" | awk -F'.' '{$3++; print $1"."$2"."$3}')
           fi
 
           echo "New Version: $INCREMENTED_VERSION"
