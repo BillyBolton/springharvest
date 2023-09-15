@@ -26,11 +26,21 @@ allprojects {
     version = env.getProperty("APPLICATION_VERSION")
 
     java {
-        sourceCompatibility = '17'
+        sourceCompatibility = env.getProperty("JAVA_VERSION")
     }
 
     repositories {
         mavenCentral()
+    }
+
+
+    sonar {
+        properties {
+            property "sonar.projectKey", "BillyBolton_springharvest"
+            property "sonar.organization", "billybolton"
+            property "sonar.host.url", "https://sonarcloud.io"
+            property "sonar.exclusions", "**/*Generated.java"
+        }
     }
 }
 
@@ -80,14 +90,6 @@ subprojects {
         }
     }
     test.finalizedBy jacocoTestReport
-
-    sonar {
-        properties {
-            property "sonar.projectKey", "BillyBolton_springharvest"
-            property "sonar.organization", "billybolton"
-            property "sonar.host.url", "https://sonarcloud.io"
-        }
-    }
 
     ext {
         set('testcontainersVersion', "1.17.6")
