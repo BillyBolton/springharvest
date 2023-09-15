@@ -91,6 +91,10 @@ jobs:
             next
             } 1' env.properties > temp.properties && mv temp.properties env.properties
 
+      - name: DEBUG NEW_VERSION
+        run: |
+          echo "New Version: $NEW_VERSION"
+
       - name: Commit and Push Changes
         run: |
           git config user.name "GitHub Actions"
