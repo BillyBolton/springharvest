@@ -1,4 +1,4 @@
-name: Build, Test, and Publish package to GitHub Packages
+name: Publish package to GitHub Packages
 on:
   push:
     branches:

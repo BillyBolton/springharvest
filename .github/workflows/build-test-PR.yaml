@@ -1,4 +1,4 @@
-name: Gradle Build and Test
+name: Build and Test
 
 on:
   pull_request:
