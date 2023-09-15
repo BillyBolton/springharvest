@@ -61,8 +61,3 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew ${{ matrix.submodule }}:test
-      - name: CodeCov Reporting
-        uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: true
-          verbose: true
