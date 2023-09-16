@@ -82,66 +82,70 @@ jobs:
             echo "IS_BUMP=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Validate Gradle wrapper
-        if: steps.check_commit.outputs.IS_BUMP == 'false'
-        uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4
-
-      - name: Get Current Version
-        id: get_version
-        if: steps.check_commit.outputs.IS_BUMP == 'false'
+      - name: Debug IS_BUMP
         run: |
-          CURRENT_VERSION=$(grep "APPLICATION_VERSION" env.properties | cut -d'=' -f2)
-          echo "Current version is $CURRENT_VERSION"
-          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
-
-      - name: Update Version
-        if: steps.check_commit.outputs.IS_BUMP == 'false'
-        run: |
-          # Logic to calculate new version based on the current version
-          if [[ "${{ env.CURRENT_VERSION }}" == *"-SNAPSHOT" ]]; then
-            INCREMENTED_VERSION=$(echo "${{ env.CURRENT_VERSION }}" | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
-          else
-            INCREMENTED_VERSION=$(echo "${{ env.CURRENT_VERSION }}" | awk -F'.' '{$3++; print $1"."$2"."$3}')
-          fi
-
-          echo "New Version: $INCREMENTED_VERSION"
-          echo "NEW_VERSION=$INCREMENTED_VERSION" >> $GITHUB_ENV
-
-          # Update the build.gradle file with the new version
-          awk -F'=' -v OFS='=' '/APPLICATION_VERSION/ {
-            split($2, version_parts, /[-.]/);
-            version_parts[length(version_parts)-1]++;
-            new_version = version_parts[1] "." version_parts[2] "." version_parts[3];
-            if (length(version_parts) > 3) { new_version = new_version "-SNAPSHOT"; }
-            print $1, new_version;
-            next
-            } 1' env.properties > temp.properties && mv temp.properties env.properties
-
-      - name: Commit and Push Changes
-        if: steps.check_commit.outputs.IS_BUMP == 'false'
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/BillyBolton/springharvest.git
-          git add env.properties
-          git commit -m "Bump version to ${{env.NEW_VERSION}}"
-          git push
-
-      - name: Identity if Last Commit is Version Bump
-        id: verify_bump_commit_message
-        run: |
-          latest_commit_message=$(git log -1 --pretty=format:"%s")
-          if [[ $latest_commit_message == "Bump version to"* ]]; then
-            echo "IS_BUMP=true" >> $GITHUB_OUTPUT
-          else
-            echo "IS_BUMP=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Publish package
-        if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'true'
-        uses: gradle/gradle-build-action@3bfe3a46584a206fb8361cdedd0647b0c4204232
-        with:
-          arguments: publish -PcommitSHA=${{ github.sha }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
+        #          echo steps.check_commit.outputs.IS_BUMP
+#
+#      - name: Validate Gradle wrapper
+#        if: steps.check_commit.outputs.IS_BUMP == 'false'
+#        uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4
+#
+#      - name: Get Current Version
+#        id: get_version
+#        if: steps.check_commit.outputs.IS_BUMP == 'false'
+#        run: |
+#          CURRENT_VERSION=$(grep "APPLICATION_VERSION" env.properties | cut -d'=' -f2)
+#          echo "Current version is $CURRENT_VERSION"
+#          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+#
+#      - name: Update Version
+#        if: steps.check_commit.outputs.IS_BUMP == 'false'
+#        run: |
+#          # Logic to calculate new version based on the current version
+#          if [[ "${{ env.CURRENT_VERSION }}" == *"-SNAPSHOT" ]]; then
+#            INCREMENTED_VERSION=$(echo "${{ env.CURRENT_VERSION }}" | awk -F'[.-]' '{$3++; print $1"."$2"."$3"-"$4}')
+#          else
+#            INCREMENTED_VERSION=$(echo "${{ env.CURRENT_VERSION }}" | awk -F'.' '{$3++; print $1"."$2"."$3}')
+#          fi
+#
+#          echo "New Version: $INCREMENTED_VERSION"
+#          echo "NEW_VERSION=$INCREMENTED_VERSION" >> $GITHUB_ENV
+#
+#          # Update the build.gradle file with the new version
+#          awk -F'=' -v OFS='=' '/APPLICATION_VERSION/ {
+#            split($2, version_parts, /[-.]/);
+#            version_parts[length(version_parts)-1]++;
+#            new_version = version_parts[1] "." version_parts[2] "." version_parts[3];
+#            if (length(version_parts) > 3) { new_version = new_version "-SNAPSHOT"; }
+#            print $1, new_version;
+#            next
+#            } 1' env.properties > temp.properties && mv temp.properties env.properties
+#
+#      - name: Commit and Push Changes
+#        if: steps.check_commit.outputs.IS_BUMP == 'false'
+#        run: |
+#          git config user.name "GitHub Actions"
+#          git config user.email "actions@github.com"
+#          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/BillyBolton/springharvest.git
+#          git add env.properties
+#          git commit -m "Bump version to ${{env.NEW_VERSION}}"
+#          git push
+#
+#      - name: Identity if Last Commit is Version Bump
+#        id: verify_bump_commit_message
+#        run: |
+#          latest_commit_message=$(git log -1 --pretty=format:"%s")
+#          if [[ $latest_commit_message == "Bump version to"* ]]; then
+#            echo "IS_BUMP=true" >> $GITHUB_OUTPUT
+#          else
+#            echo "IS_BUMP=false" >> $GITHUB_OUTPUT
+#          fi
+#
+#      - name: Publish package
+#        if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'true'
+#        uses: gradle/gradle-build-action@3bfe3a46584a206fb8361cdedd0647b0c4204232
+#        with:
+#          arguments: publish -PcommitSHA=${{ github.sha }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
 
