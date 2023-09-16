@@ -57,7 +57,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew ${{ matrix.submodule }}:build
 
-  bump-version:
+  bump_version:
     needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
