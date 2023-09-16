@@ -42,9 +42,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Fetch main branch
-        run: git fetch origin main:main
-
       - name: Cache SonarCloud packages
         if: steps.check_commit.outputs.match == 'false'
         uses: actions/cache@v3
@@ -60,7 +57,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew ${{ matrix.submodule }}:build
 
-  bump-version:
+  bump_version:
     needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
