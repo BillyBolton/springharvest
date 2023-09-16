@@ -66,7 +66,6 @@ import org.springframework.beans.factory.annotation.Autowired;
    *
    * @return A new instance of the entity that is being transformed.
    */
-  // TODO: Investigate whether this method can be removed by using parameterized builders instead.
   protected abstract M getNewEntity();
 
   /**

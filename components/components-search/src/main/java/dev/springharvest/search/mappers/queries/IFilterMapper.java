@@ -68,7 +68,7 @@ public interface IFilterMapper<RD extends BaseFilterRequestDTO, RB extends BaseF
   @BeforeMapping
   default void setDirtyFields(RD source, @MappingTarget RB target) {
 
-    iterateFields(target, source, source, "");
+    buildAttributePaths(target, source, source, "");
 
   }
 
@@ -83,8 +83,7 @@ public interface IFilterMapper<RD extends BaseFilterRequestDTO, RB extends BaseF
    * @see BaseFilterRequestDTO
    * @see BaseFilterRequestBO
    */
-  // TODO: Rename method
-  private void iterateFields(RB target, RD source, Object object, String path) {
+  private void buildAttributePaths(RB target, RD source, Object object, String path) {
     try {
       // Iterate through all fields in the object's class
       for (Field field : object.getClass()
@@ -113,7 +112,7 @@ public interface IFilterMapper<RD extends BaseFilterRequestDTO, RB extends BaseF
           String newPath = path.isEmpty() ? field.getName() : path + "." + field.getName();
 
           // Recursively iterate through the nested object with the new path
-          iterateFields(target, source, value, newPath);
+          buildAttributePaths(target, source, value, newPath);
         }
       }
     } catch (IllegalAccessException e) {

@@ -79,7 +79,6 @@ public interface IParameterMapper {
   default boolean getIsJoined(String path) {
     Set<String> roots = getRoots();
     String prefix = path.split("\\.")[0];
-    boolean isJoined = !roots.contains(prefix);
     return !roots.contains(prefix);
   }
 
