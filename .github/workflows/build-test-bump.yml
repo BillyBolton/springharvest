@@ -3,7 +3,7 @@ name: Build, Test, and Bump
 on:
   pull_request:
     branches:
-      - setoutput
+      - main
 
 jobs:
   build:
