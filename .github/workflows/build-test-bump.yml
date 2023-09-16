@@ -1,4 +1,4 @@
-name: Build, Test, and Up-Version
+name: Build, Test, and Bump
 on:
   push:
     branches:
