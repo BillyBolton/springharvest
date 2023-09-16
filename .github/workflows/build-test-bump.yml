@@ -83,19 +83,19 @@ jobs:
           fi
 
       - name: Validate Gradle wrapper
-        if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'false'
+        if: steps.check_commit.outputs.IS_BUMP == 'false'
         uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4
 
       - name: Get Current Version
         id: get_version
-        if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'false'
+        if: steps.check_commit.outputs.IS_BUMP == 'false'
         run: |
           CURRENT_VERSION=$(grep "APPLICATION_VERSION" env.properties | cut -d'=' -f2)
           echo "Current version is $CURRENT_VERSION"
           echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
 
       - name: Update Version
-        if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'false'
+        if: steps.check_commit.outputs.IS_BUMP == 'false'
         run: |
           # Logic to calculate new version based on the current version
           if [[ "${{ env.CURRENT_VERSION }}" == *"-SNAPSHOT" ]]; then
@@ -118,7 +118,7 @@ jobs:
             } 1' env.properties > temp.properties && mv temp.properties env.properties
 
       - name: Commit and Push Changes
-        if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'false'
+        if: steps.check_commit.outputs.IS_BUMP == 'false'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
