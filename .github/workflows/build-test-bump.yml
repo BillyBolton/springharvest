@@ -1,7 +1,7 @@
-name: Build, Test, and Bump
+name: Build, Test, and Bump Version
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
