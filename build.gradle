@@ -95,7 +95,7 @@ subprojects {
         LOMBOK_MAPSTRUCT_VERSION = "0.2.0"
         MAPSTRUCT_VERSION = "1.5.5.Final"
         RESTASSURED_VERSION = "5.3.2"
-        SPRINGDOC_VERSION = "2.0.2"
+        SPRINGDOC_VERSION = "2.2.0"
         TESTCONTAINERS_VERSION = "1.19.0"
     }
 
