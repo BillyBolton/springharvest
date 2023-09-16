@@ -162,10 +162,10 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-batch'
         implementation "org.springframework.batch.extensions:spring-batch-excel:$SPRING_BATCH_EXCEL_VERSION"
 
-        implementation "org.modelmapper:modelmapper:MODELMAPPER_VERSION"
+        implementation "org.modelmapper:modelmapper:$MODELMAPPER_VERSION"
 
         implementation "org.apache.commons:commons-collections4:$APACHE_COMMONS_COLLECTIONS_VERSION"
-        implementation "org.apache.commons:commons-lang3:APACHE_COMMONS_LANG_VERSION"
+        implementation "org.apache.commons:commons-lang3:$APACHE_COMMONS_LANG_VERSION"
 
         // VULNERABILITY FIXES
         api "org.apache.tomcat.embed:tomcat-embed-core:$APACHE_TOMCAT_VERSION"
