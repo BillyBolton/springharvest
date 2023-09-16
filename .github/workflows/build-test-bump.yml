@@ -41,6 +41,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Fetch main branch
+        run: git fetch origin main:main
+
       - name: Cache SonarCloud packages
         if: steps.check_commit.outputs.match == 'false'
         uses: actions/cache@v3
