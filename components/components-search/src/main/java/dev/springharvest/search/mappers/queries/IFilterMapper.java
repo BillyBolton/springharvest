@@ -117,7 +117,7 @@ public interface IFilterMapper<RD extends BaseFilterRequestDTO, RB extends BaseF
         }
       }
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      // TODO: Convert interface to abstract class and log exception message
     }
   }
 
