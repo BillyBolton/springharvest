@@ -1,9 +1,9 @@
-name: Build, Test, and Up-Version
+name: Build, Test, and Bump Version
 on:
   push:
     branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,8 +41,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Fetch main branch
-        run: git fetch origin main:main
+      #      - name: Fetch main branch
+      #        run: git fetch origin main:main
 
       - name: Cache SonarCloud packages
         if: steps.verify_bump_commit_message.outputs.IS_BUMP == 'false'
