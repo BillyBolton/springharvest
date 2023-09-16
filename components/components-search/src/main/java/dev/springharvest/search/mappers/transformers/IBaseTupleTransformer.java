@@ -1,7 +1,6 @@
-package dev.springharvest.search.mapper.transformers;
+package dev.springharvest.search.mappers.transformers;
 
 import jakarta.persistence.Tuple;
-
 import java.util.function.Function;
 
 /**

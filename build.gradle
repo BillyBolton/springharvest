@@ -22,16 +22,31 @@ subPropertiesFile.withInputStream {
 }
 
 allprojects {
+    apply plugin: 'org.sonarqube'
+
     group = env.getProperty("APPLICATION_GROUP")
     version = env.getProperty("APPLICATION_VERSION")
 
     java {
-        sourceCompatibility = '17'
+        sourceCompatibility = env.getProperty("JAVA_VERSION")
     }
 
     repositories {
         mavenCentral()
     }
+
+
+    sonar {
+        properties {
+            property "sonar.projectKey", "BillyBolton_springharvest"
+            property "sonar.organization", "billybolton"
+            property "sonar.host.url", "https://sonarcloud.io"
+        }
+    }
+}
+
+tasks.named('sonar').configure {
+    dependsOn jacocoTestReport
 }
 
 subprojects {
@@ -43,6 +58,28 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'org.sonarqube'
     apply plugin: 'org.owasp.dependencycheck'
+
+    jacocoTestReport {
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/models/**",
+                        "**/constants/**",
+                        "**/mappers/**",
+                        "**/config/**",
+                        "**/errors/**",
+                        "**/*Repository.*",
+                        "**/*Mapper*.*",
+                        "**/*Application.*"
+                ])
+            }))
+        }
+    }
+    test.finalizedBy jacocoTestReport
 
     publishing {
         repositories {
@@ -59,33 +96,6 @@ subprojects {
             gpr(MavenPublication) {
                 from(components.java)
             }
-        }
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required = true
-            html.required = true
-        }
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        "**/*Mapper*.*",
-                        "**/constants/**",
-                        "**/models/**",
-                        "**/config/*",
-                        "**/*Application.*"
-                ])
-            }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
-
-    sonar {
-        properties {
-            property "sonar.projectKey", "BillyBolton_springharvest"
-            property "sonar.organization", "billybolton"
-            property "sonar.host.url", "https://sonarcloud.io"
         }
     }
 

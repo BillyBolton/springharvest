@@ -7,31 +7,30 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.library.global.GlobalClazzResolver;
-import dev.springharvest.search.mapper.queries.ISearchMapper;
+import dev.springharvest.search.mappers.queries.ISearchMapper;
+import java.util.Set;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Set;
-
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
 public abstract class PublisherSearchMapper
-        implements ISearchMapper<PublisherFilterRequestDTO, PublisherFilterRequestBO, PublisherFilterDTO, PublisherFilterBO> {
+    implements ISearchMapper<PublisherFilterRequestDTO, PublisherFilterRequestBO, PublisherFilterDTO, PublisherFilterBO> {
 
-    @Autowired
-    private GlobalClazzResolver globalClazzResolver;
+  @Autowired
+  private GlobalClazzResolver globalClazzResolver;
 
-    @Autowired
-    private PublisherEntityMetadata entityMetadata;
+  @Autowired
+  private PublisherEntityMetadata entityMetadata;
 
 
-    public Class<?> getClazz(String path) {
-        return globalClazzResolver.getClazz(path);
-    }
+  public Class<?> getClazz(String path) {
+    return globalClazzResolver.getClazz(path);
+  }
 
-    public Set<String> getRoots() {
-        return entityMetadata.getRootPaths();
-    }
+  public Set<String> getRoots() {
+    return entityMetadata.getRootPaths();
+  }
 
 }
 
