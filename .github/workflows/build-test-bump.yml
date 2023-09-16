@@ -1,7 +1,7 @@
 name: Build, Test, and Up-Version
 on:
   push:
-    branches:
+    pull_request:
       - main
 
 jobs:
@@ -140,7 +140,9 @@ jobs:
       - name: Publish package
         if: steps.verify_bump_commit_message.outputs.is_bump == 'true'
         uses: gradle/gradle-build-action@3bfe3a46584a206fb8361cdedd0647b0c4204232
-        with:
-          arguments: publish -PcommitSHA=${{ github.sha }}
+        #        with:
+        #          arguments: publish -PcommitSHA=${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
+        run: |
+          "echo is_bump: ${{env.GITHUB_OUTPUT}}"
