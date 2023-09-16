@@ -46,7 +46,7 @@ allprojects {
 }
 
 tasks.named('sonar').configure {
-    dependsOn test
+    dependsOn jacocoTestReport
 }
 
 subprojects {
