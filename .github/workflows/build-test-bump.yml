@@ -84,7 +84,8 @@ jobs:
 
       - name: Debug IS_BUMP
         run: |
-        #          echo steps.check_commit.outputs.IS_BUMP
+          echo isBump: steps.check_commit.outputs.IS_BUMP
+          echo "isBump: steps.check_commit.outputs.IS_BUMP"
 #
 #      - name: Validate Gradle wrapper
 #        if: steps.check_commit.outputs.IS_BUMP == 'false'
