@@ -1,8 +1,6 @@
 name: Build, Test, and Up-Version
 on:
-  push:
-    branches:
-      - main
+  push
 
 jobs:
   build:
