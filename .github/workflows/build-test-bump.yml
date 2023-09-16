@@ -1,6 +1,7 @@
-name: Build, Test, and Up-Version
+name: Build, Test, and Bump
+
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -132,15 +133,17 @@ jobs:
         run: |
           latest_commit_message=$(git log -1 --pretty=format:"%s")
           if [[ $latest_commit_message == "Bump version to"* ]]; then
-            echo "::set-output name=match::true"
+            echo "is_bump=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=match::false"
+            echo "is_bump=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Publish package
-        if: steps.verify_bump_commit_message.outputs.match == 'true'
+        if: steps.verify_bump_commit_message.outputs.is_bump == 'true'
         uses: gradle/gradle-build-action@3bfe3a46584a206fb8361cdedd0647b0c4204232
-        with:
-          arguments: publish -PcommitSHA=${{ github.sha }}
+        #        with:
+        #          arguments: publish -PcommitSHA=${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
+        run: |
+          "echo is_bump: ${{env.GITHUB_OUTPUT}}"
