@@ -1,8 +1,8 @@
 name: Build, Test, and Up-Version
 on:
   push:
-    pull_request:
-      - main
+    branches:
+      - setoutput-fix
 
 jobs:
   build:
