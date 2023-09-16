@@ -2,7 +2,7 @@ name: Build, Test, and Bump
 on:
   push:
     branches:
-      - setoutput-fix
+      - setoutput
 
 jobs:
   build:
