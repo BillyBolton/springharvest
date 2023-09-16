@@ -14,11 +14,8 @@ jobs:
           - ":examples:examples-crud:examples-crud-library"
           - ":examples:examples-search:examples-search-library"
     steps:
-      #      - name: Checkout code
-      #        uses: actions/checkout@v4
-
-      - name: Fetch main branch
-        run: git fetch origin main:main
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
