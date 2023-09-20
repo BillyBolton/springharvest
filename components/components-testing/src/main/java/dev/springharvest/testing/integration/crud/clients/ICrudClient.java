@@ -10,34 +10,34 @@ public interface ICrudClient<D extends BaseDTO<K>, E extends BaseEntity<K>, K ex
 
   ValidatableResponse findAll();
 
-  List<D> extractFindAll();
+  List<D> findAllAndExtract();
 
   ValidatableResponse findById(K id);
 
-  D extractFindById(K id);
+  D findByIdAndExtract(K id);
 
   ValidatableResponse create(D dto);
 
-  D extractCreate(D dto);
+  D createAndExtract(D dto);
 
   ValidatableResponse createAll(List<D> dtos);
 
-  List<D> extractCreateAll(List<D> dtos);
+  List<D> createAllAndExtract(List<D> dtos);
 
   ValidatableResponse update(K id, D dto);
 
-  D extractUpdate(K id, D dto);
+  D updateAndExtract(K id, D dto);
 
   ValidatableResponse updateAll(List<D> dto);
 
-  List<D> extractUpdateAll(List<D> dto);
+  List<D> updateAllAndExtract(List<D> dto);
 
   ValidatableResponse deleteById(K id);
 
-  void extractDeleteById(K id);
+  void deleteByIdAndExtract(K id);
 
   ValidatableResponse deleteAllByIds(List<K> ids);
 
-  void extractDeleteByIds(List<K> ids);
+  void deleteByIdsAndExtract(List<K> ids);
 
 }

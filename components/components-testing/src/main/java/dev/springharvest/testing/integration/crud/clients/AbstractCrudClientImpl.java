@@ -30,7 +30,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public List<D> extractFindAll() {
+  public List<D> findAllAndExtract() {
     return extractObjects(findAll());
   }
 
@@ -39,7 +39,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
     return clientHelper.getAndThen(uriFactory.getFindByIdUri(), id);
   }
 
-  public D extractFindById(K id) {
+  public D findByIdAndExtract(K id) {
     return extractObject(findById(id));
   }
 
@@ -49,7 +49,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public D extractCreate(D dto) {
+  public D createAndExtract(D dto) {
     return extractObject(create(dto));
   }
 
@@ -59,7 +59,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public List<D> extractCreateAll(List<D> dtos) {
+  public List<D> createAllAndExtract(List<D> dtos) {
     return extractObjects(createAll(dtos));
   }
 
@@ -69,7 +69,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public D extractUpdate(K id, D dto) {
+  public D updateAndExtract(K id, D dto) {
     return extractObject(update(id, dto));
   }
 
@@ -79,7 +79,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public List<D> extractUpdateAll(List<D> dtos) {
+  public List<D> updateAllAndExtract(List<D> dtos) {
     return extractObjects(updateAll(dtos));
   }
 
@@ -89,7 +89,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public void extractDeleteById(K id) {
+  public void deleteByIdAndExtract(K id) {
     validateStatus(deleteById(id), 204);
   }
 
@@ -99,7 +99,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends Bas
   }
 
   @Override
-  public void extractDeleteByIds(List<K> ids) {
+  public void deleteByIdsAndExtract(List<K> ids) {
     validateStatus(deleteAllByIds(ids), 204);
   }
 

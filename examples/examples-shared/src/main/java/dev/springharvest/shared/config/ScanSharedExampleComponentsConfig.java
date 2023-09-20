@@ -5,4 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"dev.springharvest.shared"})
-public class ScanSharedExampleComponentsConfig {}
+public class ScanSharedExampleComponentsConfig {
+
+}

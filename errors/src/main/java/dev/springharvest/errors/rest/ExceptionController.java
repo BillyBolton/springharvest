@@ -9,17 +9,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * > This class is a controller that handles exceptions
  *
  * @author Billy Bolton
- * @link <a href =
- * "https://www.baeldung.com/exception-handling-for-rest-with-spring#controlleradvice">https://www.baeldung
+ * @link <a href = "https://www.baeldung.com/exception-handling-for-rest-with-spring#controlleradvice">https://www.baeldung
  * .com/exception-handling-for-rest-with-spring#controlleradvice</a>
  * @since 1.0
  */
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(value = {ClientException.class})
-    public ResponseEntity<ClientException> resourceNotFound(ClientException exception) {
-        return ResponseEntity.status(exception.getStatus()).body(exception);
-    }
+  @ExceptionHandler(value = {ClientException.class})
+  public ResponseEntity<ClientException> resourceNotFound(ClientException exception) {
+    return ResponseEntity.status(exception.getStatus()).body(exception);
+  }
 
 }

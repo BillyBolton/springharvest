@@ -66,5 +66,5 @@ public class PublishersModelFactoryImpl extends AbstractModelTestFactory<Publish
   public PublisherEntity buildInvalidEntity() {
     return PublisherEntity.builder().build();
   }
-  
+
 }

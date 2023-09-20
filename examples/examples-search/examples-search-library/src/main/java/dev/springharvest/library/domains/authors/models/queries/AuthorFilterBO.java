@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class AuthorFilterBO extends BaseFilterBO {
 
-    private FilterParameterBO id;
-    private FilterParameterBO name;
+  private FilterParameterBO id;
+  private FilterParameterBO name;
 
 }

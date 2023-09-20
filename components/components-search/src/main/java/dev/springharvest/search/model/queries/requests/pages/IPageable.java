@@ -8,17 +8,17 @@ package dev.springharvest.search.model.queries.requests.pages;
  */
 public interface IPageable {
 
-    int getPageNumber();
+  int getPageNumber();
 
-    void setPageNumber(int pageNumber);
+  void setPageNumber(int pageNumber);
 
-    int getPageSize();
+  int getPageSize();
 
-    void setPageSize(int pageSize);
+  void setPageSize(int pageSize);
 
-    int getFirstResult();
+  int getFirstResult();
 
-    int getMaxResults();
+  int getMaxResults();
 
 }
 

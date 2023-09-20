@@ -16,10 +16,10 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class BookFilterDTO extends BaseFilterDTO {
 
-    @Schema(name = "id", description = "The id of the Book.")
-    private FilterParameterDTO id;
+  @Schema(name = "id", description = "The id of the Book.")
+  private FilterParameterDTO id;
 
-    @Schema(name = "title", description = "The title of the Book.")
-    private FilterParameterDTO title;
+  @Schema(name = "title", description = "The title of the Book.")
+  private FilterParameterDTO title;
 
 }

@@ -22,9 +22,9 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class SelectionBO extends BaseParameterBO {
 
-    @Builder.Default
-    private Boolean isAscending = true;
+  @Builder.Default
+  private Boolean isAscending = true;
 
-    private Integer priority;
+  private Integer priority;
 
 }

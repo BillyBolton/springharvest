@@ -7,5 +7,6 @@ package dev.springharvest.search.model.queries.parameters.base;
  * @since 1.0
  */
 public interface IBaseParameterBO {
+
 }
 

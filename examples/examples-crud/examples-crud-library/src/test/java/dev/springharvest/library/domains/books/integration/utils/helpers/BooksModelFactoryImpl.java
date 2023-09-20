@@ -59,8 +59,8 @@ public class BooksModelFactoryImpl extends AbstractModelTestFactory<BookDTO, Boo
     return BookDTO.builder()
         .id(getRandomId())
         .title(RandomStringUtils.randomAlphabetic(5))
-        .author(authorsCrudClient.extractCreate(authorsModelFactory.buildValidDto()))
-        .publisher(publishersCrudClient.extractCreate(publishersModelFactory.buildValidDto()))
+        .author(authorsCrudClient.createAndExtract(authorsModelFactory.buildValidDto()))
+        .publisher(publishersCrudClient.createAndExtract(publishersModelFactory.buildValidDto()))
         .build();
   }
 

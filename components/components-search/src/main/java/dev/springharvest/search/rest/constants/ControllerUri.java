@@ -10,37 +10,37 @@ import dev.springharvest.errors.constants.ExceptionMessages;
  */
 public class ControllerUri {
 
-    public static final String SEARCH = ControllerContexts.SEARCH;
+  public static final String SEARCH = ControllerContexts.SEARCH;
 
-    private ControllerUri() {
-        throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
+  private ControllerUri() {
+    throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
+  }
+
+  /**
+   * Constants used to build method contexts for the REST endpoints of the default CRUD controllers.
+   *
+   * @author Billy Bolton
+   * @since 1.0
+   */
+  private static class ControllerContexts {
+
+    public static final String SEARCH = "/search";
+
+    private ControllerContexts() {
+      throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
     }
+  }
 
-    /**
-     * Constants used to build method contexts for the REST endpoints of the default CRUD controllers.
-     *
-     * @author Billy Bolton
-     * @since 1.0
-     */
-    private static class ControllerContexts {
+  /**
+   * Constants used to build arguments for the REST endpoints of the default CRUD controllers.
+   *
+   * @author Billy Bolton
+   * @since 1.0
+   */
+  public static class ControllerParameters {
 
-        public static final String SEARCH = "/search";
-
-        private ControllerContexts() {
-            throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
-        }
+    private ControllerParameters() {
+      throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
     }
-
-    /**
-     * Constants used to build arguments for the REST endpoints of the default CRUD controllers.
-     *
-     * @author Billy Bolton
-     * @since 1.0
-     */
-    public static class ControllerParameters {
-
-        private ControllerParameters() {
-            throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
-        }
-    }
+  }
 }

@@ -25,5 +25,5 @@ public class PublishersCrudClient extends AbstractCrudClientImpl<PublisherDTO, P
   public Class<PublisherDTO> getClazz() {
     return PublisherDTO.class;
   }
-  
+
 }

@@ -8,9 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class LibraryCrudApplicationTests {
 
-    @Test
-    void contextLoads() {
-        Assertions.assertTrue(true, TestConstants.Messages.CONTEXT_LOADS);
-    }
+  @Test
+  void contextLoads() {
+    Assertions.assertTrue(true, TestConstants.Messages.CONTEXT_LOADS);
+  }
 
 }

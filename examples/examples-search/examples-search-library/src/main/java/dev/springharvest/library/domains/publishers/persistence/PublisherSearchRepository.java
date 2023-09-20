@@ -5,17 +5,16 @@ import dev.springharvest.library.domains.publishers.models.entities.PublisherEnt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.search.persistence.AbstractCriteriaSearchDaoImpl;
 import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class PublisherSearchRepository
-        extends AbstractCriteriaSearchDaoImpl<PublisherEntity, UUID, PublisherFilterRequestBO> {
+    extends AbstractCriteriaSearchDaoImpl<PublisherEntity, UUID, PublisherFilterRequestBO> {
 
-    PublisherSearchRepository(PublisherRootTupleTransformer tupleTransformer, PublisherEntityMetadata entityMetadata) {
-        super(entityMetadata.getDomainName(), tupleTransformer);
-    }
+  PublisherSearchRepository(PublisherRootTupleTransformer tupleTransformer, PublisherEntityMetadata entityMetadata) {
+    super(entityMetadata.getDomainName(), tupleTransformer);
+  }
 
 }
 

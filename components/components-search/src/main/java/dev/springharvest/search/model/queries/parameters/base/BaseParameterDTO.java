@@ -16,9 +16,9 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public abstract class BaseParameterDTO extends BaseParameter {
 
-    public BaseParameterDTO() {
-        super();
-    }
+  public BaseParameterDTO() {
+    super();
+  }
 
 }
 

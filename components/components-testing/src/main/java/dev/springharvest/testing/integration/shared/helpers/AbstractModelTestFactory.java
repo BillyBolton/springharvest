@@ -23,11 +23,6 @@ public abstract class AbstractModelTestFactory<D extends BaseDTO<K>, E extends B
         softly.assertThat(actual).isEqualTo(expected);
       }
     }
-  }  public void softlyAssert(SoftAssertions softly, D actual, D expected) {
-
-    assertNotNull(actual);
-    assertNotNull(expected);
-
   }
 
   protected String capitalizeFirstLetters(String str) {
@@ -37,7 +32,17 @@ public abstract class AbstractModelTestFactory<D extends BaseDTO<K>, E extends B
       sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
     }
     return sb.toString().trim();
-  }  public void softlyAssert(SoftAssertions softly, List<D> actual, List<D> expected) {
+  }
+
+  public void softlyAssert(SoftAssertions softly, D actual, D expected) {
+
+    assertNotNull(actual);
+    assertNotNull(expected);
+
+  }
+
+
+  public void softlyAssert(SoftAssertions softly, List<D> actual, List<D> expected) {
     assertNotNull(actual);
     assertNotNull(expected);
     assertEquals(actual.size(), expected.size());
@@ -48,9 +53,6 @@ public abstract class AbstractModelTestFactory<D extends BaseDTO<K>, E extends B
       count--;
     }
   }
-
-
-
 
 
 }
