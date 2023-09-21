@@ -5,15 +5,14 @@ import dev.springharvest.testing.integration.shared.uri.IUriFactory;
 import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import dev.springhavest.common.contracts.IClazzAware;
 import dev.springhavest.common.models.dtos.BaseDTO;
-import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
-    implements ICrudClient<D, E, K>, IClazzAware<D> {
+public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Serializable>
+    implements ICrudClient<D, K>, IClazzAware<D> {
 
   @Getter
   protected Class<D> clazz;

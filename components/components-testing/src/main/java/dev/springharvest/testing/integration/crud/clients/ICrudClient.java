@@ -1,12 +1,11 @@
 package dev.springharvest.testing.integration.crud.clients;
 
 import dev.springhavest.common.models.dtos.BaseDTO;
-import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;
 
-public interface ICrudClient<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable> {
+public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
 
   ValidatableResponse findAll();
 

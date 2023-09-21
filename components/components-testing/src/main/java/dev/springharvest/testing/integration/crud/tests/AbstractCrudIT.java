@@ -1,6 +1,5 @@
 package dev.springharvest.testing.integration.crud.tests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,18 +13,19 @@ import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
     implements ICrudIT<D, E, K> {
 
-  protected ICrudClient<D, E, K> client;
+  protected ICrudClient<D, K> client;
 
   protected IModelTestFactory<D, K> modelFactory;
 
 
-  protected AbstractCrudIT(AbstractCrudClientImpl<D, E, K> client, IModelTestFactory<D, K> modelFactory) {
+  protected AbstractCrudIT(AbstractCrudClientImpl<D, K> client, IModelTestFactory<D, K> modelFactory) {
     this.client = client;
     this.modelFactory = modelFactory;
   }
@@ -73,8 +73,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
         int expectedResponseCode = 500;
         ValidatableResponse response = client.create(modelFactory.buildInvalidDto());
         response.statusCode(expectedResponseCode);
-
-        expectedResponseCode = 200;
+        
         D toCreate = modelFactory.buildValidDto();
         D created = client.createAndExtract(toCreate);
 
@@ -89,9 +88,6 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
        */
       @Test
       void canPostMany() {
-
-        int expectedResponseCode = 200;
-
         D toCreate = modelFactory.buildValidDto();
         List<D> allCreated = client.createAllAndExtract(List.of(toCreate));
 
@@ -113,7 +109,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
       @Test
       void canGetOne() {
         List<D> dtos = client.findAllAndExtract();
-        assertTrue(dtos.size() > 0);
+        Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
         D dto = client.findByIdAndExtract(firstDto.getId());
         assertNotNull(dto);
@@ -122,7 +118,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
       @Test
       void canGetMany() {
         List<D> dtos = client.findAllAndExtract();
-        assertTrue(dtos.size() > 0);
+        Assertions.assertFalse(dtos.isEmpty());
       }
 
     }
@@ -133,8 +129,8 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
       @Test
       void canUpdateOne() {
         List<D> dtos = client.findAllAndExtract();
-        assertTrue(dtos.size() > 0);
-        D firstDto = dtos.get(dtos.size() - 1);
+        Assertions.assertFalse(dtos.isEmpty());
+        D firstDto = dtos.get(0);
         K id = firstDto.getId();
 
         D toUpdate = modelFactory.buildValidUpdatedDto(id);
@@ -150,7 +146,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
       @Test
       void canUpdateMany() {
         List<D> dtos = client.findAllAndExtract();
-        assertTrue(dtos.size() > 0);
+        Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
         List<D> toUpdate = List.of(modelFactory.buildValidUpdatedDto(firstDto));
         List<D> updated = client.updateAllAndExtract(toUpdate);
@@ -183,7 +179,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
   public void softlyAssert(SoftAssertions softly, List<D> actual, List<D> expected) {
     assertNotNull(actual);
     assertNotNull(expected);
-    assertEquals(actual.size(), expected.size());
+    Assertions.assertEquals(actual.size(), expected.size());
 
     int count = actual.size() - 1;
     while (count >= 0) {

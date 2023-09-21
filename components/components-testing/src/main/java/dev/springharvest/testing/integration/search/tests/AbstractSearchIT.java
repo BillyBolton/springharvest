@@ -51,17 +51,15 @@ public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K e
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void canPostSearchQuery(boolean selectAll) {
-      SearchRequestDTO.SearchRequestDTOBuilder request = SearchRequestDTO.builder()
-          .page(Page.builder().build())
-          .selections(
-              modelFactory.buildValidSelections(
-                  selectAll))
-          .filters(
-              Set.of(modelFactory.buildValidFilters()));
-      assertEquals(1, client.searchAndExtract(request.build()).size());
+      assertEquals(1, client.searchAndExtract(SearchRequestDTO.<B>builder()
+                                                  .page(Page.builder().build())
+                                                  .selections(
+                                                      modelFactory.buildValidSelections(
+                                                          selectAll))
+                                                  .filters(
+                                                      Set.of(modelFactory.buildValidFilters())).build()).size());
     }
 
   }
-
 
 }
