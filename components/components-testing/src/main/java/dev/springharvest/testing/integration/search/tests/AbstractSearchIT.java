@@ -24,10 +24,10 @@ public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K e
 
   protected ISearchClient<D, E, K, B> client;
 
-  protected ISearchTestFactory<D, E, K, B> modelFactory;
+  protected ISearchTestFactory<B> modelFactory;
 
 
-  protected AbstractSearchIT(AbstractSearchClientImpl<D, E, K, B> client, ISearchTestFactory<D, E, K, B> modelFactory) {
+  protected AbstractSearchIT(AbstractSearchClientImpl<D, E, K, B> client, ISearchTestFactory<B> modelFactory) {
     this.client = client;
     this.modelFactory = modelFactory;
   }

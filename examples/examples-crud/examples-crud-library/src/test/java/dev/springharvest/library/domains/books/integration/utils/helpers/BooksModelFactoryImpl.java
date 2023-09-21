@@ -6,7 +6,6 @@ import dev.springharvest.library.domains.authors.integration.utils.helpers.Autho
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublishersCrudClient;
 import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublishersModelFactoryImpl;
 import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
-import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import dev.springharvest.testing.integration.shared.helpers.AbstractModelTestFactory;
 import dev.springharvest.testing.integration.shared.helpers.IModelTestFactory;
 import java.util.UUID;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class BooksModelFactoryImpl extends AbstractModelTestFactory<BookDTO, BookEntity, UUID>
+public class BooksModelFactoryImpl extends AbstractModelTestFactory<BookDTO, UUID>
     implements IModelTestFactory<BookDTO, UUID> {
 
   private final AuthorsCrudClient authorsCrudClient;

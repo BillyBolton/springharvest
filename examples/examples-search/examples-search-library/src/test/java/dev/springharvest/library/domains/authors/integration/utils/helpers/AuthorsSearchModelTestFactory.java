@@ -7,8 +7,6 @@ import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequ
 import dev.springharvest.search.model.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
-import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
-import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Import(value = {TestComponentScanningConfig.class})
 public class AuthorsSearchModelTestFactory
-    extends AbstractSearchTestFactoryImpl<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO> {
+    extends AbstractSearchTestFactoryImpl<AuthorFilterRequestDTO> {
 
   @Override
   public String getIdPath() {

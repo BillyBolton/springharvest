@@ -7,8 +7,6 @@ import dev.springharvest.library.domains.books.models.queries.BookFilterRequestD
 import dev.springharvest.search.model.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
-import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
-import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Import(value = {TestComponentScanningConfig.class})
 public class BooksSearchModelTestFactory
-    extends AbstractSearchTestFactoryImpl<BookDTO, BookEntity, UUID, BookFilterRequestDTO> {
+    extends AbstractSearchTestFactoryImpl<BookFilterRequestDTO> {
 
   @Override
   public String getIdPath() {

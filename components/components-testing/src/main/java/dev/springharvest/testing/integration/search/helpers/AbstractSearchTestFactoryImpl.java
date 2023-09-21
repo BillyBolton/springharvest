@@ -3,18 +3,14 @@ package dev.springharvest.testing.integration.search.helpers;
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
-import dev.springhavest.common.models.dtos.BaseDTO;
-import dev.springhavest.common.models.entities.BaseEntity;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractSearchTestFactoryImpl<D extends BaseDTO<K>, E extends BaseEntity<K>,
-    K extends Serializable, B extends BaseFilterRequestDTO>
-    implements ISearchTestFactory<D, E, K, B> {
+public abstract class AbstractSearchTestFactoryImpl<B extends BaseFilterRequestDTO>
+    implements ISearchTestFactory<B> {
 
   public Map<String, List<SelectionDTO>> buildValidSelections() {
 
@@ -29,9 +25,9 @@ public abstract class AbstractSearchTestFactoryImpl<D extends BaseDTO<K>, E exte
   }
 
   @Override
-  public List<SearchRequestDTO> buildValidSearchRequestDTOs() {
+  public List<SearchRequestDTO<B>> buildValidSearchRequestDTOs() {
 
-    List<SearchRequestDTO> requests = new LinkedList<>();
+    List<SearchRequestDTO<B>> requests = new LinkedList<>();
 
     Map<String, List<SelectionDTO>> selections = buildValidSelections();
 

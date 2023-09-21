@@ -8,8 +8,6 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.search.model.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
-import dev.springharvest.shared.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
 import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Import(value = {TestComponentScanningConfig.class})
 public class PublishersSearchModelTestFactory
-    extends AbstractSearchTestFactoryImpl<PublisherDTO, PublisherEntity, UUID, PublisherFilterRequestDTO> {
+    extends AbstractSearchTestFactoryImpl<PublisherFilterRequestDTO> {
 
   @Override
   public String getIdPath() {

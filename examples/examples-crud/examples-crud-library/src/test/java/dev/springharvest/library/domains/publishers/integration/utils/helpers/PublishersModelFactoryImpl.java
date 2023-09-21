@@ -3,7 +3,6 @@ package dev.springharvest.library.domains.publishers.integration.utils.helpers;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.shared.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.shared.domains.publishers.models.entities.PublisherEntity;
 import dev.springharvest.testing.integration.shared.helpers.AbstractModelTestFactory;
 import dev.springharvest.testing.integration.shared.helpers.IModelTestFactory;
 import java.util.UUID;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class PublishersModelFactoryImpl extends AbstractModelTestFactory<PublisherDTO, PublisherEntity, UUID>
+public class PublishersModelFactoryImpl extends AbstractModelTestFactory<PublisherDTO, UUID>
     implements IModelTestFactory<PublisherDTO, UUID> {
 
   @Override
