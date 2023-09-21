@@ -22,7 +22,7 @@ public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K e
     B extends BaseFilterRequestDTO>
     implements ISearchIT {
 
-  protected ISearchClient<D, E, K, B> client;
+  protected ISearchClient<D, K, B> client;
 
   protected ISearchTestFactory<B> modelFactory;
 

@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractSearchClientImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable, B extends BaseFilterRequestDTO>
     extends DomainClientImpl<D, K>
-    implements ISearchClient<D, E, K, B>, IClazzAware<D> {
+    implements ISearchClient<D, K, B>, IClazzAware<D> {
 
   @Getter
   private final Class<D> clazz;
