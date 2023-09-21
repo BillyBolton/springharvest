@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Import(value = {TestComponentScanningConfig.class})
 public class BooksModelFactoryImpl extends AbstractModelTestFactory<BookDTO, BookEntity, UUID>
-    implements IModelTestFactory<BookDTO, BookEntity, UUID> {
+    implements IModelTestFactory<BookDTO, UUID> {
 
   private final AuthorsCrudClient authorsCrudClient;
   private final AuthorsModelFactoryImpl authorsModelFactory;

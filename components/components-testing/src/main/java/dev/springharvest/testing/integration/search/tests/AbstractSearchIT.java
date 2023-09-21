@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable,
     B extends BaseFilterRequestDTO>
-    implements ISearchIT<D, E, K, B> {
+    implements ISearchIT {
 
   protected ISearchClient<D, E, K, B> client;
 

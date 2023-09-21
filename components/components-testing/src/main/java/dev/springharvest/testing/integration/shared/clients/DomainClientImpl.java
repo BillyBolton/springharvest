@@ -6,7 +6,7 @@ import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class DomainClientImpl<D extends BaseDTO<K>, K extends Serializable> implements IDomainClient<D, K>, IClazzAware<D> {
+public abstract class DomainClientImpl<D extends BaseDTO<K>, K extends Serializable> implements IDomainClient, IClazzAware<D> {
 
   protected D extractObject(ValidatableResponse response) {
     return response.statusCode(200)

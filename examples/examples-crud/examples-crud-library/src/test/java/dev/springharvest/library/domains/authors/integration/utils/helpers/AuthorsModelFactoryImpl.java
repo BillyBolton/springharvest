@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Import(value = {TestComponentScanningConfig.class})
 public class AuthorsModelFactoryImpl extends AbstractModelTestFactory<AuthorDTO, AuthorEntity, UUID>
-    implements IModelTestFactory<AuthorDTO, AuthorEntity, UUID> {
+    implements IModelTestFactory<AuthorDTO, UUID> {
 
   @Override
   public UUID getRandomId() {

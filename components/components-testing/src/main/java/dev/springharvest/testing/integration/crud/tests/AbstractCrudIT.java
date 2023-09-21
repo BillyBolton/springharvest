@@ -22,10 +22,10 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
 
   protected ICrudClient<D, E, K> client;
 
-  protected IModelTestFactory<D, E, K> modelFactory;
+  protected IModelTestFactory<D, K> modelFactory;
 
 
-  protected AbstractCrudIT(AbstractCrudClientImpl<D, E, K> client, IModelTestFactory<D, E, K> modelFactory) {
+  protected AbstractCrudIT(AbstractCrudClientImpl<D, E, K> client, IModelTestFactory<D, K> modelFactory) {
     this.client = client;
     this.modelFactory = modelFactory;
   }
