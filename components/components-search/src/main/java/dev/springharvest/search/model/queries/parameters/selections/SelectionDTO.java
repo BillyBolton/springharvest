@@ -22,19 +22,19 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class SelectionDTO extends BaseParameterDTO {
 
-    @Schema(name = "isAscending", description = "Set to true to make the sort in ascending order for this attribute.",
-            example = "true")
-    private Boolean isAscending;
+  @Schema(name = "isAscending", description = "Set to true to make the sort in ascending order for this attribute.",
+          example = "true")
+  private Boolean isAscending;
 
-    @Schema(name = "priority",
-            description = "The sorting priority for this attribute. The higher the number, the higher the priority.",
-            example = "0")
-    private Integer priority;
+  @Schema(name = "priority",
+          description = "The sorting priority for this attribute. The higher the number, the higher the priority.",
+          example = "0")
+  private Integer priority;
 
-    @Schema(name = "alias", description = "The alias of the field to sort on.", example = "entityName.id")
-    @Override
-    public String getAlias() {
-        return super.getAlias();
-    }
+  @Schema(name = "alias", description = "The alias of the field to sort on.", example = "entityName.id")
+  @Override
+  public String getAlias() {
+    return super.getAlias();
+  }
 
 }

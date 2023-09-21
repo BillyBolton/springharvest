@@ -13,24 +13,24 @@ import org.springframework.test.context.TestExecutionListener;
 
 public class LiquibaseTestExecutionListener implements TestExecutionListener {
 
-    @Override
-    public void beforeTestMethod(TestContext testContext) throws Exception {
-        JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
-        String url = jdbcTemplate.getDataSource().getConnection().getMetaData().getURL();
-        String user = jdbcTemplate.getDataSource().getConnection().getMetaData().getUserName();
-        String password = "test";  // Replace with actual password or get it dynamically
+  @Override
+  public void beforeTestMethod(TestContext testContext) throws Exception {
+    JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
+    String url = jdbcTemplate.getDataSource().getConnection().getMetaData().getURL();
+    String user = jdbcTemplate.getDataSource().getConnection().getMetaData().getUserName();
+    String password = "test";  // Replace with actual password or get it dynamically
 
-        try (var connection = jdbcTemplate.getDataSource().getConnection()) {
-            DatabaseConnection databaseConnection = new JdbcConnection(connection);
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(databaseConnection);
+    try (var connection = jdbcTemplate.getDataSource().getConnection()) {
+      DatabaseConnection databaseConnection = new JdbcConnection(connection);
+      Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(databaseConnection);
 
-            Liquibase liquibase =
-                    new Liquibase("db.changelog/db.changelog-master.yaml", new ClassLoaderResourceAccessor(), database);
+      Liquibase liquibase =
+          new Liquibase("db.changelog/db.changelog-master.yaml", new ClassLoaderResourceAccessor(), database);
 
-            // Drop all tables and re-run all changesets
-            liquibase.dropAll();
-            liquibase.update(new Contexts());
-        }
+      // Drop all tables and re-run all changesets
+      liquibase.dropAll();
+      liquibase.update(new Contexts());
     }
+  }
 
 }

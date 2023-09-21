@@ -1,7 +1,6 @@
 package dev.springharvest.search.model.queries.requests.search;
 
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestBO;
-
 import java.util.Set;
 
 /**
@@ -12,8 +11,8 @@ import java.util.Set;
  */
 public interface ISearchRequest<F extends BaseFilterRequestBO> {
 
-    Set<F> getFilters();
+  Set<F> getFilters();
 
-    void setFilters(Set<F> filters);
+  void setFilters(Set<F> filters);
 
 }

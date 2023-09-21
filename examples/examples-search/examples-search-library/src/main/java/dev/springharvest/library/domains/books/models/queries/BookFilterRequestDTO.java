@@ -16,10 +16,10 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class BookFilterRequestDTO extends BaseFilterRequestDTO {
 
-    private BookFilterDTO book;
+  private BookFilterDTO book;
 
-    private AuthorFilterDTO author;
+  private AuthorFilterDTO author;
 
-    private PublisherFilterDTO publisher;
+  private PublisherFilterDTO publisher;
 
 }

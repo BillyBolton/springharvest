@@ -7,4 +7,6 @@ import org.springframework.context.annotation.Import;
 
 @TestConfiguration
 @Import(value = {ScanTestingLibraryComponentsConfig.class, ScanSharedExampleComponentsConfig.class})
-public class TestComponentScanningConfig {}
+public class TestComponentScanningConfig {
+
+}

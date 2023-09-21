@@ -1,8 +1,7 @@
 package dev.springharvest.errors.models;
 
-import lombok.Builder;
-
 import java.io.Serializable;
+import lombok.Builder;
 
 /**
  * This class is used to represent the exception detail.
@@ -12,4 +11,5 @@ import java.io.Serializable;
  */
 @Builder
 public record ExceptionDetail(String field, String message) implements Serializable {
+
 }

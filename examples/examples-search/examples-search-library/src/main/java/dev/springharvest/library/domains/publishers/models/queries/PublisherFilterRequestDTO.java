@@ -14,6 +14,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class PublisherFilterRequestDTO extends BaseFilterRequestDTO {
 
-    private PublisherFilterDTO publisher;
+  private PublisherFilterDTO publisher;
 
 }

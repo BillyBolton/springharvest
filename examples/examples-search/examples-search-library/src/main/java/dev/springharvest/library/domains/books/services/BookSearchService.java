@@ -11,47 +11,46 @@ import dev.springharvest.search.model.queries.parameters.filters.FilterParameter
 import dev.springharvest.search.service.AbstractSearchService;
 import dev.springharvest.shared.domains.books.mappers.IBookMapper;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 @Service
 public class BookSearchService
-        extends AbstractSearchService<BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO, BookFilterDTO,
-        BookFilterBO> {
+    extends AbstractSearchService<BookEntity, UUID, BookFilterRequestDTO, BookFilterRequestBO, BookFilterDTO,
+    BookFilterBO> {
 
-    @Autowired
-    protected BookSearchService(IBookMapper baseMapper, BookSearchMapper filterMapper,
-                                BookSearchRepository searchRepository) {
-        super(filterMapper, searchRepository);
+  @Autowired
+  protected BookSearchService(IBookMapper baseMapper, BookSearchMapper filterMapper,
+                              BookSearchRepository searchRepository) {
+    super(filterMapper, searchRepository);
+  }
+
+  @Override
+  protected Set<BookFilterRequestDTO> buildUniqueFilters(BookEntity entity) {
+    Set<BookFilterRequestDTO> filters = new HashSet<>();
+
+    if (ObjectUtils.isNotEmpty(entity.getId())) {
+      filters.add(BookFilterRequestDTO.builder()
+                      .book(BookFilterDTO.builder()
+                                .id(FilterParameterDTO.builder()
+                                        .values(Set.of(entity.getId()))
+                                        .build())
+                                .build())
+                      .publisher(PublisherFilterDTO.builder()
+                                     .id(FilterParameterDTO.builder()
+                                             .values(Set.of(
+                                                 entity.getPublisher()
+                                                     .getId()))
+                                             .build())
+                                     .build())
+                      .build());
     }
 
-    @Override
-    protected Set<BookFilterRequestDTO> buildUniqueFilters(BookEntity entity) {
-        Set<BookFilterRequestDTO> filters = new HashSet<>();
-
-        if (ObjectUtils.isNotEmpty(entity.getId())) {
-            filters.add(BookFilterRequestDTO.builder()
-                                            .book(BookFilterDTO.builder()
-                                                               .id(FilterParameterDTO.builder()
-                                                                                     .values(Set.of(entity.getId()))
-                                                                                     .build())
-                                                               .build())
-                                            .publisher(PublisherFilterDTO.builder()
-                                                                         .id(FilterParameterDTO.builder()
-                                                                                               .values(Set.of(
-                                                                                                       entity.getPublisher()
-                                                                                                             .getId()))
-                                                                                               .build())
-                                                                         .build())
-                                            .build());
-        }
-
-        return filters;
-    }
+    return filters;
+  }
 
 }

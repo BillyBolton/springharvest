@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"dev.springharvest.library", "dev.springharvest.shared"})
 public class LibrarySearchApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(LibrarySearchApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(LibrarySearchApplication.class, args);
+  }
 
 }

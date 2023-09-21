@@ -20,25 +20,25 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Page implements IPageable {
 
-    @Schema(name = "pageNumber", description = "The page number to return. The first page is 1.", defaultValue = "1",
-            example = "1")
-    @Builder.Default
-    private int pageNumber = 1;
+  @Schema(name = "pageNumber", description = "The page number to return. The first page is 1.", defaultValue = "1",
+          example = "1")
+  @Builder.Default
+  private int pageNumber = 1;
 
-    @Schema(name = "pageSize", description = "The number of items to return per page.", defaultValue = "25",
-            example = "25")
-    @Builder.Default
-    private int pageSize = 25;
+  @Schema(name = "pageSize", description = "The number of items to return per page.", defaultValue = "25",
+          example = "25")
+  @Builder.Default
+  private int pageSize = 25;
 
 
-    @JsonIgnore
-    public int getFirstResult() {
-        return (pageNumber - 1) * pageSize;
-    }
+  @JsonIgnore
+  public int getFirstResult() {
+    return (pageNumber - 1) * pageSize;
+  }
 
-    @JsonIgnore
-    public int getMaxResults() {
-        return pageSize;
-    }
+  @JsonIgnore
+  public int getMaxResults() {
+    return pageSize;
+  }
 
 }

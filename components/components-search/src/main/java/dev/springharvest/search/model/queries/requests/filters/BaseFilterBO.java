@@ -15,4 +15,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 public abstract class BaseFilterBO implements IFilterable {
+
 }

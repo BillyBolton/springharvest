@@ -5,4 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"dev.springharvest.testing"})
-public class ScanTestingLibraryComponentsConfig {}
+public class ScanTestingLibraryComponentsConfig {
+
+}

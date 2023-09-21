@@ -7,5 +7,6 @@ package dev.springharvest.search.model.queries.parameters.selections;
  * @since 1.0
  */
 public interface ISelectionDTO {
+
 }
 

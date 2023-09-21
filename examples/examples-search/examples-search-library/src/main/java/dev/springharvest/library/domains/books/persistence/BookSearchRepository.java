@@ -5,16 +5,15 @@ import dev.springharvest.library.domains.books.models.entities.BookEntityMetadat
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestBO;
 import dev.springharvest.search.persistence.AbstractCriteriaSearchDaoImpl;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookSearchRepository extends AbstractCriteriaSearchDaoImpl<BookEntity, UUID, BookFilterRequestBO> {
 
-    BookSearchRepository(BookRootTupleTransformer tupleTransformer, BookEntityMetadata entityMetadata) {
-        super(entityMetadata.getDomainName(), tupleTransformer);
-    }
+  BookSearchRepository(BookRootTupleTransformer tupleTransformer, BookEntityMetadata entityMetadata) {
+    super(entityMetadata.getDomainName(), tupleTransformer);
+  }
 
 }
 

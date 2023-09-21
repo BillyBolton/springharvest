@@ -2,9 +2,10 @@ package dev.springharvest.library.domains.books.persistence;
 
 import dev.springharvest.crud.persistence.IBaseCrudRepository;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
+import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public interface IBookRepository extends IBaseCrudRepository<BookEntity, UUID> {}
+public interface IBookRepository extends IBaseCrudRepository<BookEntity, UUID> {
+
+}

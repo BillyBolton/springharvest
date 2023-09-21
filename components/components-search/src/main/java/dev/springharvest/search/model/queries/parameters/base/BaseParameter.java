@@ -18,16 +18,16 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public abstract class BaseParameter {
 
-    @JsonIgnore
-    protected Boolean isJoined;
+  @JsonIgnore
+  protected Boolean isJoined;
 
-    protected String alias;
+  protected String alias;
 
-    @JsonIgnore
-    protected String path;
+  @JsonIgnore
+  protected String path;
 
-    @JsonIgnore
-    protected Class<?> clazz;
+  @JsonIgnore
+  protected Class<?> clazz;
 
 }
 

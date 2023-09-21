@@ -15,5 +15,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 public abstract class BaseFilterDTO {
+
 }
 

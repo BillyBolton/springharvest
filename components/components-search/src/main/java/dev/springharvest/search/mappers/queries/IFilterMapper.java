@@ -87,7 +87,7 @@ public interface IFilterMapper<RD extends BaseFilterRequestDTO, RB extends BaseF
     try {
       // Iterate through all fields in the object's class
       for (Field field : object.getClass()
-                               .getDeclaredFields()) {
+          .getDeclaredFields()) {
         // Make the field accessible (in case it's private)
         field.setAccessible(true);
 

@@ -14,6 +14,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public class AuthorFilterRequestBO extends BaseFilterRequestBO {
 
-    private AuthorFilterBO author;
+  private AuthorFilterBO author;
 
 }

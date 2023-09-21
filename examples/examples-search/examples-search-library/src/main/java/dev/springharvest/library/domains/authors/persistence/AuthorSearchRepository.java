@@ -5,15 +5,14 @@ import dev.springharvest.library.domains.authors.models.entities.AuthorEntityMet
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestBO;
 import dev.springharvest.search.persistence.AbstractCriteriaSearchDaoImpl;
 import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class AuthorSearchRepository extends AbstractCriteriaSearchDaoImpl<AuthorEntity, UUID, AuthorFilterRequestBO> {
 
-    AuthorSearchRepository(AuthorRootTupleTransformer tupleTransformer, AuthorEntityMetadata entityMetadata) {
-        super(entityMetadata.getDomainName(), tupleTransformer);
-    }
+  AuthorSearchRepository(AuthorRootTupleTransformer tupleTransformer, AuthorEntityMetadata entityMetadata) {
+    super(entityMetadata.getDomainName(), tupleTransformer);
+  }
 
 }

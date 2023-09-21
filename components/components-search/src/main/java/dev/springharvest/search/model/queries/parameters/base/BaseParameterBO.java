@@ -19,9 +19,9 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 public abstract class BaseParameterBO extends BaseParameter implements IBaseParameterBO {
 
-    public boolean isJoined() {
-        return isJoined;
-    }
+  public boolean isJoined() {
+    return isJoined;
+  }
 
 }
 

@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public abstract class DomainModel {
 
-    public abstract boolean isEmpty();
+  public abstract boolean isEmpty();
 
 }
 
