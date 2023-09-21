@@ -5,7 +5,6 @@ import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.authors.integration.utils.clients.AuthorsCrudClient;
 import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsModelFactoryImpl;
 import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
-import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
@@ -23,7 +22,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
     listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
     mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @TestPropertySource(locations = "classpath:application.properties")
-class AuthorsCrudIT extends AbstractCrudIT<AuthorDTO, AuthorEntity, UUID> {
+class AuthorsCrudIT extends AbstractCrudIT<AuthorDTO, UUID> {
 
   @Autowired
   public AuthorsCrudIT(AuthorsCrudClient client, AuthorsModelFactoryImpl modelFactory) {

@@ -7,7 +7,6 @@ import dev.springharvest.testing.integration.crud.clients.AbstractCrudClientImpl
 import dev.springharvest.testing.integration.crud.clients.ICrudClient;
 import dev.springharvest.testing.integration.shared.helpers.IModelTestFactory;
 import dev.springhavest.common.models.dtos.BaseDTO;
-import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import jakarta.annotation.Nullable;
 import java.io.Serializable;
@@ -17,8 +16,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
-    implements ICrudIT<D, E, K> {
+public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializable>
+    implements ICrudIT<D, K> {
 
   protected ICrudClient<D, K> client;
 
@@ -32,10 +31,8 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
 
   protected void softlyAssert(SoftAssertions softly, @Nullable Object actual, @Nullable Object expected) {
     if (actual != null && expected != null) {
-      if (actual instanceof String && expected instanceof String) {
-        String actualString = capitalizeFirstLetters((String) actual);
-        String expectedString = capitalizeFirstLetters((String) expected);
-        softly.assertThat(actualString).isEqualTo(expectedString);
+      if (actual instanceof String actualString && expected instanceof String expectedString) {
+        softly.assertThat(capitalizeFirstLetters(actualString)).isEqualTo(capitalizeFirstLetters(expectedString));
       } else {
         softly.assertThat(actual).isEqualTo(expected);
       }
@@ -73,7 +70,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
         int expectedResponseCode = 500;
         ValidatableResponse response = client.create(modelFactory.buildInvalidDto());
         response.statusCode(expectedResponseCode);
-        
+
         D toCreate = modelFactory.buildValidDto();
         D created = client.createAndExtract(toCreate);
 
@@ -189,11 +186,9 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, E extends BaseEntity<
   }
 
   public void softlyAssert(SoftAssertions softly, D actual, D expected) {
-
-    assertNotNull(actual);
-    assertNotNull(expected);
+    softly.assertThat(actual).isNotNull();
+    softly.assertThat(expected).isNotNull();
 
   }
-
-
+  
 }
