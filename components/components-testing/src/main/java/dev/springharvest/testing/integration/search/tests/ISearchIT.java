@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.search;
+package dev.springharvest.testing.integration.search.tests;
 
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springhavest.common.models.dtos.BaseDTO;

@@ -9,6 +9,7 @@ import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
+import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -27,6 +28,15 @@ class BooksCrudIT extends AbstractCrudIT<BookDTO, BookEntity, UUID> {
   @Autowired
   public BooksCrudIT(BooksCrudClient clientHelper, BooksModelFactoryImpl testHelper) {
     super(clientHelper, testHelper);
+  }
+
+  @Override
+  public void softlyAssert(SoftAssertions softly, BookDTO actual, BookDTO expected) {
+    super.softlyAssert(softly, actual, expected);
+    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+    softly.assertThat(actual.getTitle()).isEqualToIgnoringCase(expected.getTitle());
+    softly.assertThat(actual.getAuthor()).isEqualTo(expected.getAuthor());
+    softly.assertThat(actual.getPublisher()).isEqualTo(expected.getPublisher());
   }
 
 }

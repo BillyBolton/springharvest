@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.search;
+package dev.springharvest.testing.integration.search.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -6,14 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.pages.Page;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
-import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
+import dev.springharvest.testing.integration.search.clients.AbstractSearchClientImpl;
+import dev.springharvest.testing.integration.search.clients.ISearchClient;
 import dev.springharvest.testing.integration.search.helpers.ISearchTestFactory;
-import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
-import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,12 +22,14 @@ public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K e
     B extends BaseFilterRequestDTO>
     implements ISearchIT<D, E, K, B> {
 
-  protected RestClientImpl clientHelper;
-  protected ISearchTestFactory<D, E, K, B> testHelper;
+  protected ISearchClient<D, E, K, B> client;
 
-  protected AbstractSearchIT(RestClientImpl clientHelper, AbstractSearchTestFactoryImpl<D, E, K, B> testHelper) {
-    this.clientHelper = clientHelper;
-    this.testHelper = testHelper;
+  protected ISearchTestFactory<D, E, K, B> modelFactory;
+
+
+  protected AbstractSearchIT(AbstractSearchClientImpl<D, E, K, B> client, ISearchTestFactory<D, E, K, B> modelFactory) {
+    this.client = client;
+    this.modelFactory = modelFactory;
   }
 
   @Nested
@@ -51,25 +51,14 @@ public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K e
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void canPostSearchQuery(boolean selectAll) {
-
-      int expectedResponseCode = 200;
-
       SearchRequestDTO.SearchRequestDTOBuilder request = SearchRequestDTO.builder()
           .page(Page.builder().build())
           .selections(
-              testHelper.buildValidSelections(
+              modelFactory.buildValidSelections(
                   selectAll))
           .filters(
-              Set.of(testHelper.buildValidFilters()));
-
-      ValidatableResponse response = testHelper.search(request.build());
-      List<D> found = response.statusCode(expectedResponseCode)
-          .extract()
-          .body()
-          .jsonPath()
-          .getList("", testHelper.getClazz());
-
-      assertEquals(1, found.size());
+              Set.of(modelFactory.buildValidFilters()));
+      assertEquals(1, client.searchAndExtract(request.build()).size());
     }
 
   }

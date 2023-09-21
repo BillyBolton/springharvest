@@ -9,19 +9,22 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
     implements ICrudClient<D, E, K>, IClazzAware<D> {
 
+  @Getter
+  protected Class<D> clazz;
   protected RestClientImpl clientHelper;
   protected IUriFactory uriFactory;
 
-  // Do not remove Autowired here
   @Autowired(required = true)
-  protected AbstractCrudClientImpl(RestClientImpl clientHelper, UriFactory uriFactory) {
+  protected AbstractCrudClientImpl(RestClientImpl clientHelper, UriFactory uriFactory, Class<D> clazz) {
     this.clientHelper = clientHelper;
     this.uriFactory = uriFactory;
+    this.clazz = clazz;
   }
 
   @Override

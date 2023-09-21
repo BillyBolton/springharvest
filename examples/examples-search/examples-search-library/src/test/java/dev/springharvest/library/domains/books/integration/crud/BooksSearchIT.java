@@ -2,13 +2,13 @@ package dev.springharvest.library.domains.books.integration.crud;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
-import dev.springharvest.library.domains.books.integration.utils.helpers.BooksSearchTestFactory;
+import dev.springharvest.library.domains.books.integration.utils.clients.BooksSearchClient;
+import dev.springharvest.library.domains.books.integration.utils.helpers.BooksSearchModelTestFactory;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
 import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import dev.springharvest.testing.constants.TestConstants;
-import dev.springharvest.testing.integration.search.AbstractSearchIT;
-import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
+import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -29,8 +29,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 class BooksSearchIT extends AbstractSearchIT<BookDTO, BookEntity, UUID, BookFilterRequestDTO> {
 
   @Autowired
-  public BooksSearchIT(RestClientImpl clientHelper, BooksSearchTestFactory testHelper) {
-    super(clientHelper, testHelper);
+  public BooksSearchIT(BooksSearchClient searchClient, BooksSearchModelTestFactory testHelper) {
+    super(searchClient, testHelper);
   }
 
   @Test

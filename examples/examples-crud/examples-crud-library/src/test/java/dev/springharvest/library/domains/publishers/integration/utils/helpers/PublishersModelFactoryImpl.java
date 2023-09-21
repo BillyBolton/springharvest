@@ -8,7 +8,6 @@ import dev.springharvest.testing.integration.shared.helpers.AbstractModelTestFac
 import dev.springharvest.testing.integration.shared.helpers.IModelTestFactory;
 import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.assertj.core.api.SoftAssertions;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
@@ -16,18 +15,6 @@ import org.springframework.stereotype.Component;
 @Import(value = {TestComponentScanningConfig.class})
 public class PublishersModelFactoryImpl extends AbstractModelTestFactory<PublisherDTO, PublisherEntity, UUID>
     implements IModelTestFactory<PublisherDTO, PublisherEntity, UUID> {
-
-  @Override
-  public Class<PublisherDTO> getClazz() {
-    return PublisherDTO.class;
-  }
-
-  @Override
-  public void softlyAssert(SoftAssertions softly, PublisherDTO actual, PublisherDTO expected) {
-    super.softlyAssert(softly, actual, expected);
-    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
-    softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
-  }
 
   @Override
   public UUID getRandomId() {
@@ -55,16 +42,6 @@ public class PublishersModelFactoryImpl extends AbstractModelTestFactory<Publish
   @Override
   public PublisherDTO buildInvalidDto() {
     return PublisherDTO.builder().build();
-  }
-
-  @Override
-  public PublisherEntity buildValidEntity() {
-    return PublisherEntity.builder().name(RandomStringUtils.randomAlphabetic(5)).build();
-  }
-
-  @Override
-  public PublisherEntity buildInvalidEntity() {
-    return PublisherEntity.builder().build();
   }
 
 }

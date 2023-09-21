@@ -2,6 +2,7 @@ package dev.springharvest.testing.integration.shared.clients;
 
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -81,6 +82,12 @@ public interface IRestClient {
    */
   ValidatableResponse postAndThen(String uri, Object body, Map<String, Object> params, Object... pathParams);
 
+  ValidatableResponse postAndThen(String uri, String name, File file);
+
+  ValidatableResponse postAndThen(String uri, Object body, Map<String, Object> params);
+
+  ValidatableResponse postAndThen(String uri, String name, File file, String mimeType);
+
   /**
    * If the body is not null, then set the body and return the response, otherwise just return the response.
    *
@@ -89,5 +96,7 @@ public interface IRestClient {
    * @return A ValidatableResponse object
    */
   ValidatableResponse postAndThen(String uri, Object body, Object... pathParams);
+
+  RequestSpecification givenMultiPart();
 
 }

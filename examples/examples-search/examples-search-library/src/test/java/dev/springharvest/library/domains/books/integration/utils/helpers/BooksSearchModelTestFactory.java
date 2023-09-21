@@ -7,32 +7,20 @@ import dev.springharvest.library.domains.books.models.queries.BookFilterRequestD
 import dev.springharvest.search.model.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
-import dev.springharvest.shared.domains.books.constants.BookConstants;
 import dev.springharvest.shared.domains.books.models.dtos.BookDTO;
 import dev.springharvest.shared.domains.books.models.entities.BookEntity;
 import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
-import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
-import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.assertj.core.api.SoftAssertions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class BooksSearchTestFactory
+public class BooksSearchModelTestFactory
     extends AbstractSearchTestFactoryImpl<BookDTO, BookEntity, UUID, BookFilterRequestDTO> {
-
-  @Autowired(required = true)
-  protected BooksSearchTestFactory(RestClientImpl clientHelper) {
-    super(clientHelper, new UriFactory(BookConstants.Controller.DOMAIN_CONTEXT));
-  }
-
 
   @Override
   public String getIdPath() {
@@ -64,58 +52,6 @@ public class BooksSearchTestFactory
                 SelectionDTO.builder().alias(BookEntityMetadata.Paths.BOOK_TITLE).build()));
 
     return selections;
-  }
-
-  @Override
-  public Class<BookDTO> getClazz() {
-    return BookDTO.class;
-  }
-
-  @Override
-  public UUID getRandomId() {
-    return UUID.randomUUID();
-  }
-
-  @Override
-  public BookDTO buildValidDto() {
-    return BookDTO.builder().id(getRandomId()).title(RandomStringUtils.randomAlphabetic(5)).build();
-  }
-
-  @Override
-  public BookDTO buildValidUpdatedDto(UUID id) {
-    BookDTO dto = buildValidDto();
-    dto.setId(id);
-    return dto;
-  }
-
-  @Override
-  public BookDTO buildValidUpdatedDto(BookDTO dto) {
-    dto.setTitle(RandomStringUtils.randomAlphabetic(5));
-    return dto;
-  }
-
-  @Override
-  public BookDTO buildInvalidDto() {
-    return BookDTO.builder().build();
-  }
-
-  @Override
-  public BookEntity buildValidEntity() {
-    return BookEntity.builder().title(RandomStringUtils.randomAlphabetic(5)).build();
-  }
-
-  @Override
-  public BookEntity buildInvalidEntity() {
-    return BookEntity.builder().build();
-  }
-
-  @Override
-  public void softlyAssert(SoftAssertions softly, BookDTO actual, BookDTO expected) {
-    super.softlyAssert(softly, actual, expected);
-    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
-    softly.assertThat(actual.getTitle()).isEqualToIgnoringCase(expected.getTitle());
-    softly.assertThat(actual.getAuthor()).isEqualTo(expected.getAuthor());
-    softly.assertThat(actual.getPublisher()).isEqualTo(expected.getPublisher());
   }
 
 }

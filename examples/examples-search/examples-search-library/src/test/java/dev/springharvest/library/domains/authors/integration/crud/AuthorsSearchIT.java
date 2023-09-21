@@ -2,13 +2,13 @@ package dev.springharvest.library.domains.authors.integration.crud;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
-import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsSearchTestFactory;
+import dev.springharvest.library.domains.authors.integration.utils.clients.AuthorsSearchClient;
+import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsSearchModelTestFactory;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.shared.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.shared.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.testing.constants.TestConstants;
-import dev.springharvest.testing.integration.search.AbstractSearchIT;
-import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
+import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -29,8 +29,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 class AuthorsSearchIT extends AbstractSearchIT<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO> {
 
   @Autowired
-  public AuthorsSearchIT(RestClientImpl clientHelper, AuthorsSearchTestFactory testHelper) {
-    super(clientHelper, testHelper);
+  public AuthorsSearchIT(AuthorsSearchClient searchClient, AuthorsSearchModelTestFactory testHelper) {
+    super(searchClient, testHelper);
   }
 
   @Test

@@ -10,6 +10,7 @@ import dev.springharvest.shared.domains.publishers.models.entities.PublisherEnti
 import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
+import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -28,6 +29,13 @@ class PublishersCrudIT extends AbstractCrudIT<PublisherDTO, PublisherEntity, UUI
   @Autowired
   public PublishersCrudIT(PublishersCrudClient client, PublishersModelFactoryImpl modelFactory) {
     super(client, modelFactory);
+  }
+
+  @Override
+  public void softlyAssert(SoftAssertions softly, PublisherDTO actual, PublisherDTO expected) {
+    super.softlyAssert(softly, actual, expected);
+    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+    softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
   }
 
 }
