@@ -6,7 +6,7 @@ import dev.springharvest.search.model.queries.requests.filters.BaseFilterDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestBO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
-import dev.springharvest.search.persistence.AbstractCriteriaSearchDaoImpl;
+import dev.springharvest.search.persistence.AbstractCriteriaSearchDao;
 import dev.springharvest.search.persistence.ICriteriaSearchRepository;
 import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;
@@ -23,12 +23,12 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
     implements ISearchService<E, K, RD> {
 
   protected ISearchMapper<RD, RB, FD, FB> filterMapper;
-  protected ICriteriaSearchRepository<E, RB> criteriaSearchRepository;
+  protected ICriteriaSearchRepository<E, RB> searchRepository;
 
   protected AbstractSearchService(ISearchMapper<RD, RB, FD, FB> filterMapper,
-                                  AbstractCriteriaSearchDaoImpl<E, K, RB> criteriaSearchRepository) {
+                                  AbstractCriteriaSearchDao<E, K, RB> searchRepository) {
     this.filterMapper = filterMapper;
-    this.criteriaSearchRepository = criteriaSearchRepository;
+    this.searchRepository = searchRepository;
   }
 
   protected Class<E> getClazz() {
@@ -48,13 +48,13 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
         SearchRequestDTO.<RD>builder().filters(buildUniqueFilters(entity)).build();
 
     return !searchRequestDTO.getFilters().isEmpty() &&
-           criteriaSearchRepository.existsByUnique(filterMapper.toSearchRequest(searchRequestDTO));
+           searchRepository.existsByUnique(filterMapper.toSearchRequest(searchRequestDTO));
   }
 
   @Override
   public List<E> search(SearchRequestDTO<RD> filterRequest) {
     var searchRequest = filterMapper.toSearchRequest(filterRequest);
-    return criteriaSearchRepository.search(searchRequest);
+    return searchRepository.search(searchRequest);
 
   }
 

@@ -25,20 +25,20 @@ public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity
     FB extends BaseFilterBO>
     implements ISearchController<RD, D, K> {
 
-  protected IBaseModelMapper<D, E, K> baseModelMapper;
-  protected AbstractSearchService<E, K, RD, RB, FD, FB> baseService;
+  protected IBaseModelMapper<D, E, K> modelMapper;
+  protected AbstractSearchService<E, K, RD, RB, FD, FB> searchService;
 
-  protected AbstractSearchController(IBaseModelMapper<D, E, K> baseModelMapper,
-                                     AbstractSearchService<E, K, RD, RB, FD, FB> baseService) {
-    this.baseModelMapper = baseModelMapper;
-    this.baseService = baseService;
+  protected AbstractSearchController(IBaseModelMapper<D, E, K> modelMapper,
+                                     AbstractSearchService<E, K, RD, RB, FD, FB> searchService) {
+    this.modelMapper = modelMapper;
+    this.searchService = searchService;
   }
 
   @Override
   @PostMapping(value = {ControllerEndpoints.SEARCH}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> search(@RequestBody SearchRequestDTO<RD> searchQuery) {
-    List<D> dtos = baseModelMapper.entityToDto(baseService.search(searchQuery));
+    List<D> dtos = modelMapper.entityToDto(searchService.search(searchQuery));
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
   }
 

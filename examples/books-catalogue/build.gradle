@@ -1,0 +1,10 @@
+plugins {
+}
+
+bootRun {
+    doFirst {
+        println "Executing bootRun with:"
+        println "Group: ${project.group}"
+        println "Version: ${project.version}"
+    }
+}

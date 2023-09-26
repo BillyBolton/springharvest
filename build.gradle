@@ -24,8 +24,19 @@ subPropertiesFile.withInputStream {
 allprojects {
     apply plugin: 'org.sonarqube'
 
-    group = env.getProperty("APPLICATION_GROUP")
-    version = env.getProperty("APPLICATION_VERSION")
+    group = env.APPLICATION_GROUP
+    version = env.APPLICATION_VERSION
+
+    def javaVersion = JavaVersion.toVersion(env.JAVA_VERSION)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    compileJava {
+        options.compilerArgs += [
+                '-Amapstruct.defaultComponentModel=spring'
+        ]
+        options.encoding = env.ENCODING
+    }
 
     java {
         sourceCompatibility = env.getProperty("JAVA_VERSION")
