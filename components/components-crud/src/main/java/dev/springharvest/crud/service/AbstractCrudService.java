@@ -16,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Serializable>
     implements ICrudService<E, K> {
 
-  protected ICrudRepository<E, K> baseRepository;
+  protected ICrudRepository<E, K> crudRepository;
 
-  protected AbstractCrudService(ICrudRepository<E, K> baseRepository) {
-    this.baseRepository = baseRepository;
+  protected AbstractCrudService(ICrudRepository<E, K> crudRepository) {
+    this.crudRepository = crudRepository;
   }
 
 
@@ -30,34 +30,34 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Override
   public long count() {
-    return baseRepository.count();
+    return crudRepository.count();
   }
 
   @Override
   public boolean existsById(K id) {
-    return baseRepository.existsById(id);
+    return crudRepository.existsById(id);
   }
 
   @Override
   public Optional<E> findById(K id) {
-    return baseRepository.findById(id);
+    return crudRepository.findById(id);
   }
 
   @Override
   public List<E> findAllByIds(List<K> ids) {
-    return baseRepository.findAllById(ids);
+    return crudRepository.findAllById(ids);
   }
 
   @Override
   public List<E> findAll() {
-    return baseRepository.findAll();
+    return crudRepository.findAll();
   }
 
   @Transactional
   public E create(@Valid E entity) {
     entity = beforeCreation(entity);
     try {
-      return baseRepository.save(entity);
+      return crudRepository.save(entity);
     } catch (EntityExistsException e) {
       log.error("Entity already exists", e);
       throw e;
@@ -66,12 +66,12 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Transactional
   public List<E> create(@Valid List<E> entities) {
-    return baseRepository.saveAll(beforeCreation(entities));
+    return crudRepository.saveAll(beforeCreation(entities));
   }
 
   @Transactional
   public E update(@Valid E entity) {
-    return baseRepository.save(beforeUpdate(entity));
+    return crudRepository.save(beforeUpdate(entity));
   }
 
   @Transactional
@@ -81,12 +81,12 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Transactional
   public void deleteById(K id) {
-    baseRepository.deleteById(id);
+    crudRepository.deleteById(id);
   }
 
   @Transactional
   public void deleteById(List<K> ids) {
-    baseRepository.deleteAllById(ids);
+    crudRepository.deleteAllById(ids);
   }
 
   protected E beforeUpdate(E source) {

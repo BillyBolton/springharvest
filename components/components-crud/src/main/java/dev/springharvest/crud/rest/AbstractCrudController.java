@@ -39,12 +39,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
     implements ICrudController<D, K> {
 
-  protected IBaseModelMapper<D, E, K> baseModelMapper;
+  protected IBaseModelMapper<D, E, K> modelMapper;
   protected AbstractCrudService<E, K> crudService;
 
-  protected AbstractCrudController(IBaseModelMapper<D, E, K> baseModelMapper,
+  protected AbstractCrudController(IBaseModelMapper<D, E, K> modelMapper,
                                    AbstractCrudService<E, K> crudService) {
-    this.baseModelMapper = baseModelMapper;
+    this.modelMapper = modelMapper;
     this.crudService = crudService;
   }
 
@@ -67,7 +67,7 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                                .build()))
           .build();
     }
-    D dto = baseModelMapper.entityToDto(entity.get());
+    D dto = modelMapper.entityToDto(entity.get());
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dto);
   }
 
@@ -75,25 +75,25 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @GetMapping(value = {CrudControllerUri.FIND_ALL}, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> findAll() {
     List<E> entities = crudService.findAll();
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entities));
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entities));
   }
 
   @Override
   @PostMapping(value = {CrudControllerUri.CREATE}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<D> create(@RequestBody(required = true) D dto) {
-    E entity = baseModelMapper.dtoToEntity(dto);
+    E entity = modelMapper.dtoToEntity(dto);
     entity = crudService.create(entity);
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entity));
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entity));
   }
 
   @Override
   @PostMapping(value = {CrudControllerUri.CREATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> createAll(@RequestBody(required = true) List<D> dtos) {
-    List<E> entities = baseModelMapper.dtoToEntity(dtos);
+    List<E> entities = modelMapper.dtoToEntity(dtos);
     entities = crudService.create(entities);
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entities));
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entities));
   }
 
   @Override
@@ -101,18 +101,18 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                 produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<D> update(@PathVariable(required = true) K id, @RequestBody(required = true) D dto) {
     dto.setId(id);
-    E entity = baseModelMapper.dtoToEntity(dto);
+    E entity = modelMapper.dtoToEntity(dto);
     entity = crudService.update(entity);
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entity));
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entity));
   }
 
   @Override
   @PatchMapping(value = {CrudControllerUri.UPDATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> updateAll(@RequestBody(required = true) List<D> dtos) {
-    List<E> entities = baseModelMapper.dtoToEntity(dtos);
+    List<E> entities = modelMapper.dtoToEntity(dtos);
     entities = crudService.update(entities);
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entities));
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entities));
   }
 
   @Override
