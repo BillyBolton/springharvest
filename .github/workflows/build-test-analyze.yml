@@ -35,7 +35,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew :examples:examples-search:examples-search-library:build -x test
+        run: ./gradlew ${{ matrix.submodule }}:build -x test
 
   test:
     needs: build
@@ -77,4 +77,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew :examples:books-catalogue:test sonar
+        run: ./gradlew ${{ matrix.submodule }}:test sonar
