@@ -24,10 +24,12 @@ public abstract class BookSearchMapper
   private BookEntityMetadata entityMetadata;
 
 
+  @Override
   public Class<?> getClazz(String path) {
     return globalClazzResolver.getClazz(path);
   }
 
+  @Override
   public Set<String> getRoots() {
     return entityMetadata.getRootPaths();
   }

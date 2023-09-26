@@ -5,7 +5,6 @@ import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.authors.integration.utils.clients.AuthorsSearchClient;
 import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorsSearchModelTestFactory;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
-import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.testing.constants.TestConstants;
 import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
@@ -26,7 +25,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
     listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
     mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @TestPropertySource(locations = "classpath:application.properties")
-class AuthorsSearchIT extends AbstractSearchIT<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO> {
+class AuthorsSearchIT extends AbstractSearchIT<AuthorDTO, UUID, AuthorFilterRequestDTO> {
 
   @Autowired
   public AuthorsSearchIT(AuthorsSearchClient searchClient, AuthorsSearchModelTestFactory testHelper) {

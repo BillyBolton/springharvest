@@ -10,7 +10,6 @@ import dev.springharvest.testing.integration.search.clients.AbstractSearchClient
 import dev.springharvest.testing.integration.search.clients.ISearchClient;
 import dev.springharvest.testing.integration.search.helpers.ISearchTestFactory;
 import dev.springhavest.common.models.dtos.BaseDTO;
-import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
@@ -18,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class AbstractSearchIT<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable,
+public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable,
     B extends BaseFilterRequestDTO>
     implements ISearchIT {
 
