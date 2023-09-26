@@ -18,8 +18,8 @@ public class PublisherDTO extends BaseDTO<UUID> {
   @Schema(name = "name", description = "The name of the publisher.", example = "Random House")
   protected String name;
 
-  @Override
   @Schema(name = "id", description = "The id of the publisher.", example = "00000000-0000-0000-0000-000000000001")
+  @Override
   public UUID getId() {
     return id;
   }
