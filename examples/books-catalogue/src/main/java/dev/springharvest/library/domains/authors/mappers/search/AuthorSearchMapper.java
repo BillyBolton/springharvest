@@ -1,11 +1,11 @@
 package dev.springharvest.library.domains.authors.mappers.search;
 
+import dev.springharvest.library.beans.GlobalClazzResolver;
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterBO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestBO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
-import dev.springharvest.library.global.GlobalClazzResolver;
 import dev.springharvest.search.mappers.queries.ISearchMapper;
 import java.util.Set;
 import org.mapstruct.Builder;

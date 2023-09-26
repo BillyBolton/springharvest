@@ -1,4 +1,4 @@
-package dev.springharvest.library.global;
+package dev.springharvest.library.beans;
 
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;

@@ -1,12 +1,12 @@
 package dev.springharvest.library.domains.publishers.mappers.search;
 
 
+import dev.springharvest.library.beans.GlobalClazzResolver;
 import dev.springharvest.library.domains.publishers.models.entities.PublisherEntityMetadata;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterDTO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
-import dev.springharvest.library.global.GlobalClazzResolver;
 import dev.springharvest.search.mappers.queries.ISearchMapper;
 import java.util.Set;
 import org.mapstruct.Builder;
