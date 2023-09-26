@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = AuthorConstants.Controller.TAG)
 @RequestMapping(AuthorConstants.Controller.DOMAIN_CONTEXT)
-public class AuthorControllerImpl extends AbstractBaseCrudController<AuthorDTO, AuthorEntity, UUID> {
+public class AuthorCrudControllerImpl extends AbstractBaseCrudController<AuthorDTO, AuthorEntity, UUID> {
 
-  protected AuthorControllerImpl(IAuthorMapper baseModelMapper, AuthorCrudService baseService) {
+  protected AuthorCrudControllerImpl(IAuthorMapper baseModelMapper, AuthorCrudService baseService) {
     super(baseModelMapper, baseService);
   }
 

@@ -6,6 +6,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IAuthorRepository extends IBaseCrudRepository<AuthorEntity, UUID> {
+public interface IAuthorCrudRepository extends IBaseCrudRepository<AuthorEntity, UUID> {
 
 }

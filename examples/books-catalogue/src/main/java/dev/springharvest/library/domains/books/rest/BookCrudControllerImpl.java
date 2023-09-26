@@ -5,7 +5,7 @@ import dev.springharvest.library.domains.books.constants.BookConstants;
 import dev.springharvest.library.domains.books.mappers.IBookMapper;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
-import dev.springharvest.library.domains.books.services.BookService;
+import dev.springharvest.library.domains.books.services.BookCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = BookConstants.Controller.TAG)
 @RequestMapping(BookConstants.Controller.DOMAIN_CONTEXT)
-public class BookControllerImpl extends AbstractBaseCrudController<BookDTO, BookEntity, UUID> {
+public class BookCrudControllerImpl extends AbstractBaseCrudController<BookDTO, BookEntity, UUID> {
 
-  protected BookControllerImpl(IBookMapper baseModelMapper, BookService baseService) {
+  protected BookCrudControllerImpl(IBookMapper baseModelMapper, BookCrudService baseService) {
     super(baseModelMapper, baseService);
   }
 

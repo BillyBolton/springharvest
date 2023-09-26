@@ -6,6 +6,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IBookRepository extends IBaseCrudRepository<BookEntity, UUID> {
+public interface IBookCrudRepository extends IBaseCrudRepository<BookEntity, UUID> {
 
 }

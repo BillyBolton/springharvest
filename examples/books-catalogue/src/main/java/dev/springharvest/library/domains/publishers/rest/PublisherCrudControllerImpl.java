@@ -5,7 +5,7 @@ import dev.springharvest.library.domains.publishers.constants.PublisherConstants
 import dev.springharvest.library.domains.publishers.mappers.IPublisherMapper;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.library.domains.publishers.models.entities.PublisherEntity;
-import dev.springharvest.library.domains.publishers.services.PublisherService;
+import dev.springharvest.library.domains.publishers.services.PublisherCrudService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = PublisherConstants.Controller.TAG)
 @RequestMapping(PublisherConstants.Controller.DOMAIN_CONTEXT)
-public class PublisherControllerImpl extends AbstractBaseCrudController<PublisherDTO, PublisherEntity, UUID> {
+public class PublisherCrudControllerImpl extends AbstractBaseCrudController<PublisherDTO, PublisherEntity, UUID> {
 
-  protected PublisherControllerImpl(IPublisherMapper baseModelMapper, PublisherService baseService) {
+  protected PublisherCrudControllerImpl(IPublisherMapper baseModelMapper, PublisherCrudService baseService) {
     super(baseModelMapper, baseService);
   }
 
