@@ -1,0 +1,18 @@
+package dev.springharvest.library.domains.books.services;
+
+import dev.springharvest.crud.service.AbstractBaseCrudService;
+import dev.springharvest.library.domains.books.models.entities.BookEntity;
+import dev.springharvest.library.domains.books.persistence.IBookRepository;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BookService extends AbstractBaseCrudService<BookEntity, UUID> {
+
+  @Autowired
+  protected BookService(IBookRepository baseRepository) {
+    super(baseRepository);
+  }
+
+}

@@ -1,7 +1,0 @@
-plugins {
-}
-
-dependencies {
-    annotationProcessor project(':examples:examples-shared')
-    implementation project(':examples:examples-shared')
-}
