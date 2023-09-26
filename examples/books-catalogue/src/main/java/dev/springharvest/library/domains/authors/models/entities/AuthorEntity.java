@@ -28,6 +28,7 @@ public class AuthorEntity extends BaseEntity<UUID> {
   @Column(name = "name")
   protected String name;
 
+  @Override
   public boolean isEmpty() {
     return super.isEmpty() && StringUtils.isBlank(name);
   }

@@ -2,7 +2,6 @@ package dev.springharvest.library.domains.publishers.integration.utils.clients;
 
 import dev.springharvest.library.domains.publishers.constants.PublisherConstants;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.library.domains.publishers.models.entities.PublisherEntity;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.testing.integration.search.clients.AbstractSearchClientImpl;
 import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
@@ -12,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PublishersSearchClient extends AbstractSearchClientImpl<PublisherDTO, PublisherEntity, UUID, PublisherFilterRequestDTO> {
+public class PublishersSearchClient extends AbstractSearchClientImpl<PublisherDTO, UUID, PublisherFilterRequestDTO> {
 
   @Autowired
   protected PublishersSearchClient(RestClientImpl restClient) {

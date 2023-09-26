@@ -45,6 +45,7 @@ public class BookEntity extends BaseEntity<UUID> {
   @ManyToOne(fetch = FetchType.LAZY)
   private PublisherEntity publisher;
 
+  @Override
   public boolean isEmpty() {
     return super.isEmpty() && StringUtils.isBlank(title) && (author == null || author.isEmpty()) &&
            (publisher == null || publisher.isEmpty());

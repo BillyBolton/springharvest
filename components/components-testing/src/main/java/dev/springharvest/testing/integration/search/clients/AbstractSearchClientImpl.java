@@ -8,14 +8,13 @@ import dev.springharvest.testing.integration.shared.uri.IUriFactory;
 import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import dev.springhavest.common.contracts.IClazzAware;
 import dev.springhavest.common.models.dtos.BaseDTO;
-import dev.springhavest.common.models.entities.BaseEntity;
 import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractSearchClientImpl<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable, B extends BaseFilterRequestDTO>
+public abstract class AbstractSearchClientImpl<D extends BaseDTO<K>, K extends Serializable, B extends BaseFilterRequestDTO>
     extends DomainClientImpl<D, K>
     implements ISearchClient<D, K, B>, IClazzAware<D> {
 

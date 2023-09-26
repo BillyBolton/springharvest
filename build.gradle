@@ -30,7 +30,13 @@ allprojects {
     def javaVersion = JavaVersion.toVersion(env.JAVA_VERSION)
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
-    compileJava.options.encoding = env.ENCODING
+
+    compileJava {
+        options.compilerArgs += [
+                '-Amapstruct.defaultComponentModel=spring'
+        ]
+        options.encoding = env.ENCODING
+    }
 
     java {
         sourceCompatibility = env.getProperty("JAVA_VERSION")

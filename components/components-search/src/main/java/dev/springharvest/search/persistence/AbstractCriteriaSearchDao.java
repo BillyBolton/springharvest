@@ -64,15 +64,15 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
   private final Class<E> clazz;
 
   @Getter
-  private final String ROOT_PATH;
+  private final String rootPath;
   private final Function<Tuple, E> tupleTransformer;
   @PersistenceContext
   protected EntityManager entityManager;
 
   @Autowired
-  public AbstractCriteriaSearchDao(String rootPath, Function<Tuple, E> tupleTransformer) {
+  protected AbstractCriteriaSearchDao(String rootPath, Function<Tuple, E> tupleTransformer) {
 
-    this.ROOT_PATH = rootPath;
+    this.rootPath = rootPath;
 
     this.tupleTransformer = tupleTransformer;
 
@@ -85,7 +85,6 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
 
   @Override
   public boolean existsByUnique(SearchRequest<RB> searchRequest) {
-    int count = count(searchRequest);
     return count(searchRequest) >= 1;
   }
 
@@ -115,14 +114,14 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
     // SELECT
     if (isSelectAll) {
       entityQuery.select(root);
-      setSortingOrder(cb, searchRequest, root, ROOT_PATH, joinMap, entityQuery);
+      setSortingOrder(cb, searchRequest, root, rootPath, joinMap, entityQuery);
     } else {
       tupleQuery.multiselect(buildSelections(root, searchRequest.getSelections(), joinMap));
-      setSortingOrder(cb, searchRequest, root, ROOT_PATH, joinMap, tupleQuery);
+      setSortingOrder(cb, searchRequest, root, rootPath, joinMap, tupleQuery);
     }
 
     // WHERE
-    CriteriaBuilderHelper.buildAndSetPredicates(cb, searchRequest, root, ROOT_PATH, joinMap,
+    CriteriaBuilderHelper.buildAndSetPredicates(cb, searchRequest, root, rootPath, joinMap,
                                                 isSelectAll ? entityQuery : tupleQuery);
 
     // Handle Pagination
@@ -147,7 +146,7 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
     while (!selectionsByPriority.isEmpty()) {
       SelectionBO selection = selectionsByPriority.poll();
       if (selection.getIsAscending() != null) {
-        orderList.add(selection.getIsAscending() ? cb.asc(
+        orderList.add(Boolean.TRUE.equals(selection.getIsAscending()) ? cb.asc(
             CriteriaBuilderHelper.getPath(selection, root, rootPath, joinMap)) : cb.desc(
             CriteriaBuilderHelper.getPath(selection, root, rootPath, joinMap)));
       }
@@ -208,7 +207,7 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
           .build();
     }
 
-    return CriteriaBuilderHelper.getPath(selection, root, ROOT_PATH, joinMap);
+    return CriteriaBuilderHelper.getPath(selection, root, rootPath, joinMap);
 
   }
 

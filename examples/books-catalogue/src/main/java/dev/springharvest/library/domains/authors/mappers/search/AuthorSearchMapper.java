@@ -23,10 +23,12 @@ public abstract class AuthorSearchMapper
   private AuthorEntityMetadata entityMetadata;
 
 
+  @Override
   public Class<?> getClazz(String path) {
     return globalClazzResolver.getClazz(path);
   }
 
+  @Override
   public Set<String> getRoots() {
     return entityMetadata.getRootPaths();
   }
