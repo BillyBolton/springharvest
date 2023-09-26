@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.books.rest;
 
-import dev.springharvest.crud.rest.AbstractBaseCrudController;
+import dev.springharvest.crud.rest.AbstractCrudController;
 import dev.springharvest.library.domains.books.constants.BookConstants;
 import dev.springharvest.library.domains.books.mappers.IBookMapper;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = BookConstants.Controller.TAG)
 @RequestMapping(BookConstants.Controller.DOMAIN_CONTEXT)
-public class BookCrudControllerImpl extends AbstractBaseCrudController<BookDTO, BookEntity, UUID> {
+public class BookCrudControllerImpl extends AbstractCrudController<BookDTO, BookEntity, UUID> {
 
   protected BookCrudControllerImpl(IBookMapper baseModelMapper, BookCrudService baseService) {
     super(baseModelMapper, baseService);

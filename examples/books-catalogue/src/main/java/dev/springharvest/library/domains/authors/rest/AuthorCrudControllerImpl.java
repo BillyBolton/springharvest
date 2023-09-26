@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.authors.rest;
 
-import dev.springharvest.crud.rest.AbstractBaseCrudController;
+import dev.springharvest.crud.rest.AbstractCrudController;
 import dev.springharvest.library.domains.authors.constants.AuthorConstants;
 import dev.springharvest.library.domains.authors.mappers.IAuthorMapper;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = AuthorConstants.Controller.TAG)
 @RequestMapping(AuthorConstants.Controller.DOMAIN_CONTEXT)
-public class AuthorCrudControllerImpl extends AbstractBaseCrudController<AuthorDTO, AuthorEntity, UUID> {
+public class AuthorCrudControllerImpl extends AbstractCrudController<AuthorDTO, AuthorEntity, UUID> {
 
   protected AuthorCrudControllerImpl(IAuthorMapper baseModelMapper, AuthorCrudService baseService) {
     super(baseModelMapper, baseService);

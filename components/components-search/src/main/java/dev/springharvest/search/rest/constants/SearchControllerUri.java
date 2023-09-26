@@ -8,11 +8,11 @@ import dev.springharvest.errors.constants.ExceptionMessages;
  * @author Billy Bolton
  * @since 1.0
  */
-public class ControllerUri {
+public class SearchControllerUri {
 
   public static final String SEARCH = ControllerContexts.SEARCH;
 
-  private ControllerUri() {
+  private SearchControllerUri() {
     throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
   }
 

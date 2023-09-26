@@ -56,7 +56,7 @@ import org.springframework.util.CollectionUtils;
  * @see SearchRequest
  */
 @Slf4j
-public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K extends Serializable,
+public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K extends Serializable,
     RB extends BaseFilterRequestBO>
     implements ICriteriaSearchRepository<E, RB> {
 
@@ -70,7 +70,7 @@ public abstract class AbstractCriteriaSearchDaoImpl<E extends BaseEntity<K>, K e
   protected EntityManager entityManager;
 
   @Autowired
-  public AbstractCriteriaSearchDaoImpl(String rootPath, Function<Tuple, E> tupleTransformer) {
+  public AbstractCriteriaSearchDao(String rootPath, Function<Tuple, E> tupleTransformer) {
 
     this.ROOT_PATH = rootPath;
 

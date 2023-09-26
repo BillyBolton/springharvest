@@ -1,7 +1,7 @@
 package dev.springharvest.search.mappers.transformers;
 
 import dev.springharvest.search.model.entities.IEntityMetadata;
-import dev.springharvest.search.persistence.AbstractCriteriaSearchDaoImpl;
+import dev.springharvest.search.persistence.AbstractCriteriaSearchDao;
 import dev.springharvest.search.persistence.ICriteriaSearchRepository;
 import dev.springhavest.common.models.domains.DomainModel;
 import jakarta.persistence.Tuple;
@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * a concrete Entity.
  * @param <M> The highest parameterized type of data-transfer-object (DTO), business-object (BO), or Entity.
  * @see ICriteriaSearchRepository
- * @see AbstractCriteriaSearchDaoImpl
+ * @see AbstractCriteriaSearchDao
  */ public abstract class AbstractBaseTupleTransformer<M extends DomainModel> implements Function<Tuple, M> {
 
   protected IEntityMetadata<M> entityMetadata;

@@ -8,7 +8,7 @@ import dev.springharvest.errors.constants.ExceptionMessages;
  * @author Billy Bolton
  * @since 1.0
  */
-public class ControllerUri {
+public class CrudControllerUri {
 
   public static final String COUNT = ControllerContexts.COUNT;
   public static final String FIND = ControllerContexts.FIND;
@@ -29,7 +29,7 @@ public class ControllerUri {
   public static final String DELETE_BY_ID = DELETE + ControllerParameters.ID;
   public static final String DELETE_ALL = DELETE + ControllerContexts.ALL;
 
-  private ControllerUri() {
+  private CrudControllerUri() {
     throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
   }
 

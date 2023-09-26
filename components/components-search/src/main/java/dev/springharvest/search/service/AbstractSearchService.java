@@ -6,7 +6,7 @@ import dev.springharvest.search.model.queries.requests.filters.BaseFilterDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestBO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
-import dev.springharvest.search.persistence.AbstractCriteriaSearchDaoImpl;
+import dev.springharvest.search.persistence.AbstractCriteriaSearchDao;
 import dev.springharvest.search.persistence.ICriteriaSearchRepository;
 import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;
@@ -26,7 +26,7 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
   protected ICriteriaSearchRepository<E, RB> criteriaSearchRepository;
 
   protected AbstractSearchService(ISearchMapper<RD, RB, FD, FB> filterMapper,
-                                  AbstractCriteriaSearchDaoImpl<E, K, RB> criteriaSearchRepository) {
+                                  AbstractCriteriaSearchDao<E, K, RB> criteriaSearchRepository) {
     this.filterMapper = filterMapper;
     this.criteriaSearchRepository = criteriaSearchRepository;
   }

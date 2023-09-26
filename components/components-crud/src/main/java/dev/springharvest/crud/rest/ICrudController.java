@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @param <D> The DTO object for a domain
  * @param <K> The type of the id (primary key) field pertaining to the entity relating to the DTO
  */
-public interface IBaseCrudController<D extends BaseDTO<K>, K extends Serializable> {
+public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
 
   @Operation(operationId = "count", summary = "Counts the entities.",
              description = "Use this API to retrieve an number of entities in its domain.",

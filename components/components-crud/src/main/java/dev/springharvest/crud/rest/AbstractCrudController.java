@@ -1,8 +1,8 @@
 package dev.springharvest.crud.rest;
 
 import dev.springharvest.crud.mappers.IBaseModelMapper;
-import dev.springharvest.crud.rest.constants.ControllerUri;
-import dev.springharvest.crud.service.AbstractBaseCrudService;
+import dev.springharvest.crud.rest.constants.CrudControllerUri;
+import dev.springharvest.crud.service.AbstractCrudService;
 import dev.springharvest.errors.models.ClientException;
 import dev.springharvest.errors.models.ExceptionDetail;
 import dev.springhavest.common.models.dtos.BaseDTO;
@@ -28,36 +28,36 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @param <E> The entity type
  * @param <K> The type of the id (primary key) field
  * @author Billy Bolton
- * @see IBaseCrudController
- * @see ControllerUri
- * @see AbstractBaseCrudService
+ * @see ICrudController
+ * @see CrudControllerUri
+ * @see AbstractCrudService
  * @see BaseDTO
  * @see BaseEntity
  * @since 1.0
  */
 @Slf4j
-public abstract class AbstractBaseCrudController<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
-    implements IBaseCrudController<D, K> {
+public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable>
+    implements ICrudController<D, K> {
 
   protected IBaseModelMapper<D, E, K> baseModelMapper;
-  protected AbstractBaseCrudService<E, K> baseService;
+  protected AbstractCrudService<E, K> crudService;
 
-  protected AbstractBaseCrudController(IBaseModelMapper<D, E, K> baseModelMapper,
-                                       AbstractBaseCrudService<E, K> baseService) {
+  protected AbstractCrudController(IBaseModelMapper<D, E, K> baseModelMapper,
+                                   AbstractCrudService<E, K> crudService) {
     this.baseModelMapper = baseModelMapper;
-    this.baseService = baseService;
+    this.crudService = crudService;
   }
 
   @Override
-  @GetMapping(value = {ControllerUri.COUNT}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = {CrudControllerUri.COUNT}, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Long> count() {
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseService.count());
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(crudService.count());
   }
 
   @Override
-  @GetMapping(value = {ControllerUri.FIND_BY_ID}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = {CrudControllerUri.FIND_BY_ID}, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<D> findById(@PathVariable(required = true) K id) {
-    Optional<E> entity = baseService.findById(id);
+    Optional<E> entity = crudService.findById(id);
     if (entity.isEmpty()) {
       throw ClientException.builder()
           .details(List.of(ExceptionDetail.builder()
@@ -72,60 +72,60 @@ public abstract class AbstractBaseCrudController<D extends BaseDTO<K>, E extends
   }
 
   @Override
-  @GetMapping(value = {ControllerUri.FIND_ALL}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = {CrudControllerUri.FIND_ALL}, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> findAll() {
-    List<E> entities = baseService.findAll();
+    List<E> entities = crudService.findAll();
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entities));
   }
 
   @Override
-  @PostMapping(value = {ControllerUri.CREATE}, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @PostMapping(value = {CrudControllerUri.CREATE}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<D> create(@RequestBody(required = true) D dto) {
     E entity = baseModelMapper.dtoToEntity(dto);
-    entity = baseService.create(entity);
+    entity = crudService.create(entity);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entity));
   }
 
   @Override
-  @PostMapping(value = {ControllerUri.CREATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @PostMapping(value = {CrudControllerUri.CREATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> createAll(@RequestBody(required = true) List<D> dtos) {
     List<E> entities = baseModelMapper.dtoToEntity(dtos);
-    entities = baseService.create(entities);
+    entities = crudService.create(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entities));
   }
 
   @Override
-  @PatchMapping(value = {ControllerUri.UPDATE_BY_ID}, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @PatchMapping(value = {CrudControllerUri.UPDATE_BY_ID}, consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<D> update(@PathVariable(required = true) K id, @RequestBody(required = true) D dto) {
     dto.setId(id);
     E entity = baseModelMapper.dtoToEntity(dto);
-    entity = baseService.update(entity);
+    entity = crudService.update(entity);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entity));
   }
 
   @Override
-  @PatchMapping(value = {ControllerUri.UPDATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @PatchMapping(value = {CrudControllerUri.UPDATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> updateAll(@RequestBody(required = true) List<D> dtos) {
     List<E> entities = baseModelMapper.dtoToEntity(dtos);
-    entities = baseService.update(entities);
+    entities = crudService.update(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(baseModelMapper.entityToDto(entities));
   }
 
   @Override
-  @DeleteMapping(value = {ControllerUri.DELETE_BY_ID})
+  @DeleteMapping(value = {CrudControllerUri.DELETE_BY_ID})
   public ResponseEntity<Void> deleteById(@PathVariable(required = true) K id) {
-    baseService.deleteById(id);
+    crudService.deleteById(id);
     return ResponseEntity.status(204).build();
   }
 
   @Override
-  @DeleteMapping(value = {ControllerUri.DELETE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = {CrudControllerUri.DELETE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> deleteAllById(@RequestBody(required = true) List<K> ids) {
-    baseService.deleteById(ids);
+    crudService.deleteById(ids);
     return ResponseEntity.status(204).build();
   }
 

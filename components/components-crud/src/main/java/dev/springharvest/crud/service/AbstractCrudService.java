@@ -1,6 +1,6 @@
 package dev.springharvest.crud.service;
 
-import dev.springharvest.crud.persistence.IBaseCrudRepository;
+import dev.springharvest.crud.persistence.ICrudRepository;
 import dev.springhavest.common.models.entities.BaseEntity;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,12 +13,12 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public abstract class AbstractBaseCrudService<E extends BaseEntity<K>, K extends Serializable>
-    implements IBaseService<E, K> {
+public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Serializable>
+    implements ICrudService<E, K> {
 
-  protected IBaseCrudRepository<E, K> baseRepository;
+  protected ICrudRepository<E, K> baseRepository;
 
-  protected AbstractBaseCrudService(IBaseCrudRepository<E, K> baseRepository) {
+  protected AbstractCrudService(ICrudRepository<E, K> baseRepository) {
     this.baseRepository = baseRepository;
   }
 

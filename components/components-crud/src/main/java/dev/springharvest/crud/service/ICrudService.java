@@ -11,7 +11,7 @@ import java.util.Optional;
  * @param <E> The type of the Entity.
  * @param <K> The type of the id (primary key) field.
  */
-public interface IBaseService<E extends BaseEntity<K>, K extends Serializable> {
+public interface ICrudService<E extends BaseEntity<K>, K extends Serializable> {
 
   /**
    * Returns the number of entities of the entity domain.

@@ -16,7 +16,7 @@ import org.springframework.data.repository.NoRepositoryBean;
  */
 
 @NoRepositoryBean
-public interface IBaseCrudRepository<E extends BaseEntity<K>, K extends Serializable>
+public interface ICrudRepository<E extends BaseEntity<K>, K extends Serializable>
     extends ListCrudRepository<E, K>, ListPagingAndSortingRepository<E, K> {
 
   long count();
