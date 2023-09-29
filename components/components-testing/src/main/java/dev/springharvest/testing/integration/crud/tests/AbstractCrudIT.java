@@ -7,6 +7,7 @@ import dev.springharvest.testing.integration.crud.clients.AbstractCrudClientImpl
 import dev.springharvest.testing.integration.crud.clients.ICrudClient;
 import dev.springharvest.testing.integration.shared.helpers.IModelTestFactory;
 import dev.springhavest.common.models.dtos.BaseDTO;
+import dev.springhavest.common.utils.StringUtils;
 import io.restassured.response.ValidatableResponse;
 import jakarta.annotation.Nullable;
 import java.io.Serializable;
@@ -32,20 +33,11 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
   protected void softlyAssert(SoftAssertions softly, @Nullable Object actual, @Nullable Object expected) {
     if (actual != null && expected != null) {
       if (actual instanceof String actualString && expected instanceof String expectedString) {
-        softly.assertThat(capitalizeFirstLetters(actualString)).isEqualTo(capitalizeFirstLetters(expectedString));
+        softly.assertThat(StringUtils.capitalizeFirstLetters(actualString)).isEqualTo(StringUtils.capitalizeFirstLetters(expectedString));
       } else {
         softly.assertThat(actual).isEqualTo(expected);
       }
     }
-  }
-
-  protected String capitalizeFirstLetters(String str) {
-    String[] words = str.split(" ");
-    StringBuilder sb = new StringBuilder();
-    for (String word : words) {
-      sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
-    }
-    return sb.toString().trim();
   }
 
   @Nested
