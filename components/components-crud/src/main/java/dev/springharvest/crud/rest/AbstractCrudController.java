@@ -1,5 +1,6 @@
 package dev.springharvest.crud.rest;
 
+import dev.springharvest.crud.mappers.CyclicMappingHandler;
 import dev.springharvest.crud.mappers.IBaseModelMapper;
 import dev.springharvest.crud.rest.constants.CrudControllerUri;
 import dev.springharvest.crud.service.AbstractCrudService;
@@ -7,6 +8,7 @@ import dev.springharvest.errors.models.ClientException;
 import dev.springharvest.errors.models.ExceptionDetail;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
+import jakarta.persistence.EntityNotFoundException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -101,8 +103,14 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                 produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<D> update(@PathVariable(required = true) K id, @RequestBody(required = true) D dto) {
     dto.setId(id);
-    E entity = modelMapper.dtoToEntity(dto);
-    entity = crudService.update(entity);
+
+    Optional<E> optFound = crudService.findById(id);
+    if (optFound.isEmpty()) {
+      throw new EntityNotFoundException(String.format("No entity found with id: %s", id));
+    }
+
+    dto = modelMapper.setDirtyFields(modelMapper.entityToDto(optFound.get()), dto, new CyclicMappingHandler());
+    E entity = crudService.update(modelMapper.dtoToEntity(dto));
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entity));
   }
 

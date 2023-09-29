@@ -1,12 +1,13 @@
 package dev.springharvest.library.domains.books.integration;
 
+import static dev.springharvest.testing.constants.TestConstants.Messages.CONTEXT_LOADS;
+
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.books.integration.utils.clients.BooksSearchClient;
 import dev.springharvest.library.domains.books.integration.utils.helpers.BooksSearchModelTestFactory;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
-import dev.springharvest.testing.constants.TestConstants;
 import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
@@ -34,7 +35,7 @@ class BooksSearchIT extends AbstractSearchIT<BookDTO, UUID, BookFilterRequestDTO
 
   @Test
   void contextLoads() {
-    Assertions.assertTrue(true, TestConstants.Messages.CONTEXT_LOADS);
+    Assertions.assertTrue(true, CONTEXT_LOADS);
   }
 
 }
