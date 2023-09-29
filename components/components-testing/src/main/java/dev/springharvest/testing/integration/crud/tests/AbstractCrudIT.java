@@ -130,12 +130,10 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         D firstDto = dtos.get(0);
         K id = firstDto.getId();
 
-        D toUpdate = modelFactory.buildValidUpdatedDto(id);
-        D updated = client.updateAndExtract(id, toUpdate);
-
+        D updated = client.updateAndExtract(id, modelFactory.buildValidUpdatedDto(id));
+        D retrieved = client.findByIdAndExtract(id);
         SoftAssertions softly = new SoftAssertions();
-        updated.getClass();
-        softlyAssert(softly, toUpdate, updated);
+        softlyAssert(softly, updated, retrieved);
         softly.assertAll();
 
       }
@@ -190,5 +188,5 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     softly.assertThat(expected).isNotNull();
 
   }
-  
+
 }
