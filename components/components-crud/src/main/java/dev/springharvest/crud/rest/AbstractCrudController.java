@@ -123,8 +123,8 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
 
     Map<K, D> dtosById = dtos.stream().collect(Collectors.toMap(BaseDTO::getId, java.util.function.Function.identity()));
 
-    List<D> updated = modelMapper.entityToDto(crudService.findAllByIds(dtosById.keySet())).stream().map(foundDto -> modelMapper.setDirtyFields(dtosById.get(
-        foundDto.getId()), foundDto, new CyclicMappingHandler())).toList();
+    List<D> updated = modelMapper.entityToDto(crudService.findAllByIds(dtosById.keySet())).stream()
+        .map(foundDto -> modelMapper.setDirtyFields(dtosById.get(foundDto.getId()), foundDto, new CyclicMappingHandler())).toList();
 
     List<E> entities = modelMapper.dtoToEntity(updated);
     entities = crudService.update(entities);
