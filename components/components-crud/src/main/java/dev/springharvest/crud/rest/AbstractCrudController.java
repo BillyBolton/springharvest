@@ -11,7 +11,9 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -118,7 +120,13 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @PatchMapping(value = {CrudControllerUri.UPDATE_ALL}, consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> updateAll(@RequestBody(required = true) List<D> dtos) {
-    List<E> entities = modelMapper.dtoToEntity(dtos);
+
+    Map<K, D> dtosById = dtos.stream().collect(Collectors.toMap(BaseDTO::getId, java.util.function.Function.identity()));
+
+    List<D> updated = modelMapper.entityToDto(crudService.findAllByIds(dtosById.keySet())).stream().map(foundDto -> modelMapper.setDirtyFields(dtosById.get(
+        foundDto.getId()), foundDto, new CyclicMappingHandler())).toList();
+
+    List<E> entities = modelMapper.dtoToEntity(updated);
     entities = crudService.update(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entities));
   }

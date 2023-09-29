@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,7 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Override
   @Transactional(readOnly = true)
-  public List<E> findAllByIds(List<K> ids) {
+  public List<E> findAllByIds(Set<K> ids) {
     return crudRepository.findAllById(ids);
   }
 
