@@ -13,7 +13,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Context;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.MappingTarget;
 
 /**
@@ -33,7 +32,6 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
    * @param entity The Entity object that will be mapped from.
    * @return The DTO object that will be mapped to.
    */
-  @InheritInverseConfiguration
   D entityToDto(E entity);
 
   /**
@@ -69,7 +67,7 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
    * @param context The CyclicMappingHandler object that will be used to prevent infinite recursion.
    * @return The DTO object that will be mapped to.
    */
-  D setDirtyFields(D source, @MappingTarget E target, @Context CyclicMappingHandler context);
+  D setDirtyFields(D source, @MappingTarget D target, @Context CyclicMappingHandler context);
 
   /**
    * * This method is used in conjunction in a PATCH request to refresh any attributes that are present in the already persisted entity, * but omitted form the

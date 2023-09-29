@@ -15,12 +15,6 @@ import org.mapstruct.MappingTarget;
 public interface IPublisherMapper extends IBaseModelMapper<PublisherDTO, PublisherEntity, UUID> {
 
   @Override
-  PublisherDTO entityToDto(PublisherEntity entity);
-
-  @Override
-  PublisherEntity dtoToEntity(PublisherDTO dto);
-
-  @Override
   @Mapping(target = "id", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   @Mapping(target = "name", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   PublisherDTO setDirtyFields(PublisherDTO source, @MappingTarget PublisherDTO target,
