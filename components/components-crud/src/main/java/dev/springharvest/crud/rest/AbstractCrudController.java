@@ -109,7 +109,7 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
       throw new EntityNotFoundException(String.format("No entity found with id: %s", id));
     }
 
-    dto = modelMapper.setDirtyFields(modelMapper.entityToDto(optFound.get()), dto, new CyclicMappingHandler());
+    dto = modelMapper.setDirtyFields(dto, optFound.get(), new CyclicMappingHandler());
     E entity = crudService.update(modelMapper.dtoToEntity(dto));
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entity));
   }
