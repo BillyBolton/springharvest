@@ -12,8 +12,6 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,10 +20,10 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
     FB extends BaseFilterBO>
     implements ISearchService<E, K, RD> {
 
-  protected ISearchMapper<RD, RB, FD, FB> filterMapper;
+  protected ISearchMapper<E, K, RD, RB, FD, FB> filterMapper;
   protected ICriteriaSearchRepository<E, RB> searchRepository;
 
-  protected AbstractSearchService(ISearchMapper<RD, RB, FD, FB> filterMapper,
+  protected AbstractSearchService(ISearchMapper<E, K, RD, RB, FD, FB> filterMapper,
                                   AbstractCriteriaSearchDao<E, K, RB> searchRepository) {
     this.filterMapper = filterMapper;
     this.searchRepository = searchRepository;
@@ -37,27 +35,10 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
   }
 
   @Override
-  public Optional<E> findByUnique(E entity) {
-    return search(SearchRequestDTO.<RD>builder().filters(buildUniqueFilters(entity)).build()).stream().findFirst();
-  }
-
-  @Override
-  public boolean existsByUnique(E entity) {
-
-    SearchRequestDTO<RD> searchRequestDTO =
-        SearchRequestDTO.<RD>builder().filters(buildUniqueFilters(entity)).build();
-
-    return !searchRequestDTO.getFilters().isEmpty() &&
-           searchRepository.existsByUnique(filterMapper.toSearchRequest(searchRequestDTO));
-  }
-
-  @Override
   public List<E> search(SearchRequestDTO<RD> filterRequest) {
     var searchRequest = filterMapper.toSearchRequest(filterRequest);
     return searchRepository.search(searchRequest);
 
   }
-
-  protected abstract Set<RD> buildUniqueFilters(E entity);
 
 }

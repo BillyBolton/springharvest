@@ -52,11 +52,8 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable,
     void canPostSearchQuery(boolean selectAll) {
       assertEquals(1, client.searchAndExtract(SearchRequestDTO.<B>builder()
                                                   .page(Page.builder().build())
-                                                  .selections(
-                                                      modelFactory.buildValidSelections(
-                                                          selectAll))
-                                                  .filters(
-                                                      Set.of(modelFactory.buildValidFilters())).build()).size());
+                                                  .selections(modelFactory.buildValidSelections(selectAll))
+                                                  .filters(Set.of(modelFactory.buildValidFilters())).build()).size());
     }
 
   }
