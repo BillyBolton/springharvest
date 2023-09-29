@@ -16,12 +16,6 @@ import org.mapstruct.MappingTarget;
 public interface IAuthorMapper extends IBaseModelMapper<AuthorDTO, AuthorEntity, UUID> {
 
   @Override
-  AuthorDTO entityToDto(AuthorEntity entity);
-
-  @Override
-  AuthorEntity dtoToEntity(AuthorDTO dto);
-
-  @Override
   @Mapping(target = "id", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   @Mapping(target = "name", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   AuthorDTO setDirtyFields(AuthorDTO source, @MappingTarget AuthorDTO target, @Context CyclicMappingHandler context);

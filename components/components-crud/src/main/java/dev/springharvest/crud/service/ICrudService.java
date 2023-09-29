@@ -4,6 +4,7 @@ import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The interface used to define the contract for a base service.
@@ -36,7 +37,7 @@ public interface ICrudService<E extends BaseEntity<K>, K extends Serializable> {
    */
   Optional<E> findById(K id);
 
-  List<E> findAllByIds(List<K> ids);
+  List<E> findAllByIds(Set<K> ids);
 
   /**
    * Returns all entities of the entity domain.

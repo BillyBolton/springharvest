@@ -13,7 +13,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Context;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.MappingTarget;
 
 /**
@@ -33,7 +32,6 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
    * @param entity The Entity object that will be mapped from.
    * @return The DTO object that will be mapped to.
    */
-  @InheritInverseConfiguration
   D entityToDto(E entity);
 
   /**
@@ -62,7 +60,7 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
 
   /**
    * * This method is used in conjunction in a PATCH request to refresh any attributes that are present in the already persisted entity, * but omitted form the
-   * PATCH request.
+   * PATCH request. This method must be operated only on non-Entity objects due to transactional constraints when foreign keys are updated.
    *
    * @param source  The DTO object that will be mapped from.
    * @param target  The DTO object that will be mapped to.

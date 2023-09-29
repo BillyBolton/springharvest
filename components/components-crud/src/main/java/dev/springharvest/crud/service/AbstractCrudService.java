@@ -4,13 +4,14 @@ import dev.springharvest.crud.persistence.ICrudRepository;
 import dev.springhavest.common.models.entities.BaseEntity;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Serializable>
@@ -29,26 +30,31 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   }
 
   @Override
+  @Transactional(readOnly = true)
   public long count() {
     return crudRepository.count();
   }
 
   @Override
+  @Transactional(readOnly = true)
   public boolean existsById(K id) {
     return crudRepository.existsById(id);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Optional<E> findById(K id) {
     return crudRepository.findById(id);
   }
 
   @Override
-  public List<E> findAllByIds(List<K> ids) {
+  @Transactional(readOnly = true)
+  public List<E> findAllByIds(Set<K> ids) {
     return crudRepository.findAllById(ids);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<E> findAll() {
     return crudRepository.findAll();
   }
