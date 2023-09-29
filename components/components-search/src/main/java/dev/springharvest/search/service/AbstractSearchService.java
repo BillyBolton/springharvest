@@ -22,10 +22,10 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
     FB extends BaseFilterBO>
     implements ISearchService<E, K, RD> {
 
-  protected ISearchMapper<RD, RB, FD, FB> filterMapper;
+  protected ISearchMapper<E, K, RD, RB, FD, FB> filterMapper;
   protected ICriteriaSearchRepository<E, RB> searchRepository;
 
-  protected AbstractSearchService(ISearchMapper<RD, RB, FD, FB> filterMapper,
+  protected AbstractSearchService(ISearchMapper<E, K, RD, RB, FD, FB> filterMapper,
                                   AbstractCriteriaSearchDao<E, K, RB> searchRepository) {
     this.filterMapper = filterMapper;
     this.searchRepository = searchRepository;
