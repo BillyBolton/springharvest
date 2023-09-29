@@ -21,6 +21,7 @@ jobs:
         with:
           java-version: "21"
           distribution: "graalvm-community"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Identity if Last Commit is Version Bump
         id: check_commit
@@ -69,6 +70,7 @@ jobs:
         with:
           java-version: "21"
           distribution: "graalvm-community"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Identity if Last Commit is Version Bump
         id: check_commit

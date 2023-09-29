@@ -21,6 +21,7 @@ jobs:
         with:
           java-version: "21"
           distribution: "graalvm-community"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -53,6 +54,7 @@ jobs:
         with:
           java-version: "21"
           distribution: "graalvm-community"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch main branch
         run: git fetch origin main:main
