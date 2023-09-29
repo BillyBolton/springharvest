@@ -60,7 +60,7 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
 
   /**
    * * This method is used in conjunction in a PATCH request to refresh any attributes that are present in the already persisted entity, * but omitted form the
-   * PATCH request.
+   * PATCH request. This method must be operated only on non-Entity objects due to transactional constraints when foreign keys are updated.
    *
    * @param source  The DTO object that will be mapped from.
    * @param target  The DTO object that will be mapped to.
