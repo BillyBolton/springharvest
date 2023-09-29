@@ -62,7 +62,7 @@ public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>,
    * * This method is used in conjunction in a PATCH request to refresh any attributes that are present in the already persisted entity, * but omitted form the
    * PATCH request.
    *
-   * @param source  The Entity object that will be mapped from.
+   * @param source  The DTO object that will be mapped from.
    * @param target  The DTO object that will be mapped to.
    * @param context The CyclicMappingHandler object that will be used to prevent infinite recursion.
    * @return The DTO object that will be mapped to.
