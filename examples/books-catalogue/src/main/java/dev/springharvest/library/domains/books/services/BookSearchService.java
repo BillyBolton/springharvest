@@ -1,6 +1,5 @@
 package dev.springharvest.library.domains.books.services;
 
-import dev.springharvest.library.domains.books.mappers.IBookMapper;
 import dev.springharvest.library.domains.books.mappers.search.BookSearchMapper;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
 import dev.springharvest.library.domains.books.models.queries.BookFilterBO;
@@ -8,6 +7,7 @@ import dev.springharvest.library.domains.books.models.queries.BookFilterDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestBO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
 import dev.springharvest.library.domains.books.persistence.BookSearchRepository;
+import dev.springharvest.search.model.entities.EntityMetadata;
 import dev.springharvest.search.service.AbstractSearchService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,10 @@ public class BookSearchService
     BookFilterBO> {
 
   @Autowired
-  protected BookSearchService(IBookMapper baseMapper, BookSearchMapper filterMapper,
+  protected BookSearchService(EntityMetadata<BookEntity> entityMetadata,
+                              BookSearchMapper filterMapper,
                               BookSearchRepository searchRepository) {
-    super(filterMapper, searchRepository);
+    super(entityMetadata, filterMapper, searchRepository);
   }
 
 }

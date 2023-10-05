@@ -19,7 +19,6 @@ public interface IGlobalClazzResolver {
     }
 
     IEntityMetadata<?> entityMetadata = getEntityMetadata(domain);
-    Class<?> clazz = entityMetadata.getClazz(path);
     return entityMetadata.getClazz(path);
 
   }

@@ -1,6 +1,7 @@
 package dev.springharvest.crud.rest.constants;
 
 import dev.springharvest.errors.constants.ExceptionMessages;
+import dev.springhavest.common.constants.ControllerEndpoints;
 
 /**
  * Contains constants for the REST endpoints of the default CRUD controllers.
@@ -16,7 +17,7 @@ public class CrudControllerUri {
   public static final String FIND_ALL = FIND + ControllerContexts.ALL;
 
   public static final String EXISTS = ControllerContexts.EXISTS;
-  public static final String EXISTS_BY_ID = EXISTS + ControllerParameters.ID;
+  public static final String EXISTS_BY_ID = ControllerEndpoints.ControllerContexts.EXISTS + ControllerEndpoints.ControllerParameters.ID;
 
   public static final String CREATE = ControllerContexts.CREATE;
   public static final String CREATE_ALL = CREATE + ControllerContexts.ALL;

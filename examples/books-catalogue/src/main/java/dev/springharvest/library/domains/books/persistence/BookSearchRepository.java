@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.books.persistence;
 
-import dev.springharvest.library.domains.books.mappers.search.tuples.BookRootTupleTransformer;
+import dev.springharvest.library.domains.books.mappers.search.tuples.BookTupleTransformer;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
 import dev.springharvest.library.domains.books.models.entities.BookEntityMetadata;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestBO;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BookSearchRepository extends AbstractCriteriaSearchDao<BookEntity, UUID, BookFilterRequestBO> {
 
-  BookSearchRepository(BookRootTupleTransformer tupleTransformer, BookEntityMetadata entityMetadata) {
+  BookSearchRepository(BookTupleTransformer tupleTransformer, BookEntityMetadata entityMetadata) {
     super(entityMetadata.getDomainName(), tupleTransformer);
   }
 

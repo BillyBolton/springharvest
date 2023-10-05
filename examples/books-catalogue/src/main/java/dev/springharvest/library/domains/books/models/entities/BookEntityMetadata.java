@@ -1,62 +1,71 @@
 package dev.springharvest.library.domains.books.models.entities;
 
+import static dev.springharvest.library.domains.books.models.entities.BookEntityMetadata.Constants.Paths.BOOK_ID;
+import static dev.springharvest.library.domains.books.models.entities.BookEntityMetadata.Constants.Paths.BOOK_TITLE;
+import static dev.springharvest.library.domains.books.models.entities.BookEntityMetadata.Constants.Paths.DOMAIN_SINGULAR;
+
 import dev.springharvest.errors.constants.ExceptionMessages;
-import dev.springharvest.search.model.entities.IEntityMetadata;
-import java.util.Set;
+import dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata;
+import dev.springharvest.library.domains.publishers.models.entities.PublisherEntity;
+import dev.springharvest.library.domains.publishers.models.entities.PublisherEntityMetadata;
+import dev.springharvest.search.model.entities.EntityMetadata;
+import dev.springhavest.common.models.entities.BaseEntity_;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookEntityMetadata implements IEntityMetadata<BookEntity> {
+public class BookEntityMetadata extends EntityMetadata<BookEntity> {
 
-  public static class Paths {
+  @Autowired
+  protected BookEntityMetadata(AuthorEntityMetadata authorEntityMetadata,
+                               PublisherEntityMetadata publisherEntityMetadata) {
+    super(BookEntity.class,
+          Constants.Paths.DOMAIN_SINGULAR,
+          Constants.Paths.DOMAIN_PLURAL,
+          Constants.Maps.ROOTS,
+          Constants.Maps.ROOT_PATH_CLAZZ_MAP,
+          Constants.Maps.ROOT_MAPPING_FUNCTIONS,
+          authorEntityMetadata.getPathClazzMap(),
+          publisherEntityMetadata.getPathClazzMap());
+  }
 
-    public static final String BOOKS = "books";
+  public static class Constants {
 
-    public static final String BOOK = "book";
-
-    public static final String BOOK_ID = BOOK + ".id";
-    public static final String BOOK_TITLE = BOOK + ".title";
-
-    private Paths() {
+    private Constants() {
       throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
     }
 
-  }
+    public static class Paths {
 
-  @Override
-  public String getDomainName() {
-    return Paths.BOOK;
-  }
+      public static final String DOMAIN_SINGULAR = "book";
+      public static final String DOMAIN_PLURAL = "books";
+      public static final String BOOK_ID = DOMAIN_SINGULAR + "." + BaseEntity_.ID;
+      public static final String BOOK_TITLE = DOMAIN_SINGULAR + "." + BookEntity_.TITLE;
 
-  @Override
-  public String getDomainName(boolean isPlural) {
-    return isPlural ? Paths.BOOKS : getDomainName();
-  }
-
-  @Override
-  public Class<?> getClazz(String path) {
-    switch (path) {
-      case Paths.BOOK_ID -> {
-        return UUID.class;
+      private Paths() {
+        throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
       }
-      case Paths.BOOK_TITLE -> {
-        return String.class;
-      }
-      default -> {
-        return null;
+
+    }
+
+    private static class Maps {
+
+      private static final Map<String, Class<?>> ROOTS = Map.of(DOMAIN_SINGULAR, PublisherEntity.class);
+      private static final Map<String, Class<?>> ROOT_PATH_CLAZZ_MAP = Map.of(BOOK_ID, UUID.class,
+                                                                              BOOK_TITLE, String.class);
+
+      private static final Map<String, BiConsumer<BookEntity, Object>> ROOT_MAPPING_FUNCTIONS = Map.of(
+          BOOK_ID, (entity, value) -> entity.setId((UUID) value),
+          BOOK_TITLE, (entity, value) -> entity.setTitle((String) value)
+                                                                                                      );
+
+      private Maps() {
+        throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
       }
     }
-  }
-
-  @Override
-  public Set<String> getRootPaths() {
-    return Set.of(Paths.BOOK);
-  }
-
-  @Override
-  public Set<String> getNestedPaths() {
-    return Set.of();
   }
 
 

@@ -1,8 +1,8 @@
 package dev.springharvest.testing.integration.crud.clients;
 
+import dev.springharvest.testing.integration.crud.clients.uri.CrudUriFactory;
+import dev.springharvest.testing.integration.crud.clients.uri.ICrudUriFactory;
 import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
-import dev.springharvest.testing.integration.shared.uri.IUriFactory;
-import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import dev.springhavest.common.contracts.IClazzAware;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import io.restassured.response.ValidatableResponse;
@@ -17,10 +17,10 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
   @Getter
   protected Class<D> clazz;
   protected RestClientImpl clientHelper;
-  protected IUriFactory uriFactory;
+  protected ICrudUriFactory uriFactory;
 
   @Autowired(required = true)
-  protected AbstractCrudClientImpl(RestClientImpl clientHelper, UriFactory uriFactory, Class<D> clazz) {
+  protected AbstractCrudClientImpl(RestClientImpl clientHelper, CrudUriFactory uriFactory, Class<D> clazz) {
     this.clientHelper = clientHelper;
     this.uriFactory = uriFactory;
     this.clazz = clazz;

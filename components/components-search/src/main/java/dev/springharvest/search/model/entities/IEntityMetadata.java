@@ -1,12 +1,11 @@
 package dev.springharvest.search.model.entities;
 
 import dev.springhavest.common.models.domains.DomainModel;
+import java.util.Map;
 import java.util.Set;
-import org.apache.commons.collections4.SetUtils;
+import java.util.function.BiConsumer;
 
 public interface IEntityMetadata<M extends DomainModel> {
-
-  String getDomainName();
 
   /**
    * This method is used to get the domain name of the entity that is being transformed so that the transformer is aware whether the path in the TupleElement
@@ -15,16 +14,42 @@ public interface IEntityMetadata<M extends DomainModel> {
    * @param isPlural Whether the domain name is plural or singular.
    * @return The domain name of the entity that is being transformed.
    */
-  String getDomainName(boolean isPlural);
 
-  Class<?> getClazz(String path);
-
-  default Set<String> getAllPaths() {
-    return SetUtils.union(getRootPaths(), getNestedPaths());
+  default String getDomainName(boolean isPlural) {
+    return isPlural ? getDomainNamePlural() : getDomainName();
   }
 
-  Set<String> getRootPaths();
+  String getDomainNamePlural();
 
-  Set<String> getNestedPaths();
+  String getDomainName();
+
+  Class<M> getDomainClazz();
+
+  Map<String, Class<?>> getRoots();
+
+  default Set<String> getPaths() {
+    return getPathClazzMap().keySet();
+  }
+
+  Map<String, Class<?>> getPathClazzMap();
+
+  default Set<String> getRootPaths() {
+    return getRootPathClazzMap().keySet();
+  }
+
+  Map<String, Class<?>> getRootPathClazzMap();
+
+  default Set<String> getNestedPaths() {
+    return getNestedPathClazzMap().keySet();
+  }
+
+  Map<String, Class<?>> getNestedPathClazzMap();
+
+  default Class<?> getClazz(String path) {
+    return getPathClazzMap().getOrDefault(path, null);
+  }
+
+  Map<String, BiConsumer<M, Object>> getRootMappingFunctions();
+
 
 }

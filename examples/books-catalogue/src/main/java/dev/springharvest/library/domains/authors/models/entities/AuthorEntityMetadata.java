@@ -1,63 +1,64 @@
 package dev.springharvest.library.domains.authors.models.entities;
 
+import static dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata.Constants.Paths.AUTHOR_ID;
+import static dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata.Constants.Paths.AUTHOR_NAME;
+import static dev.springharvest.library.domains.authors.models.entities.AuthorEntityMetadata.Constants.Paths.DOMAIN_SINGULAR;
+
 import dev.springharvest.errors.constants.ExceptionMessages;
-import dev.springharvest.search.model.entities.IEntityMetadata;
-import java.util.Set;
+import dev.springharvest.library.domains.publishers.models.entities.PublisherEntity;
+import dev.springharvest.search.model.entities.EntityMetadata;
+import dev.springhavest.common.models.entities.BaseEntity_;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorEntityMetadata implements IEntityMetadata<AuthorEntity> {
+public class AuthorEntityMetadata extends EntityMetadata<AuthorEntity> {
 
-  public static class Paths {
+  public AuthorEntityMetadata() {
+    super(AuthorEntity.class,
+          Constants.Paths.DOMAIN_SINGULAR,
+          Constants.Paths.DOMAIN_PLURAL,
+          Constants.Maps.ROOTS,
+          Constants.Maps.ROOT_PATH_CLAZZ_MAP,
+          Constants.Maps.ROOT_MAPPING_FUNCTIONS);
+  }
 
-    public static final String AUTHORS = "authors";
+  public static class Constants {
 
-    public static final String AUTHOR = "author";
-
-    public static final String AUTHOR_ID = AUTHOR + ".id";
-    public static final String AUTHOR_NAME = AUTHOR + ".name";
-
-    private Paths() {
+    private Constants() {
       throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
     }
 
-  }
+    public static class Paths {
 
-  @Override
-  public String getDomainName() {
-    return Paths.AUTHOR;
-  }
+      public static final String DOMAIN_SINGULAR = "author";
+      public static final String DOMAIN_PLURAL = "authors";
 
-  @Override
-  public String getDomainName(boolean isPlural) {
-    return isPlural ? Paths.AUTHORS : getDomainName();
-  }
+      public static final String AUTHOR_ID = DOMAIN_SINGULAR + "." + BaseEntity_.ID;
+      public static final String AUTHOR_NAME = DOMAIN_SINGULAR + "." + AuthorEntity_.NAME;
 
-  @Override
-  public Class<?> getClazz(String path) {
-    switch (path) {
-      case Paths.AUTHOR_ID -> {
-        return UUID.class;
+      private Paths() {
+        throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
       }
-      case Paths.AUTHOR_NAME -> {
-        return String.class;
-      }
-      default -> {
-        return null;
+
+    }
+
+    private static class Maps {
+
+      private static final Map<String, Class<?>> ROOTS = Map.of(DOMAIN_SINGULAR, PublisherEntity.class);
+      private static final Map<String, Class<?>> ROOT_PATH_CLAZZ_MAP = Map.of(AUTHOR_ID, UUID.class,
+                                                                              AUTHOR_NAME, String.class);
+      private static final Map<String, BiConsumer<AuthorEntity, Object>> ROOT_MAPPING_FUNCTIONS = Map.of(
+          AUTHOR_ID, (entity, value) -> entity.setId((UUID) value),
+          AUTHOR_NAME, (entity, value) -> entity.setName((String) value)
+                                                                                                        );
+
+      private Maps() {
+        throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
       }
     }
   }
-
-  @Override
-  public Set<String> getRootPaths() {
-    return Set.of(Paths.AUTHOR);
-  }
-
-  @Override
-  public Set<String> getNestedPaths() {
-    return Set.of();
-  }
-
 
 }

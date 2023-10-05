@@ -7,6 +7,7 @@ import dev.springharvest.library.domains.authors.models.queries.AuthorFilterDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestBO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.library.domains.authors.persistence.AuthorSearchRepository;
+import dev.springharvest.search.model.entities.EntityMetadata;
 import dev.springharvest.search.service.AbstractSearchService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class AuthorSearchService
     AuthorFilterDTO, AuthorFilterBO> {
 
   @Autowired
-  protected AuthorSearchService(AuthorSearchMapper filterMapper, AuthorSearchRepository searchRepository) {
-    super(filterMapper, searchRepository);
+  protected AuthorSearchService(EntityMetadata<AuthorEntity> entityMetadata, AuthorSearchMapper filterMapper, AuthorSearchRepository searchRepository) {
+    super(entityMetadata, filterMapper, searchRepository);
   }
 
 }

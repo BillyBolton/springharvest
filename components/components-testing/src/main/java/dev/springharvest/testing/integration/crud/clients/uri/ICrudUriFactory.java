@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.shared.uri;
+package dev.springharvest.testing.integration.crud.clients.uri;
 
 // This is an interface that will be used to create the URIs for the endpoints that will be used to
 // test the API.
@@ -9,9 +9,9 @@ package dev.springharvest.testing.integration.shared.uri;
  * @author Billy Bolton
  * @version 1.0
  */
-public interface IUriFactory {
+public interface ICrudUriFactory {
 
-  String getDomainContext();
+  String domainContext();
 
   /**
    * > Returns the URI for the `existsById` endpoint
@@ -47,15 +47,6 @@ public interface IUriFactory {
    * @return The URI for the endpoint that will be used to create all of the entities.
    */
   String getPostAllUri();
-
-  /**
-   * This function returns the URI for the search endpoint.
-   *
-   * @return The URI for the search endpoint.
-   */
-  String getPostSearchUri();
-
-  String getPostSearchMapUri();
 
   /**
    * > This function returns the URI for the PATCH endpoint

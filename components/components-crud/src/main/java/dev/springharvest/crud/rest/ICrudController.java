@@ -32,7 +32,7 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
                                                                                                  "the given primary" +
                                                                                                  " key id")})
   ResponseEntity<D> findById(@PathVariable(required = true) K id);
-
+  
   @Deprecated(since = "1.0", forRemoval = false)
   @Operation(operationId = "findAll", summary = "Retrieves a list of entities.",
              description = "Use this API to retrieve an entity by their primary key id.",

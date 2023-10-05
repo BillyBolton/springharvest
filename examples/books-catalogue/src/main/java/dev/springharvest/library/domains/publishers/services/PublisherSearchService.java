@@ -7,6 +7,7 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.library.domains.publishers.persistence.PublisherSearchRepository;
+import dev.springharvest.search.model.entities.EntityMetadata;
 import dev.springharvest.search.service.AbstractSearchService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,10 @@ public class PublisherSearchService
     PublisherFilterDTO, PublisherFilterBO> {
 
   @Autowired
-  protected PublisherSearchService(PublisherSearchMapper filterMapper, PublisherSearchRepository searchRepository) {
-    super(filterMapper, searchRepository);
+  protected PublisherSearchService(EntityMetadata<PublisherEntity> entityMetadata,
+                                   PublisherSearchMapper filterMapper,
+                                   PublisherSearchRepository searchRepository) {
+    super(entityMetadata, filterMapper, searchRepository);
   }
 
 }

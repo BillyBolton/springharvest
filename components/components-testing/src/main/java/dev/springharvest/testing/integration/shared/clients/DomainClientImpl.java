@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class DomainClientImpl<D extends BaseDTO<K>, K extends Serializable> implements IDomainClient, IClazzAware<D> {
 
-  protected D extractObject(ValidatableResponse response) {
+  protected D extractModel(ValidatableResponse response) {
     return response.statusCode(200)
         .extract()
         .body()
@@ -16,12 +16,26 @@ public abstract class DomainClientImpl<D extends BaseDTO<K>, K extends Serializa
         .getObject("", getClazz());
   }
 
-  protected List<D> extractObjects(ValidatableResponse response) {
+  protected List<D> extractModels(ValidatableResponse response) {
     return response.statusCode(200)
         .extract()
         .body()
         .jsonPath()
         .getList("", getClazz());
+  }
+
+  protected Integer extractInteger(ValidatableResponse response) {
+    return response.statusCode(200)
+        .extract()
+        .body()
+        .as(Integer.class);
+  }
+
+  protected Boolean extractBoolean(ValidatableResponse response) {
+    return response.statusCode(200)
+        .extract()
+        .body()
+        .as(Boolean.class);
   }
 
 }

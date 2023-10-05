@@ -11,6 +11,15 @@ public interface ISearchClient<D extends BaseDTO<K>, K extends Serializable, B e
 
   ValidatableResponse search(SearchRequestDTO<B> filters);
 
+  ValidatableResponse searchCount(SearchRequestDTO<B> filters);
+
+  ValidatableResponse searchExists(SearchRequestDTO<B> filters);
+
   List<D> searchAndExtract(SearchRequestDTO<B> filters);
+
+  Boolean searchExistsAndExtract(SearchRequestDTO<B> filters);
+
+  Integer searchCountAndExtract(SearchRequestDTO<B> filters);
+
 
 }

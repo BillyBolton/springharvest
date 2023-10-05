@@ -1,5 +1,6 @@
 package dev.springhavest.common.utils;
 
+import dev.springharvest.errors.constants.ExceptionMessages;
 import dev.springhavest.common.models.domains.DomainModel;
 import jakarta.annotation.Nullable;
 import java.lang.reflect.Field;
@@ -23,6 +24,10 @@ import org.springframework.util.CollectionUtils;
  */
 @Slf4j
 public class ReflectionUtils {
+
+  private ReflectionUtils() {
+    throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
+  }
 
   public static Set<String> getAllAttributePaths(Class<?> clazz, String prefix, Map<Class<?>, Integer> visited) {
     Set<String> paths = new HashSet<>();
@@ -158,7 +163,6 @@ public class ReflectionUtils {
 
     return result;
   }
-
 
   private static Map<String, Object> transformObject(Object object, boolean includeNulls) {
 
