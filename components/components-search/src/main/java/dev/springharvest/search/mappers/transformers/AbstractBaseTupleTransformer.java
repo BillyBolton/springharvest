@@ -6,10 +6,14 @@ import dev.springharvest.search.persistence.ICriteriaSearchRepository;
 import dev.springhavest.common.models.domains.DomainModel;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.TupleElement;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 
 @Slf4j
 /**
@@ -66,17 +70,18 @@ import org.springframework.beans.factory.annotation.Autowired;
    *
    * @return A new instance of the entity that is being transformed.
    */
-  protected abstract M getNewEntity();
-
-  /**
-   * This method is used to upsert the associated entities of the entity that is being transformed.
-   *
-   * @param entity The entity that is to upsert associated entities to.
-   * @param tuple  The Tuple that is being transformed from.
-   * @see DomainModel
-   */
-  protected void upsertAssociatedEntities(M entity, Tuple tuple) {
-    log.info("No associations to upsert for entity: {}", entity.getClass().getSimpleName());
+  protected M getNewEntity() {
+    Class<M> clazz = entityMetadata.getDomainClazz();
+    try {
+      // Ensure the class is instantiable (not an interface or abstract class)
+      if (!Modifier.isAbstract(clazz.getModifiers()) && !clazz.isInterface()) {
+        return clazz.getDeclaredConstructor().newInstance();
+      } else {
+        throw new IllegalArgumentException("Cannot instantiate " + clazz.getName());
+      }
+    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+      throw new RuntimeException("Failed to create a new instance of " + clazz.getName(), e);
+    }
   }
 
   /**
@@ -110,7 +115,24 @@ import org.springframework.beans.factory.annotation.Autowired;
    * @param value  The value of the TupleElement.
    * @see DomainModel
    */
-  protected abstract void mapTupleElement(M entity, String alias, Object value);
+  protected void mapTupleElement(M entity, String alias, Object value) {
+    BiConsumer<M, Object> function = entityMetadata.getRootMappingFunctions().get(alias);
+    if (ObjectUtils.isEmpty(function)) {
+      return;
+    }
+    function.accept(entity, value);
+  }
+
+  /**
+   * This method is used to upsert the associated entities of the entity that is being transformed.
+   *
+   * @param entity The entity that is to upsert associated entities to.
+   * @param tuple  The Tuple that is being transformed from.
+   * @see DomainModel
+   */
+  protected void upsertAssociatedEntities(M entity, Tuple tuple) {
+    log.info("No associations to upsert for this entity root tuple transformer: {}", this.getClass().getSimpleName());
+  }
 
 
 }

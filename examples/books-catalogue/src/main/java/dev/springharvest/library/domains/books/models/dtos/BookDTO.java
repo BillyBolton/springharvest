@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Schema(name = "BookDTO", description = "A book.")
 public class BookDTO extends BaseDTO<UUID> {
 
+  @Schema(name = "title", description = "The title of the book.", example = "The Cat in the Hat")
   private String title;
 
   private AuthorDTO author;

@@ -3,6 +3,7 @@ package dev.springharvest.search.model.entities;
 import dev.springhavest.common.models.domains.DomainModel;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public interface IEntityMetadata<M extends DomainModel> {
 
@@ -21,6 +22,8 @@ public interface IEntityMetadata<M extends DomainModel> {
   String getDomainNamePlural();
 
   String getDomainName();
+
+  Class<M> getDomainClazz();
 
   Map<String, Class<?>> getRoots();
 
@@ -45,6 +48,8 @@ public interface IEntityMetadata<M extends DomainModel> {
   default Class<?> getClazz(String path) {
     return getPathClazzMap().getOrDefault(path, null);
   }
+
+  Map<String, BiConsumer<M, Object>> getRootMappingFunctions();
 
 
 }
