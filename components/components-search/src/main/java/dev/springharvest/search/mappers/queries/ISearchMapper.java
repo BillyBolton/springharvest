@@ -49,7 +49,7 @@ public interface ISearchMapper<E extends BaseEntity<K>, K extends Serializable, 
 
   @Override
   default Set<String> getRoots() {
-    return getEntityMetadata().getRootPaths();
+    return getEntityMetadata().getRoots().keySet();
   }
 
   IEntityMetadata<E> getEntityMetadata();

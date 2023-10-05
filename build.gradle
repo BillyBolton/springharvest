@@ -141,6 +141,7 @@ subprojects {
         api 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         api 'org.springframework.session:spring-session-core'
+        api 'org.springframework.boot:spring-boot-docker-compose'
 
         api "org.mapstruct:mapstruct:$MAPSTRUCT_VERSION"
         compileOnly 'org.projectlombok:lombok'

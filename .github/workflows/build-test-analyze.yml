@@ -19,7 +19,7 @@ jobs:
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "21"
+          java-version: "17"
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,7 +52,7 @@ jobs:
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "21"
+          java-version: "17"
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
