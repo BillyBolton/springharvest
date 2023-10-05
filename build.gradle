@@ -70,6 +70,10 @@ subprojects {
     apply plugin: 'org.sonarqube'
     apply plugin: 'org.owasp.dependencycheck'
 
+    test {
+        useJUnitPlatform()
+    }
+
     jacocoTestReport {
         reports {
             xml.required.set(true)

@@ -1,5 +1,7 @@
 package dev.springhavest.common.constants;
 
+import dev.springharvest.errors.constants.ExceptionMessages;
+
 /**
  * Contains constants for the REST endpoints of the default CRUD controllers.
  *
@@ -8,10 +10,17 @@ package dev.springhavest.common.constants;
  */
 public class ControllerEndpoints {
 
+  private ControllerEndpoints() {
+    throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
+  }
+
   public static class ControllerContexts {
 
     public static final String EXISTS = "/exists";
 
+    private ControllerContexts() {
+      throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
+    }
   }
 
   /**
@@ -29,6 +38,7 @@ public class ControllerEndpoints {
     public static final String INCLUDE_NULLS_QUERY = QUERY + "includeNulls=";
 
     private ControllerParameters() {
+      throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
     }
   }
 }
