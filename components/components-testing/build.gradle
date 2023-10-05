@@ -9,6 +9,7 @@ dependencyManagement {
 dependencies {
     implementation project(':commons')
     api project(':errors')
+    implementation project(':components:components-crud')
     implementation project(':components:components-search')
 
     api 'org.springframework.boot:spring-boot-starter-data-jpa'

@@ -6,8 +6,8 @@ import dev.springharvest.search.model.queries.requests.filters.BaseFilterDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestBO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
+import dev.springharvest.search.rest.constants.SearchControllerUri;
 import dev.springharvest.search.service.AbstractSearchService;
-import dev.springhavest.common.constants.ControllerEndpoints;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;
@@ -35,11 +35,27 @@ public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity
   }
 
   @Override
-  @PostMapping(value = {ControllerEndpoints.SEARCH}, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @PostMapping(value = {SearchControllerUri.SEARCH}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<D>> search(@RequestBody SearchRequestDTO<RD> searchQuery) {
     List<D> dtos = modelMapper.entityToDto(searchService.search(searchQuery));
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
+  }
+
+  @Override
+  @PostMapping(value = {SearchControllerUri.COUNT}, consumes = MediaType.APPLICATION_JSON_VALUE,
+               produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Integer> count(SearchRequestDTO<RD> searchQuery) {
+    Integer count = searchService.count(searchQuery);
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(count);
+  }
+
+  @Override
+  @PostMapping(value = {SearchControllerUri.EXISTS}, consumes = MediaType.APPLICATION_JSON_VALUE,
+               produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Boolean> exists(SearchRequestDTO<RD> searchQuery) {
+    boolean exists = searchService.exists(searchQuery);
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(exists);
   }
 
 }

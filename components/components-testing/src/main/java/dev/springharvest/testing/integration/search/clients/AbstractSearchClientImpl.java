@@ -2,10 +2,10 @@ package dev.springharvest.testing.integration.search.clients;
 
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
+import dev.springharvest.testing.integration.search.clients.uri.ISearchUriFactory;
+import dev.springharvest.testing.integration.search.clients.uri.SearchUriFactory;
 import dev.springharvest.testing.integration.shared.clients.DomainClientImpl;
 import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
-import dev.springharvest.testing.integration.shared.uri.IUriFactory;
-import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import dev.springhavest.common.contracts.IClazzAware;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import io.restassured.response.ValidatableResponse;
@@ -21,10 +21,10 @@ public abstract class AbstractSearchClientImpl<D extends BaseDTO<K>, K extends S
   @Getter
   private final Class<D> clazz;
   protected RestClientImpl clientHelper;
-  protected IUriFactory uriFactory;
+  protected ISearchUriFactory uriFactory;
 
   @Autowired(required = true)
-  protected AbstractSearchClientImpl(RestClientImpl clientHelper, UriFactory uriFactory, Class<D> clazz) {
+  protected AbstractSearchClientImpl(RestClientImpl clientHelper, SearchUriFactory uriFactory, Class<D> clazz) {
     this.clientHelper = clientHelper;
     this.uriFactory = uriFactory;
     this.clazz = clazz;
@@ -36,8 +36,28 @@ public abstract class AbstractSearchClientImpl<D extends BaseDTO<K>, K extends S
   }
 
   @Override
+  public ValidatableResponse searchCount(SearchRequestDTO<B> filters) {
+    return clientHelper.postAndThen(uriFactory.getPostSearchCountUri(), filters);
+  }
+
+  @Override
+  public ValidatableResponse searchExists(SearchRequestDTO<B> filters) {
+    return clientHelper.postAndThen(uriFactory.getPostSearchExistsUri(), filters);
+  }
+
+  @Override
   public List<D> searchAndExtract(SearchRequestDTO<B> filters) {
-    return extractObjects(search(filters));
+    return extractModels(search(filters));
+  }
+
+  @Override
+  public Integer searchCountAndExtract(SearchRequestDTO<B> filters) {
+    return extractInteger(searchCount(filters));
+  }
+
+  @Override
+  public Boolean searchExistsAndExtract(SearchRequestDTO<B> filters) {
+    return extractBoolean(searchExists(filters));
   }
 
 }

@@ -4,8 +4,8 @@ import dev.springharvest.library.domains.authors.constants.AuthorConstants;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.testing.integration.search.clients.AbstractSearchClientImpl;
+import dev.springharvest.testing.integration.search.clients.uri.SearchUriFactory;
 import dev.springharvest.testing.integration.shared.clients.RestClientImpl;
-import dev.springharvest.testing.integration.shared.uri.UriFactory;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ public class AuthorsSearchClient extends AbstractSearchClientImpl<AuthorDTO, UUI
 
   @Autowired
   protected AuthorsSearchClient(RestClientImpl restClient) {
-    super(restClient, new UriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
+    super(restClient, new SearchUriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
   }
 
 }

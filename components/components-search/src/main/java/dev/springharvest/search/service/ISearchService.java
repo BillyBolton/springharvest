@@ -23,4 +23,8 @@ public interface ISearchService<E extends BaseEntity<K>, K extends Serializable,
    */
   List<E> search(SearchRequestDTO<RD> query);
 
+  Integer count(SearchRequestDTO<RD> query);
+
+  boolean exists(SearchRequestDTO<RD> query);
+
 }

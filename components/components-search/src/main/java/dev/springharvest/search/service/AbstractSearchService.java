@@ -38,7 +38,17 @@ public abstract class AbstractSearchService<E extends BaseEntity<K>, K extends S
   public List<E> search(SearchRequestDTO<RD> filterRequest) {
     var searchRequest = filterMapper.toSearchRequest(filterRequest);
     return searchRepository.search(searchRequest);
+  }
 
+  @Override
+  public Integer count(SearchRequestDTO<RD> filterRequest) {
+    filterRequest.setSelections(List.of());
+    return search(filterRequest).size();
+  }
+
+  @Override
+  public boolean exists(SearchRequestDTO<RD> filterRequest) {
+    return count(filterRequest) > 0;
   }
 
 }

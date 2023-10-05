@@ -56,6 +56,30 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable,
                                                   .filters(Set.of(modelFactory.buildValidFilters())).build()).size());
     }
 
+    /**
+     * Tests if a list of entities can be retrieved by the API via posting search filters.
+     */
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canPostSearchCountQuery(boolean selectAll) {
+      assertEquals(1, client.searchCountAndExtract(SearchRequestDTO.<B>builder()
+                                                       .page(Page.builder().build())
+                                                       .selections(modelFactory.buildValidSelections(selectAll))
+                                                       .filters(Set.of(modelFactory.buildValidFilters())).build()));
+    }
+
+    /**
+     * Tests if a list of entities can be retrieved by the API via posting search filters.
+     */
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canPostSearchExistsQuery(boolean selectAll) {
+      assertEquals(Boolean.TRUE, client.searchExistsAndExtract(SearchRequestDTO.<B>builder()
+                                                                   .page(Page.builder().build())
+                                                                   .selections(modelFactory.buildValidSelections(selectAll))
+                                                                   .filters(Set.of(modelFactory.buildValidFilters())).build()));
+    }
+
   }
 
 }

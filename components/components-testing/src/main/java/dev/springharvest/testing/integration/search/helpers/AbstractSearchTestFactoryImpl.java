@@ -1,17 +1,32 @@
 package dev.springharvest.testing.integration.search.helpers;
 
+import dev.springharvest.search.model.entities.EntityMetadata;
+import dev.springharvest.search.model.entities.IEntityMetadata;
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
+import dev.springhavest.common.models.domains.DomainModel;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.Getter;
 
-public abstract class AbstractSearchTestFactoryImpl<B extends BaseFilterRequestDTO>
+@Getter
+public abstract class AbstractSearchTestFactoryImpl<M extends DomainModel, B extends BaseFilterRequestDTO>
     implements ISearchTestFactory<B> {
 
+  protected final IEntityMetadata<M> entityMetadata;
+  protected final String idPath;
+
+  protected AbstractSearchTestFactoryImpl(EntityMetadata<M> entityMetadata) {
+    this.entityMetadata = entityMetadata;
+    this.idPath = entityMetadata.getDomainName() + "." + "id";
+  }
+
+  @Override
   public Map<String, List<SelectionDTO>> buildValidSelections() {
 
     Map<String, List<SelectionDTO>> selections = new HashMap<>();
@@ -21,6 +36,17 @@ public abstract class AbstractSearchTestFactoryImpl<B extends BaseFilterRequestD
     selections.put("all", buildValidSelections(false));
 
     return selections;
+
+  }
+
+  @Override
+  public List<SelectionDTO> buildValidSelections(boolean selectAll) {
+
+    if (selectAll) {
+      return List.of();
+    }
+
+    return entityMetadata.getPaths().stream().map(path -> SelectionDTO.builder().alias(path).build()).collect(Collectors.toList());
 
   }
 

@@ -31,4 +31,26 @@ public interface ISearchController<RD extends BaseFilterRequestDTO, D extends Ba
                                        description = "The entities found from the provided search filters.")})
   ResponseEntity<List<D>> search(@RequestBody SearchRequestDTO<RD> searchQuery);
 
+  @Operation(operationId = "searchCount", summary = "Retrieves the number of entities matched by the search query.",
+             description = "Use this API to count the number of entities for a search query.",
+             requestBody = @RequestBody(description = """
+                 A list of maps with their keys as the parameter to search by, and the value being the value to match on.
+                 Each parameter pair will be AND-ed, where each individual map will be OR-ed.
+                 In this version, the parameter must be the path to access the attribute in the entity.
+                 """, required = false),
+             responses = {@ApiResponse(responseCode = "200",
+                                       description = "The number of entities found from the provided search filters.")})
+  ResponseEntity<Integer> count(@RequestBody SearchRequestDTO<RD> searchQuery);
+
+  @Operation(operationId = "searchExists", summary = "Identifies if entities exist with the provided search query.",
+             description = "Use this API to identify whether entities exist for a search query.",
+             requestBody = @RequestBody(description = """
+                 A list of maps with their keys as the parameter to search by, and the value being the value to match on.
+                 Each parameter pair will be AND-ed, where each individual map will be OR-ed.
+                 In this version, the parameter must be the path to access the attribute in the entity.
+                 """, required = false),
+             responses = {@ApiResponse(responseCode = "200",
+                                       description = "The number of entities found from the provided search filters.")})
+  ResponseEntity<Boolean> exists(@RequestBody SearchRequestDTO<RD> searchQuery);
+
 }
