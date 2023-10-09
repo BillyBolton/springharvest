@@ -105,11 +105,11 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
     validateStatus(deleteAllByIds(ids), 204);
   }
 
-  private void validateStatus(ValidatableResponse response, int expectedStatusCode) {
+  protected void validateStatus(ValidatableResponse response, int expectedStatusCode) {
     response.statusCode(expectedStatusCode);
   }
 
-  private D extractObject(ValidatableResponse response) {
+  protected D extractObject(ValidatableResponse response) {
     return response.statusCode(200)
         .extract()
         .body()
@@ -117,7 +117,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
         .getObject("", getClazz());
   }
 
-  private List<D> extractObjects(ValidatableResponse response) {
+  protected List<D> extractObjects(ValidatableResponse response) {
     return response.statusCode(200)
         .extract()
         .body()
