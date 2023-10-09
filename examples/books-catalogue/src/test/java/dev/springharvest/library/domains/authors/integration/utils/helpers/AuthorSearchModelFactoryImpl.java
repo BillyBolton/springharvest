@@ -7,7 +7,7 @@ import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequ
 import dev.springharvest.search.model.entities.EntityMetadata;
 import dev.springharvest.search.model.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
-import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
+import dev.springharvest.testing.integration.search.factories.AbstractSearchModelFactoryImpl;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorsSearchModelTestFactory
-    extends AbstractSearchTestFactoryImpl<AuthorEntity, AuthorFilterRequestDTO> {
+public class AuthorSearchModelFactoryImpl
+    extends AbstractSearchModelFactoryImpl<AuthorEntity, AuthorFilterRequestDTO> {
 
   @Autowired
-  public AuthorsSearchModelTestFactory(EntityMetadata<AuthorEntity> entityMetadata) {
+  public AuthorSearchModelFactoryImpl(EntityMetadata<AuthorEntity> entityMetadata) {
     super(entityMetadata);
   }
 

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dev.springhavest.common.constants.ControllerEndpoints;
-import dev.springhavest.common.utils.MetadataMapUtils;
+import dev.springhavest.common.utils.MetadataUtils;
 import dev.springhavest.common.utils.ReflectionUtils;
 import dev.springhavest.common.utils.StringUtils;
 import java.lang.reflect.Constructor;
@@ -19,7 +19,7 @@ class PrivateConstructorTest {
     return Stream.of(ControllerEndpoints.class,
                      ControllerEndpoints.ControllerContexts.class,
                      ControllerEndpoints.ControllerParameters.class,
-                     MetadataMapUtils.class,
+                     MetadataUtils.class,
                      ReflectionUtils.class,
                      StringUtils.class
                     );

@@ -8,7 +8,7 @@ import dev.springharvest.search.model.queries.requests.pages.Page;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
 import dev.springharvest.testing.integration.search.clients.AbstractSearchClientImpl;
 import dev.springharvest.testing.integration.search.clients.ISearchClient;
-import dev.springharvest.testing.integration.search.helpers.ISearchTestFactory;
+import dev.springharvest.testing.integration.search.factories.ISearchModelFactory;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import java.io.Serializable;
 import java.util.Set;
@@ -23,10 +23,10 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable,
 
   protected ISearchClient<D, K, B> client;
 
-  protected ISearchTestFactory<B> modelFactory;
+  protected ISearchModelFactory<B> modelFactory;
 
 
-  protected AbstractSearchIT(AbstractSearchClientImpl<D, K, B> client, ISearchTestFactory<B> modelFactory) {
+  protected AbstractSearchIT(AbstractSearchClientImpl<D, K, B> client, ISearchModelFactory<B> modelFactory) {
     this.client = client;
     this.modelFactory = modelFactory;
   }

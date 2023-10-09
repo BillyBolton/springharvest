@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorsCrudClient extends AbstractCrudClientImpl<AuthorDTO, UUID> {
+public class AuthorCrudClient extends AbstractCrudClientImpl<AuthorDTO, UUID> {
 
   @Autowired(required = true)
-  protected AuthorsCrudClient(RestClientImpl clientHelper) {
+  protected AuthorCrudClient(RestClientImpl clientHelper) {
     super(clientHelper, new CrudUriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
   }
 

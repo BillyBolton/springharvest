@@ -1,5 +1,6 @@
 package dev.springharvest.library.domains.publishers.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @SuperBuilder
@@ -24,4 +26,9 @@ public class PublisherDTO extends BaseDTO<UUID> {
     return id;
   }
 
+  @JsonIgnore
+  @Override
+  public boolean isEmpty() {
+    return StringUtils.isEmpty(name) && id == null;
+  }
 }

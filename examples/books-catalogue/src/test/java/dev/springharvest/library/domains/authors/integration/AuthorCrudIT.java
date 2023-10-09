@@ -1,16 +1,16 @@
-package dev.springharvest.library.domains.publishers.integration;
+package dev.springharvest.library.domains.authors.integration;
 
+import static dev.springharvest.testing.constants.TestConstants.Messages.CONTEXT_LOADS;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
-import dev.springharvest.library.domains.publishers.integration.utils.clients.PublishersSearchClient;
-import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublishersSearchModelTestFactory;
-import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
-import dev.springharvest.testing.constants.TestConstants;
-import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
+import dev.springharvest.library.domains.authors.integration.utils.clients.AuthorCrudClient;
+import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorModelFactoryImpl;
+import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
+import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +26,23 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
     listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
     mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @TestPropertySource(locations = "classpath:application.properties")
-class PublishersSearchIT extends AbstractSearchIT<PublisherDTO, UUID, PublisherFilterRequestDTO> {
+class AuthorCrudIT extends AbstractCrudIT<AuthorDTO, UUID> {
 
   @Autowired
-  public PublishersSearchIT(PublishersSearchClient searchClient, PublishersSearchModelTestFactory testHelper) {
-    super(searchClient, testHelper);
+  public AuthorCrudIT(AuthorCrudClient client, AuthorModelFactoryImpl modelFactory) {
+    super(client, modelFactory);
   }
 
   @Test
   void contextLoads() {
-    Assertions.assertTrue(true, TestConstants.Messages.CONTEXT_LOADS);
+    Assertions.assertTrue(true, CONTEXT_LOADS);
+  }
+
+  @Override
+  public void softlyAssert(SoftAssertions softly, AuthorDTO actual, AuthorDTO expected) {
+    super.softlyAssert(softly, actual, expected);
+    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+    softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
   }
 
 }

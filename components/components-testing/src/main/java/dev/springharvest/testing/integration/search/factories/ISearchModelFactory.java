@@ -1,11 +1,11 @@
-package dev.springharvest.testing.integration.search.helpers;
+package dev.springharvest.testing.integration.search.factories;
 
 import dev.springharvest.search.model.queries.parameters.selections.SelectionDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
 import java.util.List;
 
-public interface ISearchTestFactory<B extends BaseFilterRequestDTO> {
+public interface ISearchModelFactory<B extends BaseFilterRequestDTO> {
 
   String getIdPath();
 
