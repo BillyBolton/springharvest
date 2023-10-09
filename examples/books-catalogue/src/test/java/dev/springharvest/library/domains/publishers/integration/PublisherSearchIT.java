@@ -20,7 +20,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(value = {TestComponentScanningConfig.class, TestContainerConfig.class})
 @TestExecutionListeners(
     listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
