@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import dev.springharvest.testing.integration.crud.clients.AbstractCrudClientImpl;
 import dev.springharvest.testing.integration.crud.clients.ICrudClient;
 import dev.springharvest.testing.integration.shared.factories.IPKModelFactory;
+import dev.springharvest.testing.integration.shared.tests.AbstractBaseIT;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.utils.StringUtils;
 import io.restassured.response.ValidatableResponse;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializable>
+    extends AbstractBaseIT
     implements ICrudIT<D, K> {
 
   protected ICrudClient<D, K> client;
