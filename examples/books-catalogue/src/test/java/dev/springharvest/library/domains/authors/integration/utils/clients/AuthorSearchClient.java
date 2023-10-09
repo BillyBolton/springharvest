@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorsSearchClient extends AbstractSearchClientImpl<AuthorDTO, UUID, AuthorFilterRequestDTO> {
+public class AuthorSearchClient extends AbstractSearchClientImpl<AuthorDTO, UUID, AuthorFilterRequestDTO> {
 
   @Autowired
-  protected AuthorsSearchClient(RestClientImpl restClient) {
+  protected AuthorSearchClient(RestClientImpl restClient) {
     super(restClient, new SearchUriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
   }
 

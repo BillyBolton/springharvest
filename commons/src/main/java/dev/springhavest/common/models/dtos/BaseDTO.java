@@ -1,6 +1,7 @@
 package dev.springhavest.common.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.springhavest.common.models.domains.DomainModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(name = "BaseDTO", description = "The base class for all DTOs that have a String id.")
-public abstract class BaseDTO<K extends Serializable> implements IBaseDTO<K> {
+public abstract class BaseDTO<K extends Serializable> extends DomainModel implements IBaseDTO<K> {
 
   @Schema(name = "id",
           description = "The id of the entity. The 'ExplPrfx_' is the prefix of the domain object that this DTO " +

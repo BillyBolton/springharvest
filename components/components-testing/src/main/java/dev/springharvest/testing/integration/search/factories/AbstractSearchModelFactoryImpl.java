@@ -1,4 +1,4 @@
-package dev.springharvest.testing.integration.search.helpers;
+package dev.springharvest.testing.integration.search.factories;
 
 import dev.springharvest.search.model.entities.EntityMetadata;
 import dev.springharvest.search.model.entities.IEntityMetadata;
@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter
-public abstract class AbstractSearchTestFactoryImpl<M extends DomainModel, B extends BaseFilterRequestDTO>
-    implements ISearchTestFactory<B> {
+public abstract class AbstractSearchModelFactoryImpl<M extends DomainModel, B extends BaseFilterRequestDTO>
+    implements ISearchModelFactory<B> {
 
   protected final IEntityMetadata<M> entityMetadata;
   protected final String idPath;
 
-  protected AbstractSearchTestFactoryImpl(EntityMetadata<M> entityMetadata) {
+  protected AbstractSearchModelFactoryImpl(EntityMetadata<M> entityMetadata) {
     this.entityMetadata = entityMetadata;
     this.idPath = entityMetadata.getDomainName() + "." + "id";
   }

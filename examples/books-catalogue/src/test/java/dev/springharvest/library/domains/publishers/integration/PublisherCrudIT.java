@@ -1,12 +1,13 @@
-package dev.springharvest.library.domains.books.integration;
+package dev.springharvest.library.domains.publishers.integration;
+
 
 import static dev.springharvest.testing.constants.TestConstants.Messages.CONTEXT_LOADS;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
-import dev.springharvest.library.domains.books.integration.utils.clients.BooksCrudClient;
-import dev.springharvest.library.domains.books.integration.utils.helpers.BooksModelFactoryImpl;
-import dev.springharvest.library.domains.books.models.dtos.BookDTO;
+import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherCrudClient;
+import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherModelFactory;
+import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
@@ -26,11 +27,11 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
     listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
     mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @TestPropertySource(locations = "classpath:application.properties")
-class BooksCrudIT extends AbstractCrudIT<BookDTO, UUID> {
+class PublisherCrudIT extends AbstractCrudIT<PublisherDTO, UUID> {
 
   @Autowired
-  public BooksCrudIT(BooksCrudClient clientHelper, BooksModelFactoryImpl testHelper) {
-    super(clientHelper, testHelper);
+  public PublisherCrudIT(PublisherCrudClient client, PublisherModelFactory modelFactory) {
+    super(client, modelFactory);
   }
 
   @Test
@@ -39,12 +40,10 @@ class BooksCrudIT extends AbstractCrudIT<BookDTO, UUID> {
   }
 
   @Override
-  public void softlyAssert(SoftAssertions softly, BookDTO actual, BookDTO expected) {
+  public void softlyAssert(SoftAssertions softly, PublisherDTO actual, PublisherDTO expected) {
     super.softlyAssert(softly, actual, expected);
     softly.assertThat(actual.getId()).isEqualTo(expected.getId());
-    softly.assertThat(actual.getTitle()).isEqualToIgnoringCase(expected.getTitle());
-    softly.assertThat(actual.getAuthor()).isEqualTo(expected.getAuthor());
-    softly.assertThat(actual.getPublisher()).isEqualTo(expected.getPublisher());
+    softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
   }
 
 }

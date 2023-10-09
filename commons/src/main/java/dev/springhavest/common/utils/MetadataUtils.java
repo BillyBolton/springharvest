@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MetadataMapUtils {
+public class MetadataUtils {
 
-  private MetadataMapUtils() {
+  private MetadataUtils() {
     throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
   }
 

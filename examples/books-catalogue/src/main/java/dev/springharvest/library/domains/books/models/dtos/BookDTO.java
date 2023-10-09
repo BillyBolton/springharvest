@@ -1,5 +1,6 @@
 package dev.springharvest.library.domains.books.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
 import dev.springhavest.common.models.dtos.BaseDTO;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @SuperBuilder
@@ -30,4 +32,9 @@ public class BookDTO extends BaseDTO<UUID> {
     return id;
   }
 
+  @JsonIgnore
+  @Override
+  public boolean isEmpty() {
+    return StringUtils.isBlank(title) && (author == null || author.isEmpty()) && (publisher == null || publisher.isEmpty());
+  }
 }

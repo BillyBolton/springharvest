@@ -1,4 +1,4 @@
-package dev.springharvest.library.domains.publishers.integration.utils.helpers;
+package dev.springharvest.library.domains.publishers.integration.utils.factories;
 
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
@@ -8,7 +8,7 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.search.model.entities.EntityMetadata;
 import dev.springharvest.search.model.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
-import dev.springharvest.testing.integration.search.helpers.AbstractSearchTestFactoryImpl;
+import dev.springharvest.testing.integration.search.factories.AbstractSearchModelFactoryImpl;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class PublishersSearchModelTestFactory
-    extends AbstractSearchTestFactoryImpl<PublisherEntity, PublisherFilterRequestDTO> {
+public class PublisherSearchModelFactory
+    extends AbstractSearchModelFactoryImpl<PublisherEntity, PublisherFilterRequestDTO> {
 
   @Autowired
-  public PublishersSearchModelTestFactory(EntityMetadata<PublisherEntity> entityMetadata) {
+  public PublisherSearchModelFactory(EntityMetadata<PublisherEntity> entityMetadata) {
     super(entityMetadata);
   }
 

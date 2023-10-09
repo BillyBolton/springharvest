@@ -1,9 +1,9 @@
-package dev.springharvest.library.domains.authors.integration.utils.helpers;
+package dev.springharvest.library.domains.authors.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
-import dev.springharvest.testing.integration.shared.helpers.AbstractModelTestFactory;
-import dev.springharvest.testing.integration.shared.helpers.IModelTestFactory;
+import dev.springharvest.testing.integration.shared.factories.AbstractModelFactory;
+import dev.springharvest.testing.integration.shared.factories.IPKModelFactory;
 import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Import;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorsModelFactoryImpl extends AbstractModelTestFactory<AuthorDTO, UUID>
-    implements IModelTestFactory<AuthorDTO, UUID> {
+public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID>
+    implements IPKModelFactory<AuthorDTO, UUID> {
 
   @Override
   public UUID getRandomId() {

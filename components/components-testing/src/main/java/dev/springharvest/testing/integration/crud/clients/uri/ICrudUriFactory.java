@@ -3,15 +3,15 @@ package dev.springharvest.testing.integration.crud.clients.uri;
 // This is an interface that will be used to create the URIs for the endpoints that will be used to
 // test the API.
 
+import dev.springharvest.testing.integration.shared.clients.uri.UriFactory;
+
 /**
  * > This is an interface that will be used to create the URIs for the endpoints that will be used to test the API.
  *
  * @author Billy Bolton
  * @version 1.0
  */
-public interface ICrudUriFactory {
-
-  String domainContext();
+public interface ICrudUriFactory extends UriFactory {
 
   /**
    * > Returns the URI for the `existsById` endpoint

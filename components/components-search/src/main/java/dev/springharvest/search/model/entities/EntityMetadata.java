@@ -1,7 +1,7 @@
 package dev.springharvest.search.model.entities;
 
 import dev.springhavest.common.models.domains.DomainModel;
-import dev.springhavest.common.utils.MetadataMapUtils;
+import dev.springhavest.common.utils.MetadataUtils;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import lombok.Getter;
@@ -32,8 +32,8 @@ public abstract class EntityMetadata<M extends DomainModel> implements IEntityMe
     this.roots = roots;
     this.rootPathClazzMap = rootPathClazzMap;
     this.rootMappingFunctions = rootMappingFunctions;
-    this.nestedPathClazzMap = MetadataMapUtils.appendDomainPrefix(domainName, nestedPathClazzMap);
-    this.pathClazzMap = MetadataMapUtils.union(this.rootPathClazzMap, this.nestedPathClazzMap);
+    this.nestedPathClazzMap = MetadataUtils.appendDomainPrefix(domainName, nestedPathClazzMap);
+    this.pathClazzMap = MetadataUtils.union(this.rootPathClazzMap, this.nestedPathClazzMap);
   }
 
 }
