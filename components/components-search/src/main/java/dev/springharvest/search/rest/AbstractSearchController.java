@@ -45,7 +45,7 @@ public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity
   @Override
   @PostMapping(value = {SearchControllerUri.COUNT}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Integer> count(SearchRequestDTO<RD> searchQuery) {
+  public ResponseEntity<Integer> count(@RequestBody SearchRequestDTO<RD> searchQuery) {
     Integer count = searchService.count(searchQuery);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(count);
   }
@@ -53,7 +53,7 @@ public class AbstractSearchController<D extends BaseDTO<K>, E extends BaseEntity
   @Override
   @PostMapping(value = {SearchControllerUri.EXISTS}, consumes = MediaType.APPLICATION_JSON_VALUE,
                produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Boolean> exists(SearchRequestDTO<RD> searchQuery) {
+  public ResponseEntity<Boolean> exists(@RequestBody SearchRequestDTO<RD> searchQuery) {
     boolean exists = searchService.exists(searchQuery);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(exists);
   }
