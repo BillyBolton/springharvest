@@ -1,4 +1,4 @@
-package dev.springharvest.library.domains.publishers.integration.utils.helpers;
+package dev.springharvest.library.domains.publishers.integration.utils.factories;
 
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class PublisherSearchModelFactoryImpl
+public class PublisherSearchModelFactory
     extends AbstractSearchModelFactoryImpl<PublisherEntity, PublisherFilterRequestDTO> {
 
   @Autowired
-  public PublisherSearchModelFactoryImpl(EntityMetadata<PublisherEntity> entityMetadata) {
+  public PublisherSearchModelFactory(EntityMetadata<PublisherEntity> entityMetadata) {
     super(entityMetadata);
   }
 

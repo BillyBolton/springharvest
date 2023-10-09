@@ -1,4 +1,4 @@
-package dev.springharvest.library.domains.authors.integration.utils.helpers;
+package dev.springharvest.library.domains.authors.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorSearchModelFactoryImpl
+public class AuthorSearchModelFactory
     extends AbstractSearchModelFactoryImpl<AuthorEntity, AuthorFilterRequestDTO> {
 
   @Autowired
-  public AuthorSearchModelFactoryImpl(EntityMetadata<AuthorEntity> entityMetadata) {
+  public AuthorSearchModelFactory(EntityMetadata<AuthorEntity> entityMetadata) {
     super(entityMetadata);
   }
 

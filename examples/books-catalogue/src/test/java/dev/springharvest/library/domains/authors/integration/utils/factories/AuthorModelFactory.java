@@ -1,4 +1,4 @@
-package dev.springharvest.library.domains.authors.integration.utils.helpers;
+package dev.springharvest.library.domains.authors.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorModelFactoryImpl extends AbstractModelFactory<AuthorDTO, UUID>
+public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID>
     implements IPKModelFactory<AuthorDTO, UUID> {
 
   @Override

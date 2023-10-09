@@ -5,7 +5,7 @@ import static dev.springharvest.testing.constants.TestConstants.Messages.CONTEXT
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.books.integration.utils.clients.BookSearchClient;
-import dev.springharvest.library.domains.books.integration.utils.helpers.BookSearchModelFactoryImpl;
+import dev.springharvest.library.domains.books.integration.utils.factories.BookSearchModelFactory;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
 import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
@@ -29,7 +29,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 class BookSearchIT extends AbstractSearchIT<BookDTO, UUID, BookFilterRequestDTO> {
 
   @Autowired
-  public BookSearchIT(BookSearchClient searchClient, BookSearchModelFactoryImpl modelFactory) {
+  public BookSearchIT(BookSearchClient searchClient, BookSearchModelFactory modelFactory) {
     super(searchClient, modelFactory);
   }
 

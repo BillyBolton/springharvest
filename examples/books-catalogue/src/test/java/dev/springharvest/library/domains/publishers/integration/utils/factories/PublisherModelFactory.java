@@ -1,4 +1,4 @@
-package dev.springharvest.library.domains.publishers.integration.utils.helpers;
+package dev.springharvest.library.domains.publishers.integration.utils.factories;
 
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class PublisherModelFactoryImpl extends AbstractModelFactory<PublisherDTO, UUID>
+public class PublisherModelFactory extends AbstractModelFactory<PublisherDTO, UUID>
     implements IPKModelFactory<PublisherDTO, UUID> {
 
   @Override

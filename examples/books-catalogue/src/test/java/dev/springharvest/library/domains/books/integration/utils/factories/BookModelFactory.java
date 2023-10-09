@@ -1,11 +1,11 @@
-package dev.springharvest.library.domains.books.integration.utils.helpers;
+package dev.springharvest.library.domains.books.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.authors.integration.utils.clients.AuthorCrudClient;
-import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorModelFactoryImpl;
+import dev.springharvest.library.domains.authors.integration.utils.factories.AuthorModelFactory;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherCrudClient;
-import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublisherModelFactoryImpl;
+import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherModelFactory;
 import dev.springharvest.testing.integration.shared.factories.AbstractModelFactory;
 import dev.springharvest.testing.integration.shared.factories.IPKModelFactory;
 import java.util.UUID;
@@ -16,17 +16,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class BookModelFactoryImpl extends AbstractModelFactory<BookDTO, UUID>
+public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
     implements IPKModelFactory<BookDTO, UUID> {
 
   private final AuthorCrudClient authorCrudClient;
-  private final AuthorModelFactoryImpl authorsModelFactory;
+  private final AuthorModelFactory authorsModelFactory;
   private final PublisherCrudClient publisherCrudClient;
-  private final PublisherModelFactoryImpl publishersModelFactory;
+  private final PublisherModelFactory publishersModelFactory;
 
   @Autowired(required = true)
-  protected BookModelFactoryImpl(AuthorCrudClient authorCrudClient, AuthorModelFactoryImpl authorsModelFactory, PublisherCrudClient publisherCrudClient,
-                                 PublisherModelFactoryImpl publishersModelFactory) {
+  protected BookModelFactory(AuthorCrudClient authorCrudClient, AuthorModelFactory authorsModelFactory, PublisherCrudClient publisherCrudClient,
+                             PublisherModelFactory publishersModelFactory) {
     this.authorCrudClient = authorCrudClient;
     this.authorsModelFactory = authorsModelFactory;
     this.publisherCrudClient = publisherCrudClient;

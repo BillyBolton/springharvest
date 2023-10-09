@@ -4,7 +4,7 @@ package dev.springharvest.library.domains.publishers.integration;
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherSearchClient;
-import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublisherSearchModelFactoryImpl;
+import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherSearchModelFactory;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.testing.constants.TestConstants;
@@ -29,7 +29,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 class PublisherSearchIT extends AbstractSearchIT<PublisherDTO, UUID, PublisherFilterRequestDTO> {
 
   @Autowired
-  public PublisherSearchIT(PublisherSearchClient searchClient, PublisherSearchModelFactoryImpl modelFactory) {
+  public PublisherSearchIT(PublisherSearchClient searchClient, PublisherSearchModelFactory modelFactory) {
     super(searchClient, modelFactory);
   }
 

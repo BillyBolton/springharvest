@@ -1,4 +1,4 @@
-package dev.springharvest.library.domains.books.integration.utils.helpers;
+package dev.springharvest.library.domains.books.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class BookSearchModelFactoryImpl
+public class BookSearchModelFactory
     extends AbstractSearchModelFactoryImpl<BookEntity, BookFilterRequestDTO> {
 
   @Autowired
-  public BookSearchModelFactoryImpl(EntityMetadata<BookEntity> entityMetadata) {
+  public BookSearchModelFactory(EntityMetadata<BookEntity> entityMetadata) {
     super(entityMetadata);
   }
 

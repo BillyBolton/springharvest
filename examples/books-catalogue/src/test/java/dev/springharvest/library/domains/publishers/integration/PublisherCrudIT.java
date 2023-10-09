@@ -6,7 +6,7 @@ import static dev.springharvest.testing.constants.TestConstants.Messages.CONTEXT
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherCrudClient;
-import dev.springharvest.library.domains.publishers.integration.utils.helpers.PublisherModelFactoryImpl;
+import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherModelFactory;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
@@ -30,7 +30,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 class PublisherCrudIT extends AbstractCrudIT<PublisherDTO, UUID> {
 
   @Autowired
-  public PublisherCrudIT(PublisherCrudClient client, PublisherModelFactoryImpl modelFactory) {
+  public PublisherCrudIT(PublisherCrudClient client, PublisherModelFactory modelFactory) {
     super(client, modelFactory);
   }
 

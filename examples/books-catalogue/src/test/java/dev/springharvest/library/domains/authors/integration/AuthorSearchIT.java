@@ -3,7 +3,7 @@ package dev.springharvest.library.domains.authors.integration;
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.authors.integration.utils.clients.AuthorSearchClient;
-import dev.springharvest.library.domains.authors.integration.utils.helpers.AuthorSearchModelFactoryImpl;
+import dev.springharvest.library.domains.authors.integration.utils.factories.AuthorSearchModelFactory;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.testing.constants.TestConstants;
@@ -28,7 +28,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 class AuthorSearchIT extends AbstractSearchIT<AuthorDTO, UUID, AuthorFilterRequestDTO> {
 
   @Autowired
-  public AuthorSearchIT(AuthorSearchClient searchClient, AuthorSearchModelFactoryImpl modelFactory) {
+  public AuthorSearchIT(AuthorSearchClient searchClient, AuthorSearchModelFactory modelFactory) {
     super(searchClient, modelFactory);
   }
 
