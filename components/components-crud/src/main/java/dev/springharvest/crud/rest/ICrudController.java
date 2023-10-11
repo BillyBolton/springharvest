@@ -43,12 +43,17 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
                             required = false),
                  @Parameter(description = "The page number of the pageable entities that are returned.",
                             name = "page",
+                            required = false),
+                 @Parameter(description = "The attributes to sort by, ascending or descending.",
+                            name = "sorts",
+                            example = "id-asc",
                             required = false)
              },
              responses = {@ApiResponse(responseCode = "200", description = "The retrieved entities.")}
   )
   ResponseEntity<Page<D>> findAll(@RequestParam(name = "size", required = false) Integer size,
-                                  @RequestParam(name = "page", required = false) Integer page
+                                  @RequestParam(name = "page", required = false) Integer page,
+                                  @RequestParam(name = "sorts", required = false) List<String> sorts
                                  );
 
   @Operation(operationId = "create", summary = "Creates an entity.",

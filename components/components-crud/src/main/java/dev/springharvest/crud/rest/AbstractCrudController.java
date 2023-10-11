@@ -15,9 +15,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * A generic implementation of the IBaseCrudController interface.
@@ -82,10 +86,21 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<D>> findAll(@RequestParam(name = "size", required = false) Integer size,
-                                         @RequestParam(name = "page", required = false) Integer page) {
+                                         @RequestParam(name = "page", required = false) Integer page,
+                                         @RequestParam(name = "sorts", required = false) List<String> sorts
+                                        ) {
+    boolean isPageable = size != null && size >= 1 && page != null && page >= 0 && CollectionUtils.isNotEmpty(sorts);
 
-    boolean isPageable = size != null && size >= 1 && page != null && page >= 0;
-    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(size, page) : Pageable.unpaged());
+    Sort sort = isPageable && CollectionUtils.isEmpty(sorts) ?
+                Sort.unsorted() :
+                Sort.by(sorts.stream().map(order -> {
+                  String[] orderSplit = order.split("-");
+                  if (orderSplit.length != 2) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid sort parameter: " + order);
+                  }
+                  return new Sort.Order(Sort.Direction.fromString(orderSplit[1]), orderSplit[0]);
+                }).toList());
+    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(size, page, sort) : Pageable.unpaged());
     Page<D> dtos = modelMapper.pagedEntityToPagedDto(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
   }
