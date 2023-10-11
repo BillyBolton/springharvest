@@ -1,4 +1,4 @@
-package dev.springharvest.crud.mappers;
+package dev.springhavest.common.mappers;
 
 import java.util.HashMap;
 import java.util.Map;

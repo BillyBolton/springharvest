@@ -7,8 +7,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.io.Serializable;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * This interface is used to define the contract for a base controller. The @Operation annotation is used to define the OpenAPI specification for the
@@ -27,18 +28,28 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
   @Operation(operationId = "findById", summary = "Retrieves the entity.",
              description = "Use this API to retrieve an entity by their primary key id.",
              parameters = {@Parameter(description = "The primary key id of the entity to be retrieved.", name = "id",
-                                      required = true)}, responses = {@ApiResponse(responseCode = "200",
-                                                                                   description = "The entity with " +
-                                                                                                 "the given primary" +
-                                                                                                 " key id")})
-  ResponseEntity<D> findById(@PathVariable(required = true) K id);
-  
-  @Deprecated(since = "1.0", forRemoval = false)
+                                      required = true)},
+             responses = {@ApiResponse(responseCode = "200",
+                                       description = "The entity with " +
+                                                     "the given primary" +
+                                                     " key id")})
+  ResponseEntity<D> findById(@RequestParam(name = "id", required = true) K id);
+
   @Operation(operationId = "findAll", summary = "Retrieves a list of entities.",
-             description = "Use this API to retrieve an entity by their primary key id.",
-             responses = {@ApiResponse(responseCode = "200", description = "The retrieved entities.")},
-             deprecated = true)
-  ResponseEntity<List<D>> findAll();
+             description = "Use this API to retrieve an entity by their primary key id. Leaving all parameters empty will return all entities.",
+             parameters = {
+                 @Parameter(description = "The maximum number of entities to return on any single page.",
+                            name = "size",
+                            required = false),
+                 @Parameter(description = "The page number of the pageable entities that are returned.",
+                            name = "page",
+                            required = false)
+             },
+             responses = {@ApiResponse(responseCode = "200", description = "The retrieved entities.")}
+  )
+  ResponseEntity<Page<D>> findAll(@RequestParam(name = "size", required = false) Integer size,
+                                  @RequestParam(name = "page", required = false) Integer page
+                                 );
 
   @Operation(operationId = "create", summary = "Creates an entity.",
              description = "Use this API to create a new entity.",
@@ -58,7 +69,6 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
                                                                                                   ".")})
   ResponseEntity<List<D>> createAll(@RequestBody List<D> dtos);
 
-  @Deprecated(since = "1.0", forRemoval = false)
   @Operation(operationId = "update", summary = "Updates an entity.",
              description = "Use this API to partially update a new entity.",
              requestBody = @RequestBody(description = """
@@ -67,7 +77,7 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
                  The id in the DTO is ignored.
                  """, required = true),
              responses = {@ApiResponse(responseCode = "200", description = "The updated entity.")}, deprecated = true)
-  ResponseEntity<D> update(@PathVariable(required = true) K id, @RequestBody D dto);
+  ResponseEntity<D> update(@RequestParam(name = "id", required = true) K id, @RequestBody D dto);
 
   @Operation(operationId = "update", summary = "Updates an entity.",
              description = "Use this API to partially update a new entity.",
@@ -85,7 +95,7 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
              parameters = @Parameter(name = "id", description = "The id used to delete the entity by.",
                                      required = true), responses = {@ApiResponse(responseCode = "204", description =
       "The entity was deleted by its id successfully. A redirect is" + " not required.")})
-  ResponseEntity<Void> deleteById(@PathVariable(required = true) K id);
+  ResponseEntity<Void> deleteById(@RequestParam(name = "id", required = true) K id);
 
   @Operation(operationId = "deleteAllById", summary = "Delete all entities by their ids.",
              description = "Use this API to delete any entity in this domain that matches the passed ids.",

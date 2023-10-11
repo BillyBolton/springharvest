@@ -2,15 +2,20 @@ package dev.springharvest.crud.service;
 
 import dev.springharvest.crud.persistence.ICrudRepository;
 import dev.springhavest.common.models.entities.BaseEntity;
+import dev.springhavest.common.models.entities.embeddable.ITraceableEntity;
+import dev.springhavest.common.models.entities.embeddable.TraceDataEntity;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -55,8 +60,8 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Override
   @Transactional(readOnly = true)
-  public List<E> findAll() {
-    return crudRepository.findAll();
+  public Page<E> findAll(Pageable pageable) {
+    return crudRepository.findAll(pageable);
   }
 
   @Transactional
@@ -101,6 +106,13 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     if (!existsById(id)) {
       throw new EntityNotFoundException();
     }
+    
+    if (source instanceof ITraceableEntity) {
+      TraceDataEntity<K> traceData = ((ITraceableEntity) source).getTraceData();
+      traceData.setDateUpdated(new Date());
+      ((ITraceableEntity<K>) source).setTraceData(traceData);
+    }
+
     return source;
   }
 
@@ -115,6 +127,12 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   protected E beforeCreation(E entity) {
     entity.setId(null);
+    if (entity instanceof ITraceableEntity) {
+      ((ITraceableEntity) entity).setTraceData(TraceDataEntity.builder()
+                                                   .dateCreated(new Date())
+                                                   .dateUpdated(new Date())
+                                                   .build());
+    }
     return entity;
   }
 

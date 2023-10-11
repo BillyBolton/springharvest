@@ -1,4 +1,4 @@
-package dev.springharvest.crud.mappers;
+package dev.springhavest.common.mappers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
+import org.springframework.data.domain.Page;
 
 /**
  * A generic interface that can be used to map any domain model (data-transfer-object or Entity) to and from each other.
@@ -25,6 +26,10 @@ import org.mapstruct.MappingTarget;
  * @since 1.0
  */
 public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable> {
+
+  default Page<D> pagedEntityToPagedDto(Page<E> page) {
+    return page.map(this::entityToDto);
+  }
 
   /**
    * This method is used to map a DTO object to an Entity.

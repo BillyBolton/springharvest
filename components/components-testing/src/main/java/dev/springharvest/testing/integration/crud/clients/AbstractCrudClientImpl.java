@@ -10,12 +10,16 @@ import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Serializable>
     implements ICrudClient<D, K>, IClazzAware<D> {
 
   @Getter
   protected Class<D> clazz;
+
+  @Getter
+  protected Class<Page<D>> pageClazz;
   protected RestClientImpl clientHelper;
   protected ICrudUriFactory uriFactory;
 
@@ -33,7 +37,7 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
 
   @Override
   public List<D> findAllAndExtract() {
-    return extractObjects(findAll());
+    return extractObjectsFromPage(findAll());
   }
 
   @Override
@@ -117,12 +121,21 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
         .getObject("", getClazz());
   }
 
+
   protected List<D> extractObjects(ValidatableResponse response) {
     return response.statusCode(200)
         .extract()
         .body()
         .jsonPath()
         .getList("", getClazz());
+  }
+
+  protected List<D> extractObjectsFromPage(ValidatableResponse response) {
+    return response.statusCode(200)
+        .extract()
+        .body()
+        .jsonPath()
+        .getList("content", getClazz());
   }
 
 }

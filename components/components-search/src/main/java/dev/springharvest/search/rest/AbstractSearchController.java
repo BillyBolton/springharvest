@@ -1,6 +1,5 @@
 package dev.springharvest.search.rest;
 
-import dev.springharvest.crud.mappers.IBaseModelMapper;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterBO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterDTO;
 import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestBO;
@@ -8,6 +7,7 @@ import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequest
 import dev.springharvest.search.model.queries.requests.search.SearchRequestDTO;
 import dev.springharvest.search.rest.constants.SearchControllerUri;
 import dev.springharvest.search.service.AbstractSearchService;
+import dev.springhavest.common.mappers.IBaseModelMapper;
 import dev.springhavest.common.models.dtos.BaseDTO;
 import dev.springhavest.common.models.entities.BaseEntity;
 import java.io.Serializable;

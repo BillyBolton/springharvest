@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * The interface used to define the contract for a base service.
@@ -44,7 +46,7 @@ public interface ICrudService<E extends BaseEntity<K>, K extends Serializable> {
    *
    * @return All entities of the entity domain.
    */
-  List<E> findAll();
+  Page<E> findAll(Pageable pageable);
 
   /**
    * Saves a new entity to the database if it does not already exist.

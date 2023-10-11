@@ -1,11 +1,11 @@
 package dev.springharvest.library.domains.books.mappers;
 
-import dev.springharvest.crud.mappers.CyclicMappingHandler;
-import dev.springharvest.crud.mappers.IBaseModelMapper;
 import dev.springharvest.library.domains.authors.mappers.IAuthorMapper;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
 import dev.springharvest.library.domains.publishers.mappers.IPublisherMapper;
+import dev.springhavest.common.mappers.CyclicMappingHandler;
+import dev.springhavest.common.mappers.ITraceableModelMapper;
 import java.util.Map;
 import java.util.UUID;
 import org.mapstruct.Builder;
@@ -15,7 +15,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true),
         uses = {IAuthorMapper.class, IPublisherMapper.class})
-public interface IBookMapper extends IBaseModelMapper<BookDTO, BookEntity, UUID> {
+public interface IBookMapper extends ITraceableModelMapper<BookDTO, BookEntity, UUID> {
 
   @Override
   @Mapping(target = "author", source = ".")
