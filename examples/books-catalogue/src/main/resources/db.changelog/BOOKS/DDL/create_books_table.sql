@@ -13,4 +13,4 @@ CREATE TABLE books
     FOREIGN KEY (author_id) REFERENCES AUTHORS (id) ON DELETE CASCADE,
     FOREIGN KEY (publisher_id) REFERENCES PUBLISHERS (id) ON DELETE CASCADE,
     UNIQUE (title, author_id)
-);
+) INHERITS (base_trace_parent);
