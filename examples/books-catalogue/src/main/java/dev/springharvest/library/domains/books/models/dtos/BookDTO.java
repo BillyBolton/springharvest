@@ -3,7 +3,7 @@ package dev.springharvest.library.domains.books.models.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
+import dev.springharvest.shared.domains.embeddables.traces.traceable.models.dtos.AbstractTraceableDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
 import lombok.Data;
@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Schema(name = "BookDTO", description = "A book.")
-public class BookDTO extends BaseDTO<UUID> {
+public class BookDTO extends AbstractTraceableDTO<UUID> {
 
   @Schema(name = "title", description = "The title of the book.", example = "The Cat in the Hat")
   private String title;

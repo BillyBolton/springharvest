@@ -5,6 +5,7 @@ import dev.springharvest.library.domains.publishers.models.entities.PublisherEnt
 import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
 import dev.springharvest.shared.domains.base.mappers.IBaseModelMapper;
 import dev.springharvest.shared.domains.embeddables.traces.trace.mappers.UUIDTraceDataMapper;
+import java.util.Map;
 import java.util.UUID;
 import org.mapstruct.Builder;
 import org.mapstruct.Context;
@@ -20,5 +21,13 @@ public interface IPublisherMapper extends IBaseModelMapper<PublisherDTO, Publish
   @Mapping(target = "name", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   PublisherDTO setDirtyFields(PublisherDTO source, @MappingTarget PublisherDTO target,
                               @Context CyclicMappingHandler context);
+
+  @Override
+  @Mapping(target = "traceData", source = ".")
+  PublisherDTO toDto(Map<String, String> source, @Context CyclicMappingHandler context);
+
+  @Override
+  @Mapping(target = "traceData", source = ".")
+  PublisherEntity toEntity(Map<String, String> source, @Context CyclicMappingHandler context);
 
 }

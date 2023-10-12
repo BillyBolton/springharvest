@@ -21,11 +21,13 @@ public interface IBookMapper extends IBaseModelMapper<BookDTO, BookEntity, UUID>
   @Override
   @Mapping(target = "author", source = ".")
   @Mapping(target = "publisher", source = ".")
+  @Mapping(target = "traceData", source = ".")
   BookDTO toDto(Map<String, String> source, @Context CyclicMappingHandler context);
 
   @Override
   @Mapping(target = "author", source = ".")
   @Mapping(target = "publisher", source = ".")
+  @Mapping(target = "traceData", source = ".")
   BookEntity toEntity(Map<String, String> source, @Context CyclicMappingHandler context);
 
 }
