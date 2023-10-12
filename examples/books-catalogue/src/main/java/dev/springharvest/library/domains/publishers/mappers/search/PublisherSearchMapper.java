@@ -8,7 +8,7 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.library.global.GlobalClazzResolver;
-import dev.springharvest.search.mappers.queries.ISearchMapper;
+import dev.springharvest.search.domains.base.mappers.queries.ISearchMapper;
 import java.util.UUID;
 import lombok.Getter;
 import org.mapstruct.Builder;

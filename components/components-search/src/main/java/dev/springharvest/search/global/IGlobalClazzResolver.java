@@ -1,6 +1,6 @@
 package dev.springharvest.search.global;
 
-import dev.springharvest.search.model.entities.IEntityMetadata;
+import dev.springharvest.search.domains.base.models.entities.IEntityMetadata;
 import java.util.Map;
 
 public interface IGlobalClazzResolver {

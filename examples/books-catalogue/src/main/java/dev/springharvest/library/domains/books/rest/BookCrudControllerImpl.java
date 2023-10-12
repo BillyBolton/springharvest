@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.books.rest;
 
-import dev.springharvest.crud.rest.AbstractCrudController;
+import dev.springharvest.crud.domains.base.rest.AbstractCrudController;
 import dev.springharvest.library.domains.books.constants.BookConstants;
 import dev.springharvest.library.domains.books.mappers.IBookMapper;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;

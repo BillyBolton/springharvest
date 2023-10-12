@@ -1,9 +1,9 @@
 package dev.springharvest.library.domains.books.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
+import dev.springharvest.library.domains.authors.models.dtos.AuthorDTOAbstract;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springhavest.common.models.dtos.BaseDTO;
+import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class BookDTO extends BaseDTO<UUID> {
   @Schema(name = "title", description = "The title of the book.", example = "The Cat in the Hat")
   private String title;
 
-  private AuthorDTO author;
+  private AuthorDTOAbstract author;
 
   private PublisherDTO publisher;
 

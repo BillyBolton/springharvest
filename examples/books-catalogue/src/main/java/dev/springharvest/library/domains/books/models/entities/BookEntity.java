@@ -3,7 +3,7 @@ package dev.springharvest.library.domains.books.models.entities;
 
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.library.domains.publishers.models.entities.PublisherEntity;
-import dev.springhavest.common.models.entities.BaseEntity;
+import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

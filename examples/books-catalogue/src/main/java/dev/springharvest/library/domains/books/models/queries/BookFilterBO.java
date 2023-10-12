@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.books.models.queries;
 
-import dev.springharvest.search.model.queries.parameters.filters.FilterParameterBO;
-import dev.springharvest.search.model.queries.requests.filters.BaseFilterBO;
+import dev.springharvest.search.domains.base.models.queries.parameters.filters.FilterParameterBO;
+import dev.springharvest.search.domains.base.models.queries.requests.filters.BaseFilterBO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

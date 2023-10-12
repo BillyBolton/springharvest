@@ -3,7 +3,7 @@ package dev.springharvest.search.unit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import dev.springharvest.search.rest.constants.SearchControllerUri;
+import dev.springharvest.search.domains.base.rest.constants.SearchControllerUri;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;

@@ -1,8 +1,8 @@
 package dev.springharvest.library.domains.publishers.models.entities;
 
 import dev.springharvest.errors.constants.ExceptionMessages;
-import dev.springharvest.search.model.entities.EntityMetadata;
-import dev.springhavest.common.models.entities.BaseEntity_;
+import dev.springharvest.search.domains.base.models.entities.EntityMetadata;
+import dev.springharvest.shared.domains.base.models.entities.BaseEntity_;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;

@@ -8,8 +8,8 @@ import dev.springharvest.library.domains.publishers.integration.utils.factories.
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.testing.constants.TestConstants;
-import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
-import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
+import dev.springharvest.testing.domains.integration.search.tests.AbstractSearchIT;
+import dev.springharvest.testing.domains.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

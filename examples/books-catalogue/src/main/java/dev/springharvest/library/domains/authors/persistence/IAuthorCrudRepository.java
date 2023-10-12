@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.authors.persistence;
 
-import dev.springharvest.crud.persistence.ICrudRepository;
+import dev.springharvest.crud.domains.base.persistence.ICrudRepository;
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;

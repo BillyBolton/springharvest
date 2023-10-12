@@ -10,7 +10,7 @@ import dev.springharvest.library.domains.books.models.queries.BookFilterDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestBO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
 import dev.springharvest.library.domains.books.services.BookSearchService;
-import dev.springharvest.search.rest.AbstractSearchController;
+import dev.springharvest.search.domains.base.rest.AbstractSearchController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;

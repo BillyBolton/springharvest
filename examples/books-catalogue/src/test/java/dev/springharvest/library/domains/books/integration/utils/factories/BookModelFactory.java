@@ -6,8 +6,8 @@ import dev.springharvest.library.domains.authors.integration.utils.factories.Aut
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherCrudClient;
 import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherModelFactory;
-import dev.springharvest.testing.integration.shared.factories.AbstractModelFactory;
-import dev.springharvest.testing.integration.shared.factories.IPKModelFactory;
+import dev.springharvest.testing.domains.integration.shared.factories.AbstractModelFactory;
+import dev.springharvest.testing.domains.integration.shared.factories.IPKModelFactory;
 import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

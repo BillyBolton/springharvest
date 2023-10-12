@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.publishers.models.queries;
 
-import dev.springharvest.search.model.queries.requests.filters.BaseFilterRequestDTO;
+import dev.springharvest.search.domains.base.models.queries.requests.filters.BaseFilterRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

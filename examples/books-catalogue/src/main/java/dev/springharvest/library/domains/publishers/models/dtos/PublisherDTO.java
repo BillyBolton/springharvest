@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.publishers.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.springhavest.common.models.dtos.BaseDTO;
+import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
 import lombok.Data;

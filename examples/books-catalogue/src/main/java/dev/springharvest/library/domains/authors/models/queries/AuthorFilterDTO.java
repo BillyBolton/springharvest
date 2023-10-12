@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.authors.models.queries;
 
-import dev.springharvest.search.model.queries.parameters.filters.FilterParameterDTO;
-import dev.springharvest.search.model.queries.requests.filters.BaseFilterDTO;
+import dev.springharvest.search.domains.base.models.queries.parameters.filters.FilterParameterDTO;
+import dev.springharvest.search.domains.base.models.queries.requests.filters.BaseFilterDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

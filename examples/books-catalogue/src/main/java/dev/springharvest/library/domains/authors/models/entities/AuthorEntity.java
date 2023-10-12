@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.authors.models.entities;
 
-import dev.springhavest.common.models.entities.BaseEntity;
+import dev.springharvest.shared.domains.embeddables.traces.traceable.models.entities.AbstractTraceableEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 @Entity
 @Table(name = "authors")
 @AttributeOverride(name = "id", column = @Column(name = "id"))
-public class AuthorEntity extends BaseEntity<UUID> {
+public class AuthorEntity extends AbstractTraceableEntity<UUID> {
 
   @NotBlank
   @Column(name = "name")

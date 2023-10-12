@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.publishers.models.entities;
 
 
-import dev.springhavest.common.models.entities.BaseEntity;
+import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.publishers.rest;
 
-import dev.springharvest.crud.rest.AbstractCrudController;
+import dev.springharvest.crud.domains.base.rest.AbstractCrudController;
 import dev.springharvest.library.domains.publishers.constants.PublisherConstants;
 import dev.springharvest.library.domains.publishers.mappers.IPublisherMapper;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;

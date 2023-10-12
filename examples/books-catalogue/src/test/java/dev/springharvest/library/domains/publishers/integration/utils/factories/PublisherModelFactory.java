@@ -3,8 +3,8 @@ package dev.springharvest.library.domains.publishers.integration.utils.factories
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.testing.integration.shared.factories.AbstractModelFactory;
-import dev.springharvest.testing.integration.shared.factories.IPKModelFactory;
+import dev.springharvest.testing.domains.integration.shared.factories.AbstractModelFactory;
+import dev.springharvest.testing.domains.integration.shared.factories.IPKModelFactory;
 import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.annotation.Import;

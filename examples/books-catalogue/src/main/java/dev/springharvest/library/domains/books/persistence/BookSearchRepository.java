@@ -4,7 +4,7 @@ import dev.springharvest.library.domains.books.mappers.search.tuples.BookTupleTr
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
 import dev.springharvest.library.domains.books.models.entities.BookEntityMetadata;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestBO;
-import dev.springharvest.search.persistence.AbstractCriteriaSearchDao;
+import dev.springharvest.search.domains.base.persistence.AbstractCriteriaSearchDao;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
