@@ -1,6 +1,7 @@
 package dev.springharvest.library.domains.authors.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.springharvest.shared.domains.embeddables.traces.traceable.models.dtos.AbstractTraceableDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
@@ -16,7 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Schema(name = "AuthorDTO", description = "A book's author.")
-public class AuthorDTOAbstract extends AbstractTraceableDTO<UUID> {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AuthorDTO extends AbstractTraceableDTO<UUID> {
 
   @Schema(name = "name", description = "The name of the author.", example = "Dr. Seuss")
   protected String name;

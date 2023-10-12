@@ -12,6 +12,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Embeddable
-public class UUIDTraceDataEntityAware extends TraceDataEntity<UUID> {
+public class UUIDTraceDataEntity extends TraceDataEntity<UUID> {
 
 }

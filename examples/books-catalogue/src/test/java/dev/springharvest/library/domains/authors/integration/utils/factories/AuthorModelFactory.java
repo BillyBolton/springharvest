@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.authors.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
-import dev.springharvest.library.domains.authors.models.dtos.AuthorDTOAbstract;
+import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.testing.domains.integration.shared.factories.AbstractModelFactory;
 import dev.springharvest.testing.domains.integration.shared.factories.IPKModelFactory;
 import java.util.UUID;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Import(value = {TestComponentScanningConfig.class})
-public class AuthorModelFactory extends AbstractModelFactory<AuthorDTOAbstract, UUID>
-    implements IPKModelFactory<AuthorDTOAbstract, UUID> {
+public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID>
+    implements IPKModelFactory<AuthorDTO, UUID> {
 
   @Override
   public UUID getRandomId() {
@@ -20,26 +20,26 @@ public class AuthorModelFactory extends AbstractModelFactory<AuthorDTOAbstract, 
   }
 
   @Override
-  public AuthorDTOAbstract buildValidDto() {
-    return AuthorDTOAbstract.builder().id(getRandomId()).name(RandomStringUtils.randomAlphabetic(5)).build();
+  public AuthorDTO buildValidDto() {
+    return AuthorDTO.builder().id(getRandomId()).name(RandomStringUtils.randomAlphabetic(5)).build();
   }
 
   @Override
-  public AuthorDTOAbstract buildValidUpdatedDto(UUID id) {
-    AuthorDTOAbstract dto = buildValidDto();
+  public AuthorDTO buildValidUpdatedDto(UUID id) {
+    AuthorDTO dto = buildValidDto();
     dto.setId(id);
     return dto;
   }
 
   @Override
-  public AuthorDTOAbstract buildValidUpdatedDto(AuthorDTOAbstract dto) {
+  public AuthorDTO buildValidUpdatedDto(AuthorDTO dto) {
     dto.setName(RandomStringUtils.randomAlphabetic(5));
     return dto;
   }
 
   @Override
-  public AuthorDTOAbstract buildInvalidDto() {
-    return AuthorDTOAbstract.builder().build();
+  public AuthorDTO buildInvalidDto() {
+    return AuthorDTO.builder().build();
   }
 
 }

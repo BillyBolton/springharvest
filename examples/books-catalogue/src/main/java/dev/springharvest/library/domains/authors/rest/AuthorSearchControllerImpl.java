@@ -2,7 +2,7 @@ package dev.springharvest.library.domains.authors.rest;
 
 import dev.springharvest.library.domains.authors.constants.AuthorConstants;
 import dev.springharvest.library.domains.authors.mappers.IAuthorMapper;
-import dev.springharvest.library.domains.authors.models.dtos.AuthorDTOAbstract;
+import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterBO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterDTO;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = AuthorConstants.Controller.TAG)
 @RequestMapping(AuthorConstants.Controller.DOMAIN_CONTEXT)
 public class AuthorSearchControllerImpl
-    extends AbstractSearchController<AuthorDTOAbstract, AuthorEntity, UUID, AuthorFilterRequestDTO, AuthorFilterRequestBO, AuthorFilterDTO,
+    extends AbstractSearchController<AuthorDTO, AuthorEntity, UUID, AuthorFilterRequestDTO, AuthorFilterRequestBO, AuthorFilterDTO,
     AuthorFilterBO> {
 
   protected AuthorSearchControllerImpl(IAuthorMapper baseModelMapper, AuthorSearchService baseService) {
