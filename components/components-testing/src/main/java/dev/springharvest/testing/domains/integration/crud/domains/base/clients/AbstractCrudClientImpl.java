@@ -1,10 +1,10 @@
-package dev.springharvest.testing.domains.integration.crud.clients;
+package dev.springharvest.testing.domains.integration.crud.domains.base.clients;
 
-import dev.springharvest.testing.domains.integration.crud.clients.uri.CrudUriFactory;
-import dev.springharvest.testing.domains.integration.crud.clients.uri.ICrudUriFactory;
-import dev.springharvest.testing.domains.integration.shared.clients.RestClientImpl;
 import dev.springharvest.shared.contracts.IClazzAware;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
+import dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri.CrudUriFactory;
+import dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri.ICrudUriFactory;
+import dev.springharvest.testing.domains.integration.shared.domains.base.clients.RestClientImpl;
 import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;

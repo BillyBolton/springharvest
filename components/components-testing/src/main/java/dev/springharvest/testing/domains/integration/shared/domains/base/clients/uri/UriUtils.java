@@ -1,4 +1,4 @@
-package dev.springharvest.testing.domains.integration.shared.clients.uri;
+package dev.springharvest.testing.domains.integration.shared.domains.base.clients.uri;
 
 import dev.springharvest.errors.constants.ExceptionMessages;
 

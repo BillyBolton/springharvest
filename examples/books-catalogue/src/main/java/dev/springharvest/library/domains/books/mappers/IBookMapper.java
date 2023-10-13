@@ -13,21 +13,29 @@ import org.mapstruct.Builder;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true),
         uses = {IAuthorMapper.class, IPublisherMapper.class, UUIDTraceDataMapper.class})
 public interface IBookMapper extends IBaseModelMapper<BookDTO, BookEntity, UUID> {
 
   @Override
+  @Mapping(target = "id", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+  @Mapping(target = "title", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+  @Mapping(target = "traceData", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+  BookDTO setDirtyFields(BookDTO source, @MappingTarget BookDTO target, @Context CyclicMappingHandler context);
+
+  @Override
+  @Mapping(target = "traceData", source = ".")
   @Mapping(target = "author", source = ".")
   @Mapping(target = "publisher", source = ".")
-  @Mapping(target = "traceData", source = ".")
   BookDTO toDto(Map<String, String> source, @Context CyclicMappingHandler context);
 
   @Override
+  @Mapping(target = "traceData", source = ".")
   @Mapping(target = "author", source = ".")
   @Mapping(target = "publisher", source = ".")
-  @Mapping(target = "traceData", source = ".")
   BookEntity toEntity(Map<String, String> source, @Context CyclicMappingHandler context);
+
 
 }

@@ -1,9 +1,9 @@
-package dev.springharvest.testing.domains.integration.crud.clients.uri;
+package dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri;
 
 // This is an interface that will be used to create the URIs for the endpoints that will be used to
 // test the API.
 
-import dev.springharvest.testing.domains.integration.shared.clients.uri.UriFactory;
+import dev.springharvest.testing.domains.integration.shared.domains.base.clients.uri.UriFactory;
 
 /**
  * > This is an interface that will be used to create the URIs for the endpoints that will be used to test the API.

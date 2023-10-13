@@ -19,8 +19,8 @@ public interface IPublisherMapper extends IBaseModelMapper<PublisherDTO, Publish
   @Override
   @Mapping(target = "id", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   @Mapping(target = "name", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
-  PublisherDTO setDirtyFields(PublisherDTO source, @MappingTarget PublisherDTO target,
-                              @Context CyclicMappingHandler context);
+  @Mapping(target = "traceData", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+  PublisherDTO setDirtyFields(PublisherDTO source, @MappingTarget PublisherDTO target, @Context CyclicMappingHandler context);
 
   @Override
   @Mapping(target = "traceData", source = ".")

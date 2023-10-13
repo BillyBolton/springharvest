@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -115,8 +116,8 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
       if (traceData != null) {
         if (ObjectUtils.isNotEmpty(traceData.getTraceDates())) {
           TraceDatesEntity traceDates = traceData.getTraceDates();
-          // make new date for UTC
-          traceDates.setDateUpdated(new Date(System.currentTimeMillis()));
+          final Date utcTimeStamp = Date.from(Instant.now());
+          traceDates.setDateUpdated(utcTimeStamp);
           traceData.setTraceDates(traceDates);
         }
         if (ObjectUtils.isNotEmpty(traceData.getTraceUsers())) {
@@ -143,10 +144,11 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     entity.setId(null);
 
     if (entity instanceof ITraceableEntity<?>) {
+      final Date utcTimeStamp = Date.from(Instant.now());
       ((ITraceableEntity<Serializable>) entity).setTraceData(TraceDataEntity.builder()
                                                                  .traceDates(TraceDatesEntity.builder()
-                                                                                 .dateCreated(new Date(System.currentTimeMillis()))
-                                                                                 .dateUpdated(new Date(System.currentTimeMillis()))
+                                                                                 .dateCreated(utcTimeStamp)
+                                                                                 .dateUpdated(utcTimeStamp)
                                                                                  .build())
                                                                  .traceUsers(TraceUsersEntity.builder()
                                                                                  // TODO

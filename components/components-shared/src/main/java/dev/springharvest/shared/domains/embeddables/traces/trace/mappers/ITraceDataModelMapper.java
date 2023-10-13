@@ -23,8 +23,12 @@ public interface ITraceDataModelMapper<K extends Serializable> {
                                  @MappingTarget TraceDataDTO target, @Context CyclicMappingHandler context);
 
 
+  @Mapping(target = "traceDates", source = ".")
+  @Mapping(target = "traceDates", source = ".")
   TraceDataDTO<K> mapToDTO(Map<String, String> source, @Context CyclicMappingHandler context);
 
+  @Mapping(target = "traceDates", source = ".")
+  @Mapping(target = "traceDates", source = ".")
   TraceDataEntity<K> mapToEntity(Map<String, String> source, @Context CyclicMappingHandler context);
 
 }

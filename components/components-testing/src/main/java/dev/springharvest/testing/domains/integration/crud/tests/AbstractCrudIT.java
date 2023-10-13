@@ -3,20 +3,23 @@ package dev.springharvest.testing.domains.integration.crud.tests;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import dev.springharvest.testing.domains.integration.crud.clients.AbstractCrudClientImpl;
-import dev.springharvest.testing.domains.integration.crud.clients.ICrudClient;
-import dev.springharvest.testing.domains.integration.shared.factories.IPKModelFactory;
-import dev.springharvest.testing.domains.integration.shared.tests.AbstractBaseIT;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
-import dev.springharvest.shared.utils.StringUtils;
+import dev.springharvest.testing.domains.integration.crud.domains.base.clients.AbstractCrudClientImpl;
+import dev.springharvest.testing.domains.integration.crud.domains.base.clients.ICrudClient;
+import dev.springharvest.testing.domains.integration.shared.domains.base.factories.IPKModelFactory;
+import dev.springharvest.testing.domains.integration.shared.tests.AbstractBaseIT;
 import io.restassured.response.ValidatableResponse;
-import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Stream;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializable>
     extends AbstractBaseIT
@@ -30,16 +33,6 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
   protected AbstractCrudIT(AbstractCrudClientImpl<D, K> client, IPKModelFactory<D, K> modelFactory) {
     this.client = client;
     this.modelFactory = modelFactory;
-  }
-
-  protected void softlyAssert(SoftAssertions softly, @Nullable Object actual, @Nullable Object expected) {
-    if (actual != null && expected != null) {
-      if (actual instanceof String actualString && expected instanceof String expectedString) {
-        softly.assertThat(StringUtils.capitalizeFirstLetters(actualString)).isEqualTo(StringUtils.capitalizeFirstLetters(expectedString));
-      } else {
-        softly.assertThat(actual).isEqualTo(expected);
-      }
-    }
   }
 
   @Nested
@@ -70,7 +63,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
         toCreate.setId(created.getId());
         SoftAssertions softly = new SoftAssertions();
-        softlyAssert(softly, toCreate, created);
+        modelFactory.softlyAssert(softly, toCreate, created);
         softly.assertAll();
       }
 
@@ -87,7 +80,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         toCreate.setId(id);
 
         SoftAssertions softly = new SoftAssertions();
-        softlyAssert(softly, toCreate, lastCreated);
+        modelFactory.softlyAssert(softly, toCreate, lastCreated);
         softly.assertAll();
 
       }
@@ -97,17 +90,33 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     @Nested
     class GetPaths {
 
+      private static Stream<Arguments> findAllArgumentsProvider() {
+        List<Boolean> provideDefaultEmptyArguments = List.of(Boolean.TRUE, Boolean.FALSE);
+        List<Integer> pageSizeProvider = List.of(0, 1, 10, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<Integer> pageNumberProvider = List.of(0, 1, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "invalidField-asc", "id-invalidDirection", "id",
+                                             RandomStringUtils.randomNumeric(5));
+
+        return provideDefaultEmptyArguments.stream()
+            .flatMap(isDefaultEmptyArgument -> pageSizeProvider.stream()
+                .flatMap(pageSize -> pageNumberProvider.stream()
+                    .flatMap(pageNumber -> sortsProvider.stream()
+                        .map(sorts -> Arguments.of(isDefaultEmptyArgument, pageSize, pageNumber, sorts)))));
+      }
+
       @Test
-      void canGetOne() {
+      void canFindById() {
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
         D dto = client.findByIdAndExtract(firstDto.getId());
         assertNotNull(dto);
       }
-
-      @Test
-      void canGetMany() {
+      
+      @ParameterizedTest
+      @MethodSource("findAllArgumentsProvider")
+      void canFindAll(Boolean isDefaultEmptyArguments, Integer pageSize, Integer pageNumber, String sorts) {
+        client.createAllAndExtract(modelFactory.buildValidDto(100));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
       }
@@ -123,11 +132,11 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
         K id = firstDto.getId();
-
-        D updated = client.updateAndExtract(id, modelFactory.buildValidUpdatedDto(id));
+        firstDto = modelFactory.buildValidUpdatedDto(id);
+        D updated = client.updateAndExtract(id, firstDto);
         D retrieved = client.findByIdAndExtract(id);
         SoftAssertions softly = new SoftAssertions();
-        softlyAssert(softly, updated, retrieved);
+        modelFactory.softlyAssert(softly, updated, retrieved);
         softly.assertAll();
 
       }
@@ -140,7 +149,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         List<D> toUpdate = List.of(modelFactory.buildValidUpdatedDto(firstDto));
         List<D> updated = client.updateAllAndExtract(toUpdate);
         SoftAssertions softly = new SoftAssertions();
-        softlyAssert(softly, toUpdate, updated);
+        modelFactory.softlyAssert(softly, toUpdate, updated);
         softly.assertAll();
       }
 
@@ -162,24 +171,6 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       }
 
     }
-
-  }
-
-  public void softlyAssert(SoftAssertions softly, List<D> actual, List<D> expected) {
-    assertNotNull(actual);
-    assertNotNull(expected);
-    Assertions.assertEquals(actual.size(), expected.size());
-
-    int count = actual.size() - 1;
-    while (count >= 0) {
-      softlyAssert(softly, actual.get(count), expected.get(count));
-      count--;
-    }
-  }
-
-  public void softlyAssert(SoftAssertions softly, D actual, D expected) {
-    softly.assertThat(actual).isNotNull();
-    softly.assertThat(expected).isNotNull();
 
   }
 

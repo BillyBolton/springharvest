@@ -2,12 +2,12 @@ package dev.springharvest.testing.domains.integration.search.clients;
 
 import dev.springharvest.search.domains.base.models.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.domains.base.models.queries.requests.search.SearchRequestDTO;
-import dev.springharvest.testing.domains.integration.search.clients.uri.ISearchUriFactory;
-import dev.springharvest.testing.domains.integration.search.clients.uri.SearchUriFactory;
-import dev.springharvest.testing.domains.integration.shared.clients.DomainClientImpl;
-import dev.springharvest.testing.domains.integration.shared.clients.RestClientImpl;
 import dev.springharvest.shared.contracts.IClazzAware;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
+import dev.springharvest.testing.domains.integration.search.clients.uri.ISearchUriFactory;
+import dev.springharvest.testing.domains.integration.search.clients.uri.SearchUriFactory;
+import dev.springharvest.testing.domains.integration.shared.domains.base.clients.DomainClientImpl;
+import dev.springharvest.testing.domains.integration.shared.domains.base.clients.RestClientImpl;
 import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;

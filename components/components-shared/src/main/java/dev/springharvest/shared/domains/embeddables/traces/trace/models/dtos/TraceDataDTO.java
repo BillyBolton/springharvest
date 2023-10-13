@@ -19,7 +19,7 @@ import org.apache.commons.lang3.ObjectUtils;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TraceDataDTO<K extends Serializable> extends DomainModel implements ITraceableDatesDTOAware, ITraceableUsersDTO<K> {
 

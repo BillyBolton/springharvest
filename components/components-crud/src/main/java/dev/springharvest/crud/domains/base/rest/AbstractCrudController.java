@@ -91,15 +91,15 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                                         ) {
     boolean isPageable = size != null && size >= 1 && page != null && page >= 0 && CollectionUtils.isNotEmpty(sorts);
 
-    Sort sort = isPageable && CollectionUtils.isEmpty(sorts) ?
-                Sort.unsorted() :
+    Sort sort = isPageable && CollectionUtils.isNotEmpty(sorts) ?
                 Sort.by(sorts.stream().map(order -> {
                   String[] orderSplit = order.split("-");
                   if (orderSplit.length != 2) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid sort parameter: " + order);
                   }
                   return new Sort.Order(Sort.Direction.fromString(orderSplit[1]), orderSplit[0]);
-                }).toList());
+                }).toList()) :
+                Sort.unsorted();
     Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(size, page, sort) : Pageable.unpaged());
     Page<D> dtos = modelMapper.pagedEntityToPagedDto(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
@@ -112,7 +112,8 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   public ResponseEntity<D> create(@RequestBody(required = true) D dto) {
     E entity = modelMapper.dtoToEntity(dto);
     entity = crudService.create(entity);
-    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(modelMapper.entityToDto(entity));
+    D createdDTO = modelMapper.entityToDto(entity);
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(createdDTO);
   }
 
   @Override

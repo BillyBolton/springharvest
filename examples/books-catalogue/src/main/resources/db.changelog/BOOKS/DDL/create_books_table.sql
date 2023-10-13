@@ -1,8 +1,6 @@
 --liquibase formatted sql
 --changeset BillyBolton:create-books-table
 
-CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS books CASCADE;
 CREATE TABLE books
 (

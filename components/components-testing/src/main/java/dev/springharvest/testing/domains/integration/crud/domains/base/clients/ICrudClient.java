@@ -1,4 +1,4 @@
-package dev.springharvest.testing.domains.integration.crud.clients;
+package dev.springharvest.testing.domains.integration.crud.domains.base.clients;
 
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import io.restassured.response.ValidatableResponse;

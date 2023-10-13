@@ -1,7 +1,6 @@
 --liquibase formatted sql
 --changeset BillyBolton:create-base-trace-parent-table
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS base_trace_parent CASCADE;
 CREATE TABLE base_trace_parent
 (

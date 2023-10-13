@@ -1,8 +1,8 @@
-package dev.springharvest.testing.domains.integration.crud.clients.uri;
+package dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri;
 
 
 import dev.springharvest.crud.domains.base.rest.constants.CrudControllerUri;
-import dev.springharvest.testing.domains.integration.shared.clients.uri.UriUtils;
+import dev.springharvest.testing.domains.integration.shared.domains.base.clients.uri.UriUtils;
 import lombok.Getter;
 
 

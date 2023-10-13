@@ -6,10 +6,12 @@ import dev.springharvest.library.domains.authors.integration.utils.factories.Aut
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherCrudClient;
 import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherModelFactory;
-import dev.springharvest.testing.domains.integration.shared.factories.AbstractModelFactory;
-import dev.springharvest.testing.domains.integration.shared.factories.IPKModelFactory;
+import dev.springharvest.testing.domains.integration.crud.domains.embeddables.traces.factories.TraceDataModelFactory;
+import dev.springharvest.testing.domains.integration.shared.domains.base.factories.AbstractModelFactory;
+import dev.springharvest.testing.domains.integration.shared.domains.base.factories.IPKModelFactory;
 import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.assertj.core.api.SoftAssertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
@@ -23,14 +25,26 @@ public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
   private final AuthorModelFactory authorsModelFactory;
   private final PublisherCrudClient publisherCrudClient;
   private final PublisherModelFactory publishersModelFactory;
+  private final TraceDataModelFactory traceDataModelFactory;
 
   @Autowired(required = true)
   protected BookModelFactory(AuthorCrudClient authorCrudClient, AuthorModelFactory authorsModelFactory, PublisherCrudClient publisherCrudClient,
-                             PublisherModelFactory publishersModelFactory) {
+                             PublisherModelFactory publishersModelFactory,
+                             TraceDataModelFactory traceDataModelFactory) {
     this.authorCrudClient = authorCrudClient;
     this.authorsModelFactory = authorsModelFactory;
     this.publisherCrudClient = publisherCrudClient;
     this.publishersModelFactory = publishersModelFactory;
+    this.traceDataModelFactory = traceDataModelFactory;
+  }
+
+  @Override
+  public void softlyAssert(SoftAssertions softly, BookDTO actual, BookDTO expected) {
+    super.softlyAssert(softly, actual, expected);
+    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
+    softly.assertThat(actual.getTitle()).isEqualToIgnoringCase(expected.getTitle());
+    authorsModelFactory.softlyAssert(softly, actual.getAuthor(), expected.getAuthor());
+    publishersModelFactory.softlyAssert(softly, actual.getPublisher(), expected.getPublisher());
   }
 
   @Override
@@ -45,6 +59,7 @@ public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
         .title(RandomStringUtils.randomAlphabetic(5))
         .author(authorCrudClient.createAndExtract(authorsModelFactory.buildValidDto()))
         .publisher(publisherCrudClient.createAndExtract(publishersModelFactory.buildValidDto()))
+        .traceData(traceDataModelFactory.buildValidDto())
         .build();
   }
 

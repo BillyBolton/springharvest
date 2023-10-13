@@ -1,4 +1,4 @@
-package dev.springharvest.testing.domains.integration.shared.clients;
+package dev.springharvest.testing.domains.integration.shared.domains.base.clients;
 
 import dev.springharvest.shared.contracts.IClazzAware;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;

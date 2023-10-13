@@ -5,7 +5,7 @@ import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.testing.domains.integration.search.clients.AbstractSearchClientImpl;
 import dev.springharvest.testing.domains.integration.search.clients.uri.SearchUriFactory;
-import dev.springharvest.testing.domains.integration.shared.clients.RestClientImpl;
+import dev.springharvest.testing.domains.integration.shared.domains.base.clients.RestClientImpl;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -10,7 +10,6 @@ import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.testing.domains.integration.crud.tests.AbstractCrudIT;
 import dev.springharvest.testing.domains.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +35,6 @@ class AuthorCrudIT extends AbstractCrudIT<AuthorDTO, UUID> {
   @Test
   void contextLoads() {
     Assertions.assertTrue(true, CONTEXT_LOADS);
-  }
-
-  @Override
-  public void softlyAssert(SoftAssertions softly, AuthorDTO actual, AuthorDTO expected) {
-    super.softlyAssert(softly, actual, expected);
-    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
-    softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
   }
 
 }
