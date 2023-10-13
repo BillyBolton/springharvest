@@ -3,7 +3,7 @@ package dev.springharvest.crud.unit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import dev.springharvest.crud.rest.constants.CrudControllerUri;
+import dev.springharvest.crud.domains.base.rest.constants.CrudControllerUri;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;

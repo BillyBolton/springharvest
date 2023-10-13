@@ -7,8 +7,8 @@ import dev.springharvest.library.domains.authors.integration.utils.factories.Aut
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.library.domains.authors.models.queries.AuthorFilterRequestDTO;
 import dev.springharvest.testing.constants.TestConstants;
-import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
-import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
+import dev.springharvest.testing.domains.integration.search.tests.AbstractSearchIT;
+import dev.springharvest.testing.domains.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

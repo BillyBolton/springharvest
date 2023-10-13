@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.authors.services;
 
-import dev.springharvest.crud.service.AbstractCrudService;
+import dev.springharvest.crud.domains.base.services.AbstractCrudService;
 import dev.springharvest.library.domains.authors.models.entities.AuthorEntity;
 import dev.springharvest.library.domains.authors.persistence.IAuthorCrudRepository;
 import java.util.UUID;

@@ -2,7 +2,7 @@ plugins {}
 
 dependencies {
     // For easier Specification Search
-    api 'org.hibernate:hibernate-jpamodelgen-jakarta:5.6.15.Final'
-    api 'org.hibernate:hibernate-jpamodelgen-jakarta:5.6.15.Final'
-    api 'org.hibernate:hibernate-jpamodelgen-jakarta:5.6.15.Final'
+    api "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
+    api "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
+    api "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
 }

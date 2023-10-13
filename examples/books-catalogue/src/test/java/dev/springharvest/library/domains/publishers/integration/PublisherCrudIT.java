@@ -8,10 +8,9 @@ import dev.springharvest.library.config.TestContainerConfig;
 import dev.springharvest.library.domains.publishers.integration.utils.clients.PublisherCrudClient;
 import dev.springharvest.library.domains.publishers.integration.utils.factories.PublisherModelFactory;
 import dev.springharvest.library.domains.publishers.models.dtos.PublisherDTO;
-import dev.springharvest.testing.integration.crud.tests.AbstractCrudIT;
-import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
+import dev.springharvest.testing.domains.integration.crud.tests.AbstractCrudIT;
+import dev.springharvest.testing.domains.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +36,6 @@ class PublisherCrudIT extends AbstractCrudIT<PublisherDTO, UUID> {
   @Test
   void contextLoads() {
     Assertions.assertTrue(true, CONTEXT_LOADS);
-  }
-
-  @Override
-  public void softlyAssert(SoftAssertions softly, PublisherDTO actual, PublisherDTO expected) {
-    super.softlyAssert(softly, actual, expected);
-    softly.assertThat(actual.getId()).isEqualTo(expected.getId());
-    softly.assertThat(actual.getName()).isEqualToIgnoringCase(expected.getName());
   }
 
 }

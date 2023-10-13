@@ -48,10 +48,13 @@ allprojects {
 
 
     sonar {
+        def exclusions = ["**/components/**", "**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/errors/**", "**/*Repository.*",
+                          "**/*Mapper*.*", "**/*Application.*"]
         properties {
             property "sonar.projectKey", "BillyBolton_springharvest"
             property "sonar.organization", "billybolton"
             property "sonar.host.url", "https://sonarcloud.io"
+            property "sonar.coverage.exclusions", exclusions
         }
     }
 }
@@ -121,7 +124,7 @@ subprojects {
         APACHE_COMMONS_LANG_VERSION = "3.13.0"
         APACHE_TOMCAT_VERSION = "10.1.14"
         HAMCREST_VERSION = "1.3"
-        HIBERNATE_JPA_MODELGEN_VERSION = "5.6.15.Final"
+        HIBERNATE_JPA_MODELGEN_VERSION = "6.3.1.Final"
         LOMBOK_MAPSTRUCT_VERSION = "0.2.0"
         MAPSTRUCT_VERSION = "1.5.5.Final"
         MODELMAPPER_VERSION = "3.1.1"
@@ -171,8 +174,8 @@ subprojects {
 
         // SEARCH
         // For easier Specification Search
-        annotationProcessor "org.hibernate:hibernate-jpamodelgen-jakarta:$HIBERNATE_JPA_MODELGEN_VERSION"
-        implementation "org.hibernate:hibernate-jpamodelgen-jakarta:$HIBERNATE_JPA_MODELGEN_VERSION"
+        annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
+        implementation "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
 
         // Batch Processing
         implementation 'org.springframework.boot:spring-boot-starter-batch'

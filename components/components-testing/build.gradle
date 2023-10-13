@@ -7,7 +7,7 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation project(':commons')
+    implementation project(':components:components-shared')
     api project(':errors')
     implementation project(':components:components-crud')
     implementation project(':components:components-search')

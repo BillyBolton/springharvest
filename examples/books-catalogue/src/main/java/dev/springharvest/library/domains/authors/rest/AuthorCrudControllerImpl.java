@@ -1,6 +1,6 @@
 package dev.springharvest.library.domains.authors.rest;
 
-import dev.springharvest.crud.rest.AbstractCrudController;
+import dev.springharvest.crud.domains.base.rest.AbstractCrudController;
 import dev.springharvest.library.domains.authors.constants.AuthorConstants;
 import dev.springharvest.library.domains.authors.mappers.IAuthorMapper;
 import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;

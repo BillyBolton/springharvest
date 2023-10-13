@@ -7,8 +7,8 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.library.domains.publishers.persistence.PublisherSearchRepository;
-import dev.springharvest.search.model.entities.EntityMetadata;
-import dev.springharvest.search.service.AbstractSearchService;
+import dev.springharvest.search.domains.base.models.entities.EntityMetadata;
+import dev.springharvest.search.domains.base.services.AbstractSearchService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

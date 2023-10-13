@@ -9,7 +9,7 @@ import dev.springharvest.library.domains.publishers.models.queries.PublisherFilt
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestBO;
 import dev.springharvest.library.domains.publishers.models.queries.PublisherFilterRequestDTO;
 import dev.springharvest.library.domains.publishers.services.PublisherSearchService;
-import dev.springharvest.search.rest.AbstractSearchController;
+import dev.springharvest.search.domains.base.rest.AbstractSearchController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;

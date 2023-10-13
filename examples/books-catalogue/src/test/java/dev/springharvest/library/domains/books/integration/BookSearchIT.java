@@ -8,8 +8,8 @@ import dev.springharvest.library.domains.books.integration.utils.clients.BookSea
 import dev.springharvest.library.domains.books.integration.utils.factories.BookSearchModelFactory;
 import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
-import dev.springharvest.testing.integration.search.tests.AbstractSearchIT;
-import dev.springharvest.testing.integration.shared.listeners.LiquibaseTestExecutionListener;
+import dev.springharvest.testing.domains.integration.search.tests.AbstractSearchIT;
+import dev.springharvest.testing.domains.integration.shared.listeners.LiquibaseTestExecutionListener;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

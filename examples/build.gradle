@@ -16,10 +16,11 @@ subprojects {
     apply plugin: 'idea'
 
     dependencies {
-        implementation project(':commons')
         implementation project(':errors')
+        implementation project(':components:components-shared')
         implementation project(':components:components-crud')
         implementation project(':components:components-search')
+        implementation project(':components')
 
         testImplementation project(':components:components-testing')
         testAnnotationProcessor project(':components:components-testing')

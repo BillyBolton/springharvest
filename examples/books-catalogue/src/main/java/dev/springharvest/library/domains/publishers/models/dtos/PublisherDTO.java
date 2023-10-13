@@ -1,7 +1,7 @@
 package dev.springharvest.library.domains.publishers.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.springhavest.common.models.dtos.BaseDTO;
+import dev.springharvest.shared.domains.embeddables.traces.traceable.models.dtos.AbstractTraceableDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
 import lombok.Data;
@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Schema(name = "PublisherDTO", description = "A book's publisher.")
-public class PublisherDTO extends BaseDTO<UUID> {
+public class PublisherDTO extends AbstractTraceableDTO<UUID> {
 
   @Schema(name = "name", description = "The name of the publisher.", example = "Random House")
   protected String name;

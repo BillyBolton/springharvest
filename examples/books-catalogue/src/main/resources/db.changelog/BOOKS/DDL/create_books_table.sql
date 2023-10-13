@@ -1,8 +1,6 @@
 --liquibase formatted sql
 --changeset BillyBolton:create-books-table
 
-CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS books CASCADE;
 CREATE TABLE books
 (
@@ -13,4 +11,4 @@ CREATE TABLE books
     FOREIGN KEY (author_id) REFERENCES AUTHORS (id) ON DELETE CASCADE,
     FOREIGN KEY (publisher_id) REFERENCES PUBLISHERS (id) ON DELETE CASCADE,
     UNIQUE (title, author_id)
-);
+) INHERITS (base_trace_parent);
