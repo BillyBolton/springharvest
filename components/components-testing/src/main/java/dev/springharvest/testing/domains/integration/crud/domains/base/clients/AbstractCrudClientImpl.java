@@ -6,6 +6,7 @@ import dev.springharvest.testing.domains.integration.crud.domains.base.clients.u
 import dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri.ICrudUriFactory;
 import dev.springharvest.testing.domains.integration.shared.domains.base.clients.RestClientImpl;
 import io.restassured.response.ValidatableResponse;
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
@@ -32,11 +33,16 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
 
   @Override
   public ValidatableResponse findAll() {
-    return clientHelper.getAndThen(uriFactory.getFindAllUri());
+    return findAll(null, null, null);
   }
 
   @Override
-  public List<D> findAllAndExtract() {
+  public ValidatableResponse findAll(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts) {
+    return clientHelper.getAndThen(uriFactory.getFindAllUri(size, page, sorts));
+  }
+
+  @Override
+  public List<D> findAllAndExtract(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts) {
     return extractObjectsFromPage(findAll());
   }
 
@@ -113,21 +119,20 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
     response.statusCode(expectedStatusCode);
   }
 
-  protected D extractObject(ValidatableResponse response) {
-    return response.statusCode(200)
-        .extract()
-        .body()
-        .jsonPath()
-        .getObject("", getClazz());
-  }
-
-
   protected List<D> extractObjects(ValidatableResponse response) {
     return response.statusCode(200)
         .extract()
         .body()
         .jsonPath()
         .getList("", getClazz());
+  }
+
+  protected D extractObject(ValidatableResponse response) {
+    return response.statusCode(200)
+        .extract()
+        .body()
+        .jsonPath()
+        .getObject("", getClazz());
   }
 
   protected List<D> extractObjectsFromPage(ValidatableResponse response) {

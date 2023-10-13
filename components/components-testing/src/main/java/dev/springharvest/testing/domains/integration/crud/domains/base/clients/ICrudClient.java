@@ -2,6 +2,7 @@ package dev.springharvest.testing.domains.integration.crud.domains.base.clients;
 
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import io.restassured.response.ValidatableResponse;
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,7 +10,13 @@ public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
 
   ValidatableResponse findAll();
 
-  List<D> findAllAndExtract();
+  default List<D> findAllAndExtract() {
+    return findAllAndExtract(null, null, null);
+  }
+
+  List<D> findAllAndExtract(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
+
+  ValidatableResponse findAll(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
 
   ValidatableResponse findById(K id);
 

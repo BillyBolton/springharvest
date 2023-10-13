@@ -4,6 +4,7 @@ package dev.springharvest.testing.domains.integration.crud.domains.base.clients.
 // test the API.
 
 import dev.springharvest.testing.domains.integration.shared.domains.base.clients.uri.UriFactory;
+import jakarta.annotation.Nullable;
 
 /**
  * > This is an interface that will be used to create the URIs for the endpoints that will be used to test the API.
@@ -32,7 +33,7 @@ public interface ICrudUriFactory extends UriFactory {
    *
    * @return The URI for the findAll endpoint.
    */
-  String getFindAllUri();
+  String getFindAllUri(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
 
   /**
    * > This function returns the URI for the POST request

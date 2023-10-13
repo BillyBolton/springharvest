@@ -91,7 +91,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     class GetPaths {
 
       private static Stream<Arguments> findAllArgumentsProvider() {
-        List<Boolean> provideDefaultEmptyArguments = List.of(Boolean.TRUE, Boolean.FALSE);
+        List<Boolean> provideDefaultEmptyArguments = List.of(Boolean.FALSE, Boolean.TRUE);
         List<Integer> pageSizeProvider = List.of(0, 1, 10, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
         List<Integer> pageNumberProvider = List.of(0, 1, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
         List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "invalidField-asc", "id-invalidDirection", "id",
@@ -112,15 +112,15 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         D dto = client.findByIdAndExtract(firstDto.getId());
         assertNotNull(dto);
       }
-      
+
       @ParameterizedTest
       @MethodSource("findAllArgumentsProvider")
       void canFindAll(Boolean isDefaultEmptyArguments, Integer pageSize, Integer pageNumber, String sorts) {
-        client.createAllAndExtract(modelFactory.buildValidDto(100));
-        List<D> dtos = client.findAllAndExtract();
-        Assertions.assertFalse(dtos.isEmpty());
+        client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
+        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
+        List<D> dtos = isDefaultEmptyArguments ? client.findAllAndExtract() : client.findAllAndExtract(pageSize, pageNumber, sorts);
+        Assertions.assertEquals(dtos.size(), createdDtos.size());
       }
-
     }
 
     @Nested

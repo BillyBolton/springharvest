@@ -3,7 +3,9 @@ package dev.springharvest.testing.domains.integration.crud.domains.base.clients.
 
 import dev.springharvest.crud.domains.base.rest.constants.CrudControllerUri;
 import dev.springharvest.testing.domains.integration.shared.domains.base.clients.uri.UriUtils;
+import jakarta.annotation.Nullable;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 
 @Getter
@@ -26,8 +28,21 @@ public class CrudUriFactory implements ICrudUriFactory {
   }
 
   @Override
-  public String getFindAllUri() {
-    return UriUtils.buildUri(getDomainContext(), CrudControllerUri.FIND_ALL);
+  public String getFindAllUri(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts) {
+    StringBuilder params = new StringBuilder();
+    if (size != null && page != null && StringUtils.isNotBlank(sorts)) {
+      params.append("?").append(size);
+    }
+    if (size != null) {
+      params.append("size=").append(size);
+    }
+    if (page != null) {
+      params.append("&page=").append(page);
+    }
+    if (StringUtils.isNotBlank(sorts)) {
+      params.append("&sorts=").append(sorts);
+    }
+    return UriUtils.buildUri(getDomainContext(), CrudControllerUri.FIND_ALL + params);
   }
 
   @Override
