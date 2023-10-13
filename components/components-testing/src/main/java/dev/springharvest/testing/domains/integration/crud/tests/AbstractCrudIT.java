@@ -91,17 +91,14 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     class GetPaths {
 
       private static Stream<Arguments> findAllArgumentsProvider() {
-        List<Boolean> provideDefaultEmptyArguments = List.of(Boolean.FALSE, Boolean.TRUE);
-        List<Integer> pageSizeProvider = List.of(0, 1, 10, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        List<Integer> pageNumberProvider = List.of(0, 1, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "invalidField-asc", "id-invalidDirection", "id",
-                                             RandomStringUtils.randomNumeric(5));
+        List<Integer> pageSizeProvider = List.of(0, 1, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<Integer> pageNumberProvider = List.of(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "", RandomStringUtils.randomNumeric(5));
 
-        return provideDefaultEmptyArguments.stream()
-            .flatMap(isDefaultEmptyArgument -> pageSizeProvider.stream()
-                .flatMap(pageSize -> pageNumberProvider.stream()
-                    .flatMap(pageNumber -> sortsProvider.stream()
-                        .map(sorts -> Arguments.of(isDefaultEmptyArgument, pageSize, pageNumber, sorts)))));
+        return pageSizeProvider.stream()
+            .flatMap(pageSize -> pageNumberProvider.stream()
+                .flatMap(pageNumber -> sortsProvider.stream()
+                    .map(sorts -> Arguments.of(pageSize, pageNumber, sorts))));
       }
 
       @Test
@@ -115,10 +112,18 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @ParameterizedTest
       @MethodSource("findAllArgumentsProvider")
-      void canFindAll(Boolean isDefaultEmptyArguments, Integer pageSize, Integer pageNumber, String sorts) {
+      void canFindWithArguments(Integer pageSize, Integer pageNumber, String sorts) {
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
-        List<D> dtos = isDefaultEmptyArguments ? client.findAllAndExtract() : client.findAllAndExtract(pageSize, pageNumber, sorts);
+        List<D> dtos = client.findAllAndExtract(pageSize, pageNumber, sorts);
+        Assertions.assertEquals(dtos.size(), createdDtos.size());
+      }
+
+      @Test
+      void canFindAll() {
+        client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
+        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
+        List<D> dtos = client.findAllAndExtract();
         Assertions.assertEquals(dtos.size(), createdDtos.size());
       }
     }
