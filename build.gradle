@@ -48,11 +48,13 @@ allprojects {
 
 
     sonar {
+        def exclusions = ["**/components/**", "**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/errors/**", "**/*Repository.*",
+                          "**/*Mapper*.*", "**/*Application.*"]
         properties {
             property "sonar.projectKey", "BillyBolton_springharvest"
             property "sonar.organization", "billybolton"
             property "sonar.host.url", "https://sonarcloud.io"
-            property "sonar.coverage.exclusions", "**/components/**", "**/errors/**"
+            property "sonar.coverage.exclusions", exclusions
         }
     }
 }
