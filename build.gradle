@@ -222,6 +222,9 @@ subprojects {
         api "org.mapstruct:mapstruct"
         compileOnly 'org.projectlombok:lombok'
 
+        //  API documentation
+        api "org.springdoc:springdoc-openapi-starter-webmvc-ui:$SPRINGDOC_VERSION"
+        api "org.springdoc:springdoc-openapi-starter-webmvc-api:$SPRINGDOC_VERSION"
 
         // ANNOTATIONS:
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
