@@ -146,6 +146,20 @@ subprojects {
         }
         dependencies {
             dependencies {
+
+                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COMPRESS_VERSION") {
+                    entry 'commons-compress'
+                }
+                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COLLECTIONS_VERSION") {
+                    entry 'commons-collections4'
+                }
+                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_LANG_VERSION") {
+                    entry 'commons-lang3'
+                }
+                dependencySet(group: 'org.modelmapper', version: "$MODELMAPPER_VERSION") {
+                    entry 'modelmapper'
+                }
+
                 dependencySet(group: 'org.springdoc', version: "$SPRINGDOC_VERSION") {
                     entry 'springdoc-openapi-starter-webmvc-ui'
                     entry 'springdoc-openapi-starter-webmvc-api'
@@ -178,9 +192,6 @@ subprojects {
                 }
                 dependencySet(group: 'org.apache.tomcat.embed', version: "$APACHE_TOMCAT_VERSION") {
                     entry 'tomcat-embed-core'
-                }
-                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COMPRESS_VERSION") {
-                    entry 'commons-compress'
                 }
                 dependencySet(group: 'com.google.code.gson', version: "$GOOGLE_GSON_VERSION") {
                     entry 'gson'
@@ -232,10 +243,10 @@ subprojects {
         annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
         implementation "org.hibernate.orm:hibernate-jpamodelgen"
 
-        implementation "org.modelmapper:modelmapper:$MODELMAPPER_VERSION"
+        implementation "org.modelmapper:modelmapper"
 
-        implementation "org.apache.commons:commons-collections4:$APACHE_COMMONS_COLLECTIONS_VERSION"
-        implementation "org.apache.commons:commons-lang3:$APACHE_COMMONS_LANG_VERSION"
+        implementation "org.apache.commons:commons-collections4"
+        implementation "org.apache.commons:commons-lang3"
 
         // VULNERABILITY FIXES
         api "org.apache.tomcat.embed:tomcat-embed-core"
