@@ -2,38 +2,60 @@
 
 ## Synopsis
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions
-added for package managers (Gemspec, package.json, etc.)
+This project is an opinionated framework that extends Spring Boot to empower developers to implement RESTful apis with CRUD and/or search support with ease.
+
+If using these libraries for your own components (Controller, Service, Mapper, Repository), you can also use the testing libraries we ship to further reduce the
+amount of code you need to write.
 
 ## Code Example
 
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code
-example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+An example project using these libraries is also included, and can be
+inspected [here](https://github.com/BillyBolton/springharvest/tree/main/examples/books-catalogue/src/main/java/dev/springharvest/library).
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Many Spring Boot RESTful APIs contain the same design patterns across microservices, their respective domains. These libraries are meant to reduce boilerplate
+code that are necessary to support CRUD and search operations. This project also has plans to
+
+A similar approach is taken for the integration tests included in this project. Many developers write tests ad-hoc for the business logic that they require,
+however, when looking at the design patterns at high level, this logic can also be abstracted. Therefore, we are also shipping an integration testing framework
+to easily provide coverage for the libraries contained in this project.
+
+This project also has plans to generate code for components using only entity models, thereby reducing the amount of code a developer needs to write even
+further.
 
 ## Installation
 
 Provide code examples and explanations of how to get the project.
 
+To use any of the
+
 ## API Reference
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is
-important to at least provide a link to where the API reference docs live.
+Running the `books-catalogue` project locally make the OpenApi Swagger Documentation accessible on `localhost:8080`.
 
 ## Tests
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=BillyBolton_springharvest&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=BillyBolton_springharvest)
 
-Describe and show how to run the tests with code examples.
+The abstracted code is difficult to test on its own, despite it garnering coverage within the `books-catalogue` example project. I am looking for developer
+support for the following, however:
+
+- Write unit tests for abstracted code
+- Identify a way that test coverage can be consolidated for SonarCloud so that the coverage we obtain in `books-catalogue` can be extended to the other library
+  packages.
+
+Please also note that we use Java Reflect for the `components-search` package. Using reflection often flags code smells, however is usually only an issue if you
+are changing any values by brute force using this approach. Because this is not applicable for this project, many of the code smells that are reported are false
+positives.
 
 ## Contributors
 
-Leet people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
+Please reach out to [Billy Bolton](billybolton16@gmail.com) to inquire how to contribute.
 
 ## License
 
 Apache License, Version 2.0
+
+License is subject to change.
 
