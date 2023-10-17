@@ -2,7 +2,7 @@ plugins {}
 
 dependencies {
     // For easier Specification Search
-    api "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
-    api "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
-    api "org.hibernate.orm:hibernate-jpamodelgen:$HIBERNATE_JPA_MODELGEN_VERSION"
+    api "org.hibernate.orm:hibernate-jpamodelgen"
+    api "org.hibernate.orm:hibernate-jpamodelgen"
+    api "org.hibernate.orm:hibernate-jpamodelgen"
 }

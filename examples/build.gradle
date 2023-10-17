@@ -27,6 +27,10 @@ subprojects {
 
         testImplementation 'org.testcontainers:junit-jupiter'
 
+        //  API documentation
+        implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui"
+        implementation "org.springdoc:springdoc-openapi-starter-webmvc-api"
+
         // 	DATABASE:
         if (profiles.contains("h2")) {
             runtimeOnly 'com.h2database:h2'
