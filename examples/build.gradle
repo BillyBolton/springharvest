@@ -31,6 +31,21 @@ subprojects {
         implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui"
         implementation "org.springdoc:springdoc-openapi-starter-webmvc-api"
 
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        testAnnotationProcessor "org.mapstruct:mapstruct-processor"
+        testImplementation "io.rest-assured:spring-mock-mvc"
+        testImplementation "org.hamcrest:hamcrest-all"
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.testcontainers:junit-jupiter'
+        implementation "org.hibernate.orm:hibernate-jpamodelgen"
+        implementation "org.modelmapper:modelmapper"
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        implementation "org.apache.commons:commons-collections4"
+        implementation "org.apache.commons:commons-lang3"
+        testAnnotationProcessor "org.apache.commons:commons-compress"
+
         // 	DATABASE:
         if (profiles.contains("h2")) {
             runtimeOnly 'com.h2database:h2'

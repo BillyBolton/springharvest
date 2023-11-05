@@ -2,5 +2,5 @@ plugins {
 }
 
 dependencies {
-    implementation project(':errors')
+    api project(':errors')
 }
