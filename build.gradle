@@ -215,7 +215,7 @@ subprojects {
         api 'org.springframework.boot:spring-boot-starter-actuator'
         api 'org.springframework.boot:spring-boot-starter-data-jpa'
         api 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        api 'org.springframework.boot:spring-boot-starter-validation'
         api 'org.springframework.session:spring-session-core'
         api 'org.springframework.boot:spring-boot-docker-compose'
 
@@ -234,28 +234,28 @@ subprojects {
         annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
 
         // TESTING:
-        testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        testAnnotationProcessor "org.mapstruct:mapstruct-processor"
-        testImplementation "io.rest-assured:spring-mock-mvc"
-        testImplementation "org.hamcrest:hamcrest-all"
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation 'org.testcontainers:junit-jupiter'
+        api 'org.springframework.boot:spring-boot-starter-data-jpa'
+        api "org.mapstruct:mapstruct-processor"
+        api "io.rest-assured:spring-mock-mvc"
+        api "org.hamcrest:hamcrest-all"
+        api 'org.springframework.boot:spring-boot-starter-test'
+        api 'org.testcontainers:junit-jupiter'
 
         // SEARCH
         // For easier Specification Search
         annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
-        implementation "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
 
-        implementation "org.modelmapper:modelmapper"
+        api "org.modelmapper:modelmapper"
 
-        implementation "org.apache.commons:commons-collections4"
-        implementation "org.apache.commons:commons-lang3"
+        api "org.apache.commons:commons-collections4"
+        api "org.apache.commons:commons-lang3"
 
         // VULNERABILITY FIXES
         api "org.apache.tomcat.embed:tomcat-embed-core"
         api "org.yaml:snakeyaml"
         api "org.apache.commons:commons-compress"
-        testAnnotationProcessor "org.apache.commons:commons-compress"
+        api "org.apache.commons:commons-compress"
     }
 }
 

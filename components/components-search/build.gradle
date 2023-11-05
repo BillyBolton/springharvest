@@ -2,8 +2,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':errors')
-    implementation project(':components:components-shared')
-    implementation project(':components:components-crud')
+    api project(':errors')
+    api project(':components:components-shared')
+    api project(':components:components-crud')
 }
 

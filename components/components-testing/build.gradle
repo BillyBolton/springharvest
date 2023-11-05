@@ -7,10 +7,10 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation project(':components:components-shared')
+    api project(':components:components-shared')
     api project(':errors')
-    implementation project(':components:components-crud')
-    implementation project(':components:components-search')
+    api project(':components:components-crud')
+    api project(':components:components-search')
 
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     api "org.mapstruct:mapstruct-processor:$MAPSTRUCT_VERSION"
@@ -20,5 +20,5 @@ dependencies {
 
     api 'org.testcontainers:junit-jupiter'
     api "org.testcontainers:postgresql"
-    implementation 'org.liquibase:liquibase-core'
+    api 'org.liquibase:liquibase-core'
 }
