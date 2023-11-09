@@ -15,6 +15,6 @@ public interface ISearchModelFactory<D extends DomainModel, B extends BaseFilter
 
   List<SelectionDTO> buildValidSelections(boolean isEmpty);
 
-  List<SearchRequestDTO<B>> buildValidSearchRequestDTOs();
+  List<SearchRequestDTO<B>> buildValidSearchRequestDTOs(CriteriaOperator operator, List<D> models);
 
 }
