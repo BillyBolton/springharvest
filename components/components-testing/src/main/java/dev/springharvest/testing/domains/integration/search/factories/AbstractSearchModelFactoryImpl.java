@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter
-public abstract class AbstractSearchModelFactoryImpl<M extends DomainModel, B extends BaseFilterRequestDTO>
-    implements ISearchModelFactory<B> {
+public abstract class AbstractSearchModelFactoryImpl<D extends DomainModel, E extends DomainModel, B extends BaseFilterRequestDTO>
+    implements ISearchModelFactory<D, B> {
 
-  protected final IEntityMetadata<M> entityMetadata;
+  protected final IEntityMetadata<E> entityMetadata;
   protected final String idPath;
 
-  protected AbstractSearchModelFactoryImpl(EntityMetadata<M> entityMetadata) {
+  protected AbstractSearchModelFactoryImpl(EntityMetadata<E> entityMetadata) {
     this.entityMetadata = entityMetadata;
     this.idPath = entityMetadata.getDomainName() + "." + "id";
   }
@@ -40,5 +40,6 @@ public abstract class AbstractSearchModelFactoryImpl<M extends DomainModel, B ex
 
     return requests;
   }
+
 
 }

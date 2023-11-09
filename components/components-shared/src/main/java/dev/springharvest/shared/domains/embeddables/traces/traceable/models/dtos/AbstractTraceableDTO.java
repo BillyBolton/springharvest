@@ -24,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class AbstractTraceableDTO<K extends Serializable> extends BaseDTO<K> implements ITraceableDTO<K> {
+public class AbstractTraceableDTO<K extends Serializable> extends BaseDTO<K> implements ITraceableDTO<K> {
 
   @Nullable
   @Embedded
