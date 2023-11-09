@@ -28,19 +28,6 @@ public class BookSearchModelFactory
   }
 
   @Override
-  public BookFilterRequestDTO buildValidFilters() {
-    return BookFilterRequestDTO.builder()
-        .book(BookFilterDTO.builder()
-                  .id(FilterParameterDTO.builder()
-                          .values(Set.of(UUID.fromString(
-                              "00000000-0000-0000-0000-000000000001")))
-                          .operator(CriteriaOperator.EQUALS)
-                          .build())
-                  .build())
-        .build();
-  }
-
-  @Override
   public BookFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<BookDTO> models) {
     Set<UUID> ids = new LinkedHashSet<>();
     Set<String> titles = new LinkedHashSet<>();

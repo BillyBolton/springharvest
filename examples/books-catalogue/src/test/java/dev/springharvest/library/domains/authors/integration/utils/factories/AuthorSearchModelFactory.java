@@ -28,19 +28,6 @@ public class AuthorSearchModelFactory
   }
 
   @Override
-  public AuthorFilterRequestDTO buildValidFilters() {
-    return AuthorFilterRequestDTO.builder()
-        .author(AuthorFilterDTO.builder()
-                    .id(FilterParameterDTO.builder()
-                            .values(Set.of(UUID.fromString(
-                                "00000000-0000-0000-0000-000000000001")))
-                            .operator(CriteriaOperator.EQUALS)
-                            .build())
-                    .build())
-        .build();
-  }
-
-  @Override
   public AuthorFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<AuthorDTO> models) {
     Set<UUID> ids = new LinkedHashSet<>();
     Set<String> names = new LinkedHashSet<>();

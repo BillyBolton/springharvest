@@ -27,22 +27,7 @@ public class PublisherSearchModelFactory
   public PublisherSearchModelFactory(EntityMetadata<PublisherEntity> entityMetadata) {
     super(entityMetadata);
   }
-
-  @Override
-  public PublisherFilterRequestDTO buildValidFilters() {
-    return PublisherFilterRequestDTO.builder()
-        .publisher(PublisherFilterDTO.builder()
-                       .id(FilterParameterDTO.builder()
-                               .values(Set.of(
-                                   UUID.fromString(
-                                       "00000000-0000-0000-0000-000000000001")))
-                               .operator(
-                                   CriteriaOperator.EQUALS)
-                               .build())
-                       .build())
-        .build();
-  }
-
+  
   @Override
   public PublisherFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<PublisherDTO> models) {
     Set<UUID> ids = new LinkedHashSet<>();
