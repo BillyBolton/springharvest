@@ -1,6 +1,7 @@
 package dev.springharvest.library.domains.books.integration.utils.factories;
 
 import dev.springharvest.library.config.TestComponentScanningConfig;
+import dev.springharvest.library.domains.books.models.dtos.BookDTO;
 import dev.springharvest.library.domains.books.models.entities.BookEntity;
 import dev.springharvest.library.domains.books.models.queries.BookFilterDTO;
 import dev.springharvest.library.domains.books.models.queries.BookFilterRequestDTO;
@@ -8,6 +9,8 @@ import dev.springharvest.search.domains.base.models.entities.EntityMetadata;
 import dev.springharvest.search.domains.base.models.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.domains.base.models.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.testing.domains.integration.search.factories.AbstractSearchModelFactoryImpl;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Import(value = {TestComponentScanningConfig.class})
 public class BookSearchModelFactory
-    extends AbstractSearchModelFactoryImpl<BookEntity, BookFilterRequestDTO> {
+    extends AbstractSearchModelFactoryImpl<BookDTO, BookEntity, BookFilterRequestDTO> {
 
   @Autowired
   public BookSearchModelFactory(EntityMetadata<BookEntity> entityMetadata) {
@@ -25,16 +28,26 @@ public class BookSearchModelFactory
   }
 
   @Override
-  public BookFilterRequestDTO buildValidFilters() {
+  public BookFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<BookDTO> models) {
+    Set<UUID> ids = new LinkedHashSet<>();
+    Set<String> titles = new LinkedHashSet<>();
+    models.forEach(model -> {
+      ids.add(model.getId());
+      titles.add(model.getTitle());
+    });
     return BookFilterRequestDTO.builder()
         .book(BookFilterDTO.builder()
                   .id(FilterParameterDTO.builder()
-                          .values(Set.of(UUID.fromString(
-                              "00000000-0000-0000-0000-000000000001")))
-                          .operator(CriteriaOperator.EQUALS)
+                          .values(ids)
+                          .operator(operator)
                           .build())
+                  .title(FilterParameterDTO.builder()
+                             .values(titles)
+                             .operator(operator)
+                             .build())
                   .build())
         .build();
   }
+
 
 }

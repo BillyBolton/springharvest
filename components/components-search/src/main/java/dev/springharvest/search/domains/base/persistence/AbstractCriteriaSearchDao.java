@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -440,45 +441,95 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
 
       Path<?> curr = getPath(parameter, root, rootPath, joinMap);
 
-      Set<?> values = parameter.getValues();
+      Set<Object> convertedValues = new HashSet<>();
       List<Predicate> valuePredicates = new ArrayList<>();
-      for (Object value : values) {
+
+      // Singular operators
+      for (Object value : parameter.getValues()) {
         log.debug("Param Clazz: {}", parameter.getClazz());
         if (String.class.equals(parameter.getClazz())) {
-          value = value.toString();
+          convertedValues.add(value.toString());
         } else if (Integer.class.equals(parameter.getClazz())) {
-          value = Integer.parseInt(value.toString());
+          convertedValues.add(Integer.parseInt(value.toString()));
         } else if (Long.class.equals(parameter.getClazz())) {
-          value = Long.parseLong(value.toString());
+          convertedValues.add(Long.parseLong(value.toString()));
         } else if (Double.class.equals(parameter.getClazz())) {
-          value = Double.parseDouble(value.toString());
+          convertedValues.add(Double.parseDouble(value.toString()));
         } else if (Float.class.equals(parameter.getClazz())) {
-          value = Float.parseFloat(value.toString());
+          convertedValues.add(Float.parseFloat(value.toString()));
         } else if (BigDecimal.class.equals(parameter.getClazz())) {
-          value = BigDecimal.valueOf(Long.valueOf(value.toString()));
+          convertedValues.add(BigDecimal.valueOf(Long.parseLong(value.toString())));
         } else if (Boolean.class.equals(parameter.getClazz())) {
-          value = Boolean.parseBoolean(value.toString());
+          convertedValues.add(Boolean.parseBoolean(value.toString()));
         } else if (UUID.class.equals(parameter.getClazz())) {
-          value = UUID.fromString(value.toString());
+          try {
+            convertedValues.add(UUID.fromString(value.toString()));
+          } catch (IllegalArgumentException e) {
+            log.error("Failed to parse UUID from value: " + value);
+            // Handle the error or continue with an appropriate fallback value
+            continue; // Skip this value and move to the next one
+          }
         } else {
           log.error("Invalid value type: " + parameter.getClazz());
-          log.error("Invalid value type wth alias: " + parameter.getAlias());
+          log.error("Invalid value type with alias: " + parameter.getAlias());
           log.error("Ensure parameter.getClazz(path) exists in GlobalClassResolver.java");
           throw new IllegalArgumentException("Invalid value type: " + parameter.getClazz());
         }
-
-        Predicate predicate = null;
-        CriteriaOperator operator =
-            parameter.getOperator() == null ? CriteriaOperator.EQUALS : parameter.getOperator();
-        switch (operator) {
-          case EQUALS -> predicate = cb.equal(curr, value);
-          case NOT_EQUALS -> predicate = cb.notEqual(curr, value);
-          case IN -> predicate = curr.in(value);
-          case NOT_IN -> predicate = cb.not(curr.in(value));
-          default -> throw new IllegalArgumentException("Invalid operator: " + operator);
-        }
-        valuePredicates.add(predicate);
       }
+
+      Predicate predicate = null;
+      CriteriaOperator operator = parameter.getOperator() == null ? CriteriaOperator.IN : parameter.getOperator();
+      switch (operator) {
+        case CONTAINS -> {
+          // TODO:
+        }
+        case NOT_CONTAINS -> {
+          // TODO:
+        }
+        case STARTS_WITH -> {
+          // TODO:
+        }
+        case ENDS_WITH -> {
+          // TODO:
+        }
+        case LESS_THAN -> {
+
+          // TODO:
+        }
+        case LESS_THAN_OR_EQUAL -> {
+          // TODO:
+        }
+        case GREATER_THAN -> {
+          // TODO:
+        }
+        case GREATER_THAN_OR_EQUAL -> {
+          // TODO:
+        }
+        case IN, EQUALS -> predicate = curr.in(convertedValues);
+        case NOT_IN, NOT_EQUALS -> predicate = cb.not(curr.in(convertedValues));
+        case IS_NULL -> {
+          // TODO:
+        }
+        case IS_NOT_NULL -> {
+          // TODO:
+        }
+        case IS_EMPTY -> {
+          // TODO:
+        }
+        case IS_NOT_EMPTY -> {
+          // TODO:
+        }
+        case BEFORE -> {
+          // TODO:
+        }
+        case AFTER -> {
+          // TODO:
+        }
+        case LIKE -> {
+          // TODO:
+        }
+      }
+      valuePredicates.add(predicate);
       return valuePredicates;
     }
 
