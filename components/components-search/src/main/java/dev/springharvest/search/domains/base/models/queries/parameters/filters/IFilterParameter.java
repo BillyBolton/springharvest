@@ -1,6 +1,7 @@
 package dev.springharvest.search.domains.base.models.queries.parameters.filters;
 
 import dev.springharvest.search.domains.base.mappers.transformers.IBaseTupleTransformer;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -71,14 +72,14 @@ public interface IFilterParameter {
    *
    * @return The Set of values of the filter parameter.
    */
-  Set<?> getValues();
+  List<?> getValues();
 
   /**
    * This method is used to set the values of the filter parameter.
    *
    * @param values The Set of values of the filter parameter.
    */
-  void setValues(Set<?> values);
+  void setValues(List<?> values);
 
   /**
    * This method is used to identify whether the values in the filter parameter are empty.

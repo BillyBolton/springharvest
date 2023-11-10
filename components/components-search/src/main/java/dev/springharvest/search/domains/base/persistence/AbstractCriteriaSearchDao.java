@@ -33,7 +33,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,7 +85,7 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
 
   @Override
   public boolean existsByUnique(SearchRequest<RB> searchRequest) {
-    return count(searchRequest) >= 1;
+    return count(searchRequest) > 0;
   }
 
   @Override
@@ -441,11 +440,11 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
 
       Path<?> curr = getPath(parameter, root, rootPath, joinMap);
 
-      Set<Object> convertedValues = new HashSet<>();
+      List<Object> convertedValues = new LinkedList<>();
       List<Predicate> valuePredicates = new ArrayList<>();
 
       // Singular operators
-      for (Object value : parameter.getValues()) {
+      for (Object value : parameter.getValues().stream().toArray()) {
         log.debug("Param Clazz: {}", parameter.getClazz());
         if (String.class.equals(parameter.getClazz())) {
           convertedValues.add(value.toString());
@@ -479,6 +478,10 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
 
       Predicate predicate = null;
       CriteriaOperator operator = parameter.getOperator() == null ? CriteriaOperator.IN : parameter.getOperator();
+      boolean isOperatorSingular = List.of(CriteriaOperator.EQUALS, CriteriaOperator.NOT_EQUALS).contains(operator);
+      if (isOperatorSingular) {
+        convertedValues = convertedValues.subList(0, 1);
+      }
       switch (operator) {
         case CONTAINS -> {
           // TODO:
@@ -505,8 +508,18 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
         case GREATER_THAN_OR_EQUAL -> {
           // TODO:
         }
-        case IN, EQUALS -> predicate = curr.in(convertedValues);
-        case NOT_IN, NOT_EQUALS -> predicate = cb.not(curr.in(convertedValues));
+        case EQUALS -> {
+          if (!convertedValues.isEmpty()) {
+            predicate = cb.equal(curr, convertedValues.stream().findFirst().get());
+          }
+        }
+        case NOT_EQUALS -> {
+          if (!convertedValues.isEmpty()) {
+            predicate = cb.notEqual(curr, convertedValues.stream().findFirst().get());
+          }
+        }
+        case IN -> predicate = curr.in(convertedValues);
+        case NOT_IN -> predicate = cb.not(curr.in(convertedValues));
         case IS_NULL -> {
           // TODO:
         }
@@ -583,12 +596,12 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
         List<Predicate> andPredicates = new ArrayList<>();
         for (Map.Entry<String, FilterParameterBO> entry : CriteriaBuilderHelper.getParameters(andParams)
             .entrySet()) {
-          andPredicates.add(cb.or(CriteriaBuilderHelper.getPredicateValues(entry, root, rootPath, joinMap, cb)
-                                      .toArray(new Predicate[0])));
+          andPredicates.add(cb.and(CriteriaBuilderHelper.getPredicateValues(entry, root, rootPath, joinMap, cb)
+                                       .toArray(new Predicate[0])));
         }
-        orPredicates.add(cb.and(andPredicates.toArray(new Predicate[0])));
+        orPredicates.add(cb.or(andPredicates.toArray(new Predicate[0])));
       }
-      query.where(cb.or(orPredicates.toArray(new Predicate[0])));
+      query.where(orPredicates.toArray(new Predicate[0]));
     }
 
   }

@@ -1,8 +1,8 @@
 package dev.springharvest.search.domains.base.models.queries.parameters.filters;
 
 import dev.springharvest.search.domains.base.models.queries.parameters.base.BaseParameterBO;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class FilterParameterBO extends BaseParameterBO implements IFilterParamet
   @Builder.Default
   private CriteriaOperator operator = CriteriaOperator.EQUALS;
   @Builder.Default
-  private Set<?> values = Set.of();
+  private List<?> values = List.of();
 
   //TODO: refactor once CriteriaSearch is better tested
 

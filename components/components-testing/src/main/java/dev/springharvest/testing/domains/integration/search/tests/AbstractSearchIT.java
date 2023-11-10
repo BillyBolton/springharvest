@@ -1,6 +1,5 @@
 package dev.springharvest.testing.domains.integration.search.tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,8 +14,11 @@ import dev.springharvest.testing.domains.integration.search.factories.ISearchMod
 import dev.springharvest.testing.domains.integration.shared.tests.AbstractBaseIT;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -65,38 +67,52 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
     @MethodSource("searchQueryParameterProvider")
     void canPostSearchQuery(CriteriaOperator operator, boolean selectAll) {
 
-      // assert greater than 1
-      List<D> found = findAll();
+      List<D> all = findAll();
+      Map<K, D> allMap = all.stream().map(model -> Map.entry(model.getId(), model)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+      Map<K, D> firstOfAllMap = all.subList(0, 1).stream().map(model -> Map.entry(model.getId(), model)).collect(Collectors.toMap(Map.Entry::getKey,
+                                                                                                                                  Map.Entry::getValue));
       List<D> searched = client.searchAndExtract(SearchRequestDTO.<B>builder()
                                                      .page(Page.builder()
                                                                .pageNumber(1)
                                                                .pageSize(Integer.MAX_VALUE)
                                                                .build())
                                                      .selections(modelFactory.buildValidSelections(selectAll))
-                                                     .filters(Set.of(modelFactory.buildValidFilters(operator, found)))
+                                                     .filters(Set.of(modelFactory.buildValidFilters(operator, all)))
                                                      .build());
+      SoftAssertions softly = new SoftAssertions();
       switch (operator) {
-        case IN, EQUALS:
-          assertEquals(found.size(), searched.size());
+        case EQUALS:
+          softly.assertThat(searched.size()).isEqualTo(firstOfAllMap.size());
+          softly.assertThat(searched.stream().collect(Collectors.toMap(BaseDTO::getId, dto -> dto))).containsAllEntriesOf(firstOfAllMap);
           break;
-        case NOT_IN, NOT_EQUALS:
-          assertEquals(0, searched.size());
+        case NOT_EQUALS:
+          softly.assertThat(searched.size()).isEqualTo(all.size() - 1);
+          all.forEach(dto -> softly.assertThat(allMap).containsKey(dto.getId()));
+          break;
+        case IN:
+          softly.assertThat(searched.size()).isEqualTo(all.size());
+          softly.assertThat(searched.stream().collect(Collectors.toMap(BaseDTO::getId, dto -> dto))).containsAllEntriesOf(allMap);
+          break;
+        case NOT_IN:
+          softly.assertThat(searched.size()).isEqualTo(0);
+          searched.forEach(dto -> softly.assertThat(allMap).doesNotContainKeys(dto.getId()));
           break;
         default:
           throw new IllegalArgumentException("Unknown operator: " + operator);
       }
+      softly.assertAll();
     }
 
     private List<D> findAll() {
-      List<D> found = client.searchAndExtract(SearchRequestDTO.<B>builder()
-                                                  .page(Page.builder()
-                                                            .pageNumber(1)
-                                                            .pageSize(Integer.MAX_VALUE)
-                                                            .build())
-                                                  .selections(modelFactory.buildValidSelections(true))
-                                                  .build());
-      assertFalse(found.isEmpty());
-      return found;
+      List<D> all = client.searchAndExtract(SearchRequestDTO.<B>builder()
+                                                .page(Page.builder()
+                                                          .pageNumber(1)
+                                                          .pageSize(Integer.MAX_VALUE)
+                                                          .build())
+                                                .selections(modelFactory.buildValidSelections(true))
+                                                .build());
+      assertFalse(all.isEmpty(), "No test data exists for entity with the id path: " + modelFactory.getIdPath());
+      return all;
     }
 
     /**
@@ -106,27 +122,34 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
     @MethodSource("searchQueryParameterProvider")
     void canPostSearchCountQuery(CriteriaOperator operator, boolean selectAll) {
 
-      List<D> found = findAll();
-      int count = client.searchCountAndExtract(SearchRequestDTO.<B>builder()
-                                                   .page(Page.builder()
-                                                             .pageNumber(1)
-                                                             .pageSize(Integer.MAX_VALUE)
-                                                             .build())
-                                                   .selections(modelFactory.buildValidSelections(selectAll))
-                                                   .filters(Set.of(modelFactory.buildValidFilters(operator, found)))
-                                                   .build());
+      List<D> all = findAll();
+      int searchedCount = client.searchCountAndExtract(SearchRequestDTO.<B>builder()
+                                                           .page(Page.builder()
+                                                                     .pageNumber(1)
+                                                                     .pageSize(Integer.MAX_VALUE)
+                                                                     .build())
+                                                           .selections(modelFactory.buildValidSelections(selectAll))
+                                                           .filters(Set.of(modelFactory.buildValidFilters(operator, all)))
+                                                           .build());
 
+      SoftAssertions softly = new SoftAssertions();
       switch (operator) {
-        case IN, EQUALS:
-          assertEquals(found.size(), count);
+        case EQUALS:
+          softly.assertThat(searchedCount).isEqualTo(1);
           break;
-        case NOT_EQUALS, NOT_IN:
-          assertEquals(0, count);
+        case NOT_EQUALS:
+          softly.assertThat(searchedCount).isEqualTo(all.size() - 1);
+          break;
+        case IN:
+          softly.assertThat(searchedCount).isEqualTo(all.size());
+          break;
+        case NOT_IN:
+          softly.assertThat(searchedCount).isEqualTo(0);
           break;
         default:
           throw new IllegalArgumentException("Unknown operator: " + operator);
       }
-
+      softly.assertAll();
     }
 
     /**
@@ -136,23 +159,24 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
     @MethodSource("searchQueryParameterProvider")
     void canPostSearchExistsQuery(CriteriaOperator operator, boolean selectAll) {
 
-      List<D> found = findAll();
-      boolean expectedExists = switch (operator) {
-        case EQUALS, IN -> !found.isEmpty();
-        case NOT_IN, NOT_EQUALS -> found.isEmpty();
-        default -> throw new IllegalArgumentException("Unknown operator: " + operator);
-      };
-
+      List<D> all = findAll();
       boolean exists = client.searchExistsAndExtract(SearchRequestDTO.<B>builder()
                                                          .page(Page.builder()
                                                                    .pageNumber(1)
                                                                    .pageSize(Integer.MAX_VALUE)
                                                                    .build())
                                                          .selections(modelFactory.buildValidSelections(selectAll))
-                                                         .filters(Set.of(modelFactory.buildValidFilters(operator, found))).build());
-      assertEquals(expectedExists, exists);
-    }
+                                                         .filters(Set.of(modelFactory.buildValidFilters(operator, all))).build());
 
+      if (operator.equals(CriteriaOperator.NOT_IN)) {
+        assertFalse(exists);
+      } else if (operator.equals(CriteriaOperator.NOT_EQUALS) && (all.size() == 1)) {
+        assertFalse(exists);
+      } else {
+        assertTrue(exists);
+      }
+
+    }
   }
 
 }
