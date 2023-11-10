@@ -1,5 +1,6 @@
 package dev.springharvest.testing.domains.integration.search.tests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -79,23 +80,25 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
                                                      .selections(modelFactory.buildValidSelections(selectAll))
                                                      .filters(Set.of(modelFactory.buildValidFilters(operator, all)))
                                                      .build());
+      Set<K> idsFromSearch = searched.stream().map(BaseDTO::getId).collect(Collectors.toSet());
+      assertEquals(searched.size(), idsFromSearch.size(), "The search results contain duplicate ids.");
       SoftAssertions softly = new SoftAssertions();
       switch (operator) {
         case EQUALS:
-          softly.assertThat(searched.size()).isEqualTo(firstOfAllMap.size());
-          softly.assertThat(searched.stream().collect(Collectors.toMap(BaseDTO::getId, dto -> dto))).containsAllEntriesOf(firstOfAllMap);
+          softly.assertThat(idsFromSearch.size()).isEqualTo(firstOfAllMap.size());
+          softly.assertThat(idsFromSearch).containsAll(firstOfAllMap.keySet());
           break;
         case NOT_EQUALS:
-          softly.assertThat(searched.size()).isEqualTo(all.size() - 1);
-          all.forEach(dto -> softly.assertThat(allMap).containsKey(dto.getId()));
+          softly.assertThat(idsFromSearch.size()).isEqualTo(all.size() - 1);
+          softly.assertThat(idsFromSearch).doesNotContainAnyElementsOf(firstOfAllMap.keySet());
           break;
         case IN:
-          softly.assertThat(searched.size()).isEqualTo(all.size());
-          softly.assertThat(searched.stream().collect(Collectors.toMap(BaseDTO::getId, dto -> dto))).containsAllEntriesOf(allMap);
+          softly.assertThat(idsFromSearch.size()).isEqualTo(all.size());
+          softly.assertThat(idsFromSearch).containsAll(firstOfAllMap.keySet());
           break;
         case NOT_IN:
-          softly.assertThat(searched.size()).isEqualTo(0);
-          searched.forEach(dto -> softly.assertThat(allMap).doesNotContainKeys(dto.getId()));
+          softly.assertThat(idsFromSearch.size()).isEqualTo(0);
+          softly.assertThat(idsFromSearch).doesNotContainAnyElementsOf(allMap.keySet());
           break;
         default:
           throw new IllegalArgumentException("Unknown operator: " + operator);
