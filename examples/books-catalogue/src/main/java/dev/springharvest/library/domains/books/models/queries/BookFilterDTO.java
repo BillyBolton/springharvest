@@ -22,4 +22,7 @@ public class BookFilterDTO extends BaseFilterDTO {
   @Schema(name = "title", description = "The title of the Book.")
   private FilterParameterDTO title;
 
+  @Schema(name = "genre", description = "The genre of the Book.")
+  private FilterParameterDTO genre;
+
 }

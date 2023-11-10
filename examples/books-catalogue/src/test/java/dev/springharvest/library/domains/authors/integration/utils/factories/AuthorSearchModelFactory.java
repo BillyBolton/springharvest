@@ -27,7 +27,7 @@ public class AuthorSearchModelFactory
   }
 
   @Override
-  public AuthorFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<AuthorDTO> models) {
+  public AuthorFilterRequestDTO buildValidUniqueFilters(CriteriaOperator operator, List<AuthorDTO> models) {
     List<UUID> ids = new LinkedList<>();
     List<String> names = new LinkedList<>();
     models.forEach(model -> {

@@ -27,7 +27,7 @@ public class BookSearchModelFactory
   }
 
   @Override
-  public BookFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<BookDTO> models) {
+  public BookFilterRequestDTO buildValidUniqueFilters(CriteriaOperator operator, List<BookDTO> models) {
     List<UUID> ids = new LinkedList<>();
     List<String> titles = new LinkedList<>();
     models.forEach(model -> {
@@ -47,6 +47,5 @@ public class BookSearchModelFactory
                   .build())
         .build();
   }
-
 
 }

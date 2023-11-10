@@ -11,7 +11,7 @@ public interface ISearchModelFactory<D extends DomainModel, B extends BaseFilter
 
   String getIdPath();
 
-  B buildValidFilters(CriteriaOperator operator, List<D> models);
+  B buildValidUniqueFilters(CriteriaOperator operator, List<D> models);
 
   List<SelectionDTO> buildValidSelections(boolean isEmpty);
 

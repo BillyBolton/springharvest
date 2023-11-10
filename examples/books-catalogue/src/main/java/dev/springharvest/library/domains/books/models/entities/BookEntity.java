@@ -35,6 +35,10 @@ public class BookEntity extends AbstractTraceableEntity<UUID> {
   @Column(name = "title")
   private String title;
 
+  @NotBlank
+  @Column(name = "genre")
+  private String genre;
+
   @NotNull
   @JoinColumn(name = "author_id")
   @ManyToOne(fetch = FetchType.LAZY)

@@ -32,7 +32,7 @@ public abstract class AbstractSearchModelFactoryImpl<D extends DomainModel, E ex
     models.forEach(model -> {
       requests.add(SearchRequestDTO.<B>builder()
                        .selections(buildValidSelections(false))
-                       .filters(Set.of(buildValidFilters(operator, List.of(model))))
+                       .filters(Set.of(buildValidUniqueFilters(operator, List.of(model))))
                        .build());
     });
 

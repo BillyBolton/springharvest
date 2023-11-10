@@ -40,6 +40,7 @@ public class BookEntityMetadata extends EntityMetadata<BookEntity> {
       private static final String DOMAIN_PLURAL = "books";
       private static final String BOOK_ID = DOMAIN_SINGULAR + "." + BaseEntity_.ID;
       private static final String BOOK_TITLE = DOMAIN_SINGULAR + "." + BookEntity_.TITLE;
+      private static final String BOOK_GENRE = DOMAIN_SINGULAR + "." + BookEntity_.GENRE;
 
       private Paths() {
         throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
@@ -49,11 +50,13 @@ public class BookEntityMetadata extends EntityMetadata<BookEntity> {
 
         private static final Map<String, Class<?>> ROOTS = Map.of(DOMAIN_SINGULAR, PublisherEntity.class);
         private static final Map<String, Class<?>> ROOT_PATH_CLAZZ_MAP = Map.of(BOOK_ID, UUID.class,
-                                                                                BOOK_TITLE, String.class);
+                                                                                BOOK_TITLE, String.class,
+                                                                                BOOK_GENRE, String.class);
 
         private static final Map<String, BiConsumer<BookEntity, Object>> ROOT_MAPPING_FUNCTIONS = Map.of(
             BOOK_ID, (entity, value) -> entity.setId((UUID) value),
-            BOOK_TITLE, (entity, value) -> entity.setTitle((String) value)
+            BOOK_TITLE, (entity, value) -> entity.setTitle((String) value),
+            BOOK_GENRE, (entity, value) -> entity.setGenre((String) value)
                                                                                                         );
 
         private Maps() {

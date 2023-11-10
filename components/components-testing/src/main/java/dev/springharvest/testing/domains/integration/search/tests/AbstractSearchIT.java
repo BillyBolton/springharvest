@@ -78,7 +78,7 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
                                                                .pageSize(Integer.MAX_VALUE)
                                                                .build())
                                                      .selections(modelFactory.buildValidSelections(selectAll))
-                                                     .filters(Set.of(modelFactory.buildValidFilters(operator, all)))
+                                                     .filters(Set.of(modelFactory.buildValidUniqueFilters(operator, all)))
                                                      .build());
       Set<K> idsFromSearch = searched.stream().map(BaseDTO::getId).collect(Collectors.toSet());
       assertEquals(searched.size(), idsFromSearch.size(), "The search results contain duplicate ids.");
@@ -132,7 +132,7 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
                                                                      .pageSize(Integer.MAX_VALUE)
                                                                      .build())
                                                            .selections(modelFactory.buildValidSelections(selectAll))
-                                                           .filters(Set.of(modelFactory.buildValidFilters(operator, all)))
+                                                           .filters(Set.of(modelFactory.buildValidUniqueFilters(operator, all)))
                                                            .build());
 
       SoftAssertions softly = new SoftAssertions();
@@ -169,7 +169,7 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
                                                                    .pageSize(Integer.MAX_VALUE)
                                                                    .build())
                                                          .selections(modelFactory.buildValidSelections(selectAll))
-                                                         .filters(Set.of(modelFactory.buildValidFilters(operator, all))).build());
+                                                         .filters(Set.of(modelFactory.buildValidUniqueFilters(operator, all))).build());
 
       if (operator.equals(CriteriaOperator.NOT_IN)) {
         assertFalse(exists);

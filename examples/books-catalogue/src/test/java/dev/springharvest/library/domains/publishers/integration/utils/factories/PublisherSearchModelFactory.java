@@ -28,7 +28,7 @@ public class PublisherSearchModelFactory
   }
 
   @Override
-  public PublisherFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<PublisherDTO> models) {
+  public PublisherFilterRequestDTO buildValidUniqueFilters(CriteriaOperator operator, List<PublisherDTO> models) {
     List<UUID> ids = new LinkedList<>();
     List<String> names = new LinkedList<>();
     models.forEach(model -> {
