@@ -68,7 +68,10 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
       // assert greater than 1
       List<D> found = findAll();
       List<D> searched = client.searchAndExtract(SearchRequestDTO.<B>builder()
-                                                     .page(Page.builder().build())
+                                                     .page(Page.builder()
+                                                               .pageNumber(1)
+                                                               .pageSize(Integer.MAX_VALUE)
+                                                               .build())
                                                      .selections(modelFactory.buildValidSelections(selectAll))
                                                      .filters(Set.of(modelFactory.buildValidFilters(operator, found)))
                                                      .build());
@@ -86,7 +89,10 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
 
     private List<D> findAll() {
       List<D> found = client.searchAndExtract(SearchRequestDTO.<B>builder()
-                                                  .page(Page.builder().build())
+                                                  .page(Page.builder()
+                                                            .pageNumber(1)
+                                                            .pageSize(Integer.MAX_VALUE)
+                                                            .build())
                                                   .selections(modelFactory.buildValidSelections(true))
                                                   .build());
       assertFalse(found.isEmpty());
@@ -102,7 +108,10 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
 
       List<D> found = findAll();
       int count = client.searchCountAndExtract(SearchRequestDTO.<B>builder()
-                                                   .page(Page.builder().build())
+                                                   .page(Page.builder()
+                                                             .pageNumber(1)
+                                                             .pageSize(Integer.MAX_VALUE)
+                                                             .build())
                                                    .selections(modelFactory.buildValidSelections(selectAll))
                                                    .filters(Set.of(modelFactory.buildValidFilters(operator, found)))
                                                    .build());
@@ -135,7 +144,10 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
       };
 
       boolean exists = client.searchExistsAndExtract(SearchRequestDTO.<B>builder()
-                                                         .page(Page.builder().build())
+                                                         .page(Page.builder()
+                                                                   .pageNumber(1)
+                                                                   .pageSize(Integer.MAX_VALUE)
+                                                                   .build())
                                                          .selections(modelFactory.buildValidSelections(selectAll))
                                                          .filters(Set.of(modelFactory.buildValidFilters(operator, found))).build());
       assertEquals(expectedExists, exists);
