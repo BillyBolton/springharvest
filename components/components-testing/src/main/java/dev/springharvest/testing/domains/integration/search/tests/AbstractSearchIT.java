@@ -170,10 +170,12 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
 
       if (operator.equals(CriteriaOperator.NOT_IN)) {
         assertFalse(exists);
+      } else if (operator.equals(CriteriaOperator.NOT_EQUALS) && (all.size() == 1)) {
+        assertFalse(exists);
       } else {
         assertTrue(exists);
       }
-      
+
     }
   }
 
