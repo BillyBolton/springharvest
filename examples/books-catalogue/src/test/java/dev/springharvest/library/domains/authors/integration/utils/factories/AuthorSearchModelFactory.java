@@ -9,9 +9,8 @@ import dev.springharvest.search.domains.base.models.entities.EntityMetadata;
 import dev.springharvest.search.domains.base.models.queries.parameters.filters.CriteriaOperator;
 import dev.springharvest.search.domains.base.models.queries.parameters.filters.FilterParameterDTO;
 import dev.springharvest.testing.domains.integration.search.factories.AbstractSearchModelFactoryImpl;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -29,8 +28,8 @@ public class AuthorSearchModelFactory
 
   @Override
   public AuthorFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<AuthorDTO> models) {
-    Set<UUID> ids = new LinkedHashSet<>();
-    Set<String> names = new LinkedHashSet<>();
+    List<UUID> ids = new LinkedList<>();
+    List<String> names = new LinkedList<>();
     models.forEach(model -> {
       ids.add(model.getId());
       names.add(model.getName());

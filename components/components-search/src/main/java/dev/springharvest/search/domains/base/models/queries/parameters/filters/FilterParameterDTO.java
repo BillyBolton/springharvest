@@ -3,7 +3,7 @@ package dev.springharvest.search.domains.base.models.queries.parameters.filters;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.springharvest.search.domains.base.models.queries.parameters.base.BaseParameterDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.Set;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +29,7 @@ public class FilterParameterDTO extends BaseParameterDTO {
   @Builder.Default
   private CriteriaOperator operator = CriteriaOperator.EQUALS;
   @Schema(name = "values", description = "The values that will be used to search on.", example = "[]")
-  private Set<?> values;
+  private List<?> values;
 
   @JsonIgnore
   @Override
