@@ -1,0 +1,12 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: "1"
+      author: BillyBolton
+
+  - include:
+      file: DDL/create_ca_cities_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: DML/insert_ca_cities_data.sql
+      relativeToChangelogFile: true

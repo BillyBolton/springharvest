@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   postgres-library:
-    image: postgres:latest
+    image: postgis/postgis:latest
     restart: always
     environment:
       - POSTGRES_DB=library

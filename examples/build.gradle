@@ -52,10 +52,17 @@ subprojects {
         }
 
         if (profiles.contains("postgres")) {
-            runtimeOnly 'org.postgresql:postgresql'
+//            runtimeOnly 'org.postgresql:postgresql'
+            runtimeOnly 'net.postgis:postgis-jdbc:2021.1.0'
             testImplementation 'org.testcontainers:testcontainers'
             testImplementation "org.testcontainers:postgresql"
+            implementation 'org.hibernate:hibernate-spatial:6.3.1.Final'
+            implementation 'org.locationtech.jts:jts-core:1.16.1'
+            runtimeOnly 'org.hibernate:hibernate-spatial:6.3.1.Final'
+            runtimeOnly 'org.locationtech.jts:jts-core:1.16.1'
+
         }
+
 
         if (profiles.contains("liquibase")) {
             implementation 'org.liquibase:liquibase-core'
