@@ -57,6 +57,7 @@ public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
     return BookDTO.builder()
         .id(getRandomId())
         .title(RandomStringUtils.randomAlphabetic(5))
+        .genre(RandomStringUtils.randomAlphabetic(5))
         .author(authorCrudClient.createAndExtract(authorsModelFactory.buildValidDto()))
         .publisher(publisherCrudClient.createAndExtract(publishersModelFactory.buildValidDto()))
         .traceData(traceDataModelFactory.buildValidDto())
@@ -74,6 +75,7 @@ public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
   @Override
   public BookDTO buildValidUpdatedDto(BookDTO dto) {
     dto.setTitle(RandomStringUtils.randomAlphabetic(5));
+    dto.setGenre(RandomStringUtils.randomAlphabetic(5));
     return dto;
   }
 

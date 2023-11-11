@@ -22,6 +22,7 @@ public interface IBookMapper extends IBaseModelMapper<BookDTO, BookEntity, UUID>
   @Override
   @Mapping(target = "id", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   @Mapping(target = "title", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+  @Mapping(target = "genre", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   @Mapping(target = "traceData", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
   BookDTO setDirtyFields(BookDTO source, @MappingTarget BookDTO target, @Context CyclicMappingHandler context);
 

@@ -11,7 +11,9 @@ import dev.springharvest.search.domains.base.models.queries.parameters.filters.F
 import dev.springharvest.testing.domains.integration.search.factories.AbstractSearchModelFactoryImpl;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
@@ -27,26 +29,40 @@ public class BookSearchModelFactory
   }
 
   @Override
-  public BookFilterRequestDTO buildValidFilters(CriteriaOperator operator, List<BookDTO> models) {
-    List<UUID> ids = new LinkedList<>();
-    List<String> titles = new LinkedList<>();
-    models.forEach(model -> {
-      ids.add(model.getId());
-      titles.add(model.getTitle());
-    });
-    return BookFilterRequestDTO.builder()
-        .book(BookFilterDTO.builder()
-                  .id(FilterParameterDTO.builder()
-                          .values(ids)
-                          .operator(operator)
-                          .build())
-                  .title(FilterParameterDTO.builder()
-                             .values(titles)
-                             .operator(operator)
-                             .build())
-                  .build())
-        .build();
+  public Set<BookFilterRequestDTO> buildValidUniqueFilters(CriteriaOperator operator, List<BookDTO> models, boolean explodeRequest) {
+    if (explodeRequest) {
+      return models.stream().map(model -> BookFilterRequestDTO.builder()
+          .book(BookFilterDTO.builder()
+                    .id(FilterParameterDTO.builder()
+                            .values(List.of(model.getId()))
+                            .operator(operator)
+                            .build())
+                    .title(FilterParameterDTO.builder()
+                               .values(List.of(model.getTitle()))
+                               .operator(operator)
+                               .build())
+                    .build())
+          .build()).collect(Collectors.toSet());
+    } else {
+      List<UUID> ids = new LinkedList<>();
+      List<String> titles = new LinkedList<>();
+      models.forEach(model -> {
+        ids.add(model.getId());
+        titles.add(model.getTitle());
+      });
+      return Set.of(BookFilterRequestDTO.builder()
+                        .book(BookFilterDTO.builder()
+                                  .id(FilterParameterDTO.builder()
+                                          .values(ids)
+                                          .operator(operator)
+                                          .build())
+                                  .title(FilterParameterDTO.builder()
+                                             .values(titles)
+                                             .operator(operator)
+                                             .build())
+                                  .build())
+                        .build());
+    }
   }
-
 
 }

@@ -443,8 +443,13 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
       List<Object> convertedValues = new LinkedList<>();
       List<Predicate> valuePredicates = new ArrayList<>();
 
-      // Singular operators
-      for (Object value : parameter.getValues().stream().toArray()) {
+      if (CollectionUtils.isEmpty(parameter.getValues())) {
+        return valuePredicates;
+      }
+      for (Object value : parameter.getValues()) {
+        if (value == null) {
+          continue;
+        }
         log.debug("Param Clazz: {}", parameter.getClazz());
         if (String.class.equals(parameter.getClazz())) {
           convertedValues.add(value.toString());
@@ -590,18 +595,21 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
         return;
       }
 
-      List<Predicate> orPredicates = new ArrayList<>();
-      for (RB andParams : searchRequest.getFilters()) {
+      List<List<Predicate>> orPredicates = new ArrayList<>();
 
+      Set<RB> filters = searchRequest.getFilters();
+      for (RB filter : filters) {
         List<Predicate> andPredicates = new ArrayList<>();
-        for (Map.Entry<String, FilterParameterBO> entry : CriteriaBuilderHelper.getParameters(andParams)
-            .entrySet()) {
-          andPredicates.add(cb.and(CriteriaBuilderHelper.getPredicateValues(entry, root, rootPath, joinMap, cb)
-                                       .toArray(new Predicate[0])));
+        for (Map.Entry<String, FilterParameterBO> entry : CriteriaBuilderHelper.getParameters(filter).entrySet()) {
+          List<Predicate> predicates = CriteriaBuilderHelper.getPredicateValues(entry, root, rootPath, joinMap, cb);
+          if (!predicates.isEmpty()) {
+            andPredicates.add(cb.and(predicates.toArray(new Predicate[0])));
+          }
         }
-        orPredicates.add(cb.or(andPredicates.toArray(new Predicate[0])));
+
+        orPredicates.add(andPredicates);
       }
-      query.where(orPredicates.toArray(new Predicate[0]));
+      query.where(cb.or(orPredicates.stream().map(predicates -> cb.and(predicates.toArray(new Predicate[0]))).toArray(Predicate[]::new)));
     }
 
   }

@@ -22,6 +22,9 @@ public class BookDTO extends AbstractTraceableDTO<UUID> {
   @Schema(name = "title", description = "The title of the book.", example = "The Cat in the Hat")
   private String title;
 
+  @Schema(name = "genre", description = "The genre of the book.", example = "Children's Literature")
+  private String genre;
+
   private AuthorDTO author;
 
   private PublisherDTO publisher;

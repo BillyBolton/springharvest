@@ -17,5 +17,6 @@ public class BookFilterBO extends BaseFilterBO {
 
   private FilterParameterBO id;
   private FilterParameterBO title;
+  private FilterParameterBO genre;
 
 }
