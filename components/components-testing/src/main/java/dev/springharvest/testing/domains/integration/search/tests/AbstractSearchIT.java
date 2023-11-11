@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.springharvest.search.domains.base.models.queries.parameters.filters.CriteriaOperator;
+import dev.springharvest.search.domains.base.models.queries.parameters.selections.SelectionDTO;
 import dev.springharvest.search.domains.base.models.queries.requests.filters.BaseFilterRequestDTO;
 import dev.springharvest.search.domains.base.models.queries.requests.pages.Page;
 import dev.springharvest.search.domains.base.models.queries.requests.search.SearchRequestDTO;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@Slf4j
 public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B extends BaseFilterRequestDTO>
     extends AbstractBaseIT
     implements ISearchIT {
@@ -54,11 +57,16 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
   class PostPaths {
 
     private static Stream<Arguments> searchQueryParameterProvider() {
-      List<CriteriaOperator> criteriaOperators = List.of(CriteriaOperator.EQUALS, CriteriaOperator.IN, CriteriaOperator.NOT_EQUALS, CriteriaOperator.NOT_IN);
-      List<Boolean> selectAll = List.of(Boolean.TRUE, Boolean.FALSE);
-      return criteriaOperators.stream()
-          .flatMap(operator -> selectAll.stream()
-              .map(select -> Arguments.of(operator, select)));
+      List<CriteriaOperator> criteriaOperatorProviders = List.of(CriteriaOperator.EQUALS,
+                                                                 CriteriaOperator.IN,
+                                                                 CriteriaOperator.NOT_EQUALS,
+                                                                 CriteriaOperator.NOT_IN);
+      List<Boolean> selectAllProviders = List.of(Boolean.TRUE, Boolean.FALSE);
+      List<Boolean> explodeRequestProviders = List.of(Boolean.TRUE, Boolean.FALSE);
+      return criteriaOperatorProviders.stream()
+          .flatMap(operator -> selectAllProviders.stream()
+              .flatMap(select -> explodeRequestProviders.stream()
+                  .map(explodedRequest -> Arguments.of(operator, select, explodedRequest))));
     }
 
     /**
@@ -66,39 +74,50 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
      */
     @ParameterizedTest
     @MethodSource("searchQueryParameterProvider")
-    void canPostSearchQuery(CriteriaOperator operator, boolean selectAll) {
+    void canPostSearchQuery(CriteriaOperator operator, boolean selectAll, boolean explodedRequest) {
 
       List<D> all = findAll();
       Map<K, D> allMap = all.stream().map(model -> Map.entry(model.getId(), model)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+      int allSize = allMap.size();
       Map<K, D> firstOfAllMap = all.subList(0, 1).stream().map(model -> Map.entry(model.getId(), model)).collect(Collectors.toMap(Map.Entry::getKey,
                                                                                                                                   Map.Entry::getValue));
+      List<SelectionDTO> selections = modelFactory.buildValidSelections(selectAll);
+      Set<B> filters = modelFactory.buildValidUniqueFilters(operator, all, explodedRequest);
       List<D> searched = client.searchAndExtract(SearchRequestDTO.<B>builder()
                                                      .page(Page.builder()
                                                                .pageNumber(1)
                                                                .pageSize(Integer.MAX_VALUE)
                                                                .build())
-                                                     .selections(modelFactory.buildValidSelections(selectAll))
-                                                     .filters(Set.of(modelFactory.buildValidUniqueFilters(operator, all)))
+                                                     .selections(selections)
+                                                     .filters(filters)
                                                      .build());
       Set<K> idsFromSearch = searched.stream().map(BaseDTO::getId).collect(Collectors.toSet());
       assertEquals(searched.size(), idsFromSearch.size(), "The search results contain duplicate ids.");
       SoftAssertions softly = new SoftAssertions();
       switch (operator) {
         case EQUALS:
-          softly.assertThat(idsFromSearch.size()).isEqualTo(firstOfAllMap.size());
-          softly.assertThat(idsFromSearch).containsAll(firstOfAllMap.keySet());
+          softly.assertThat(idsFromSearch.size()).isEqualTo(explodedRequest ? allSize : firstOfAllMap.size());
+          softly.assertThat(idsFromSearch).containsAll(explodedRequest ? allMap.keySet() : firstOfAllMap.keySet());
           break;
         case NOT_EQUALS:
-          softly.assertThat(idsFromSearch.size()).isEqualTo(all.size() - 1);
-          softly.assertThat(idsFromSearch).doesNotContainAnyElementsOf(firstOfAllMap.keySet());
+          softly.assertThat(idsFromSearch.size()).isEqualTo(explodedRequest && allSize > 1 ? allSize : allSize - 1);
+          if (explodedRequest && allSize > 1) {
+            softly.assertThat(idsFromSearch).containsAll(allMap.keySet());
+          } else {
+            softly.assertThat(idsFromSearch).doesNotContainAnyElementsOf(firstOfAllMap.keySet());
+          }
           break;
         case IN:
           softly.assertThat(idsFromSearch.size()).isEqualTo(all.size());
-          softly.assertThat(idsFromSearch).containsAll(firstOfAllMap.keySet());
+          softly.assertThat(idsFromSearch).containsAll(allMap.keySet());
           break;
         case NOT_IN:
-          softly.assertThat(idsFromSearch.size()).isEqualTo(0);
-          softly.assertThat(idsFromSearch).doesNotContainAnyElementsOf(allMap.keySet());
+          softly.assertThat(idsFromSearch.size()).isEqualTo(explodedRequest && allSize > 1 ? allSize : 0);
+          if (explodedRequest && allSize > 1) {
+            softly.assertThat(idsFromSearch).containsAll(allMap.keySet());
+          } else {
+            softly.assertThat(idsFromSearch).doesNotContainAnyElementsOf(firstOfAllMap.keySet());
+          }
           break;
         default:
           throw new IllegalArgumentException("Unknown operator: " + operator);
@@ -123,31 +142,32 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
      */
     @ParameterizedTest
     @MethodSource("searchQueryParameterProvider")
-    void canPostSearchCountQuery(CriteriaOperator operator, boolean selectAll) {
+    void canPostSearchCountQuery(CriteriaOperator operator, boolean selectAll, boolean explodedRequest) {
 
       List<D> all = findAll();
+      int allSize = all.size();
       int searchedCount = client.searchCountAndExtract(SearchRequestDTO.<B>builder()
                                                            .page(Page.builder()
                                                                      .pageNumber(1)
                                                                      .pageSize(Integer.MAX_VALUE)
                                                                      .build())
                                                            .selections(modelFactory.buildValidSelections(selectAll))
-                                                           .filters(Set.of(modelFactory.buildValidUniqueFilters(operator, all)))
+                                                           .filters(modelFactory.buildValidUniqueFilters(operator, all, explodedRequest))
                                                            .build());
 
       SoftAssertions softly = new SoftAssertions();
       switch (operator) {
         case EQUALS:
-          softly.assertThat(searchedCount).isEqualTo(1);
+          softly.assertThat(searchedCount).isEqualTo(explodedRequest ? allSize : 1);
           break;
         case NOT_EQUALS:
-          softly.assertThat(searchedCount).isEqualTo(all.size() - 1);
+          softly.assertThat(searchedCount).isEqualTo(explodedRequest && allSize > 1 ? allSize : allSize - 1);
           break;
         case IN:
           softly.assertThat(searchedCount).isEqualTo(all.size());
           break;
         case NOT_IN:
-          softly.assertThat(searchedCount).isEqualTo(0);
+          softly.assertThat(searchedCount).isEqualTo(explodedRequest && allSize > 1 ? allSize : 0);
           break;
         default:
           throw new IllegalArgumentException("Unknown operator: " + operator);
@@ -160,25 +180,28 @@ public class AbstractSearchIT<D extends BaseDTO<K>, K extends Serializable, B ex
      */
     @ParameterizedTest
     @MethodSource("searchQueryParameterProvider")
-    void canPostSearchExistsQuery(CriteriaOperator operator, boolean selectAll) {
+    void canPostSearchExistsQuery(CriteriaOperator operator, boolean selectAll, boolean explodedRequest) {
 
       List<D> all = findAll();
+      int allSize = all.size();
       boolean exists = client.searchExistsAndExtract(SearchRequestDTO.<B>builder()
                                                          .page(Page.builder()
                                                                    .pageNumber(1)
                                                                    .pageSize(Integer.MAX_VALUE)
                                                                    .build())
                                                          .selections(modelFactory.buildValidSelections(selectAll))
-                                                         .filters(Set.of(modelFactory.buildValidUniqueFilters(operator, all))).build());
-
-      if (operator.equals(CriteriaOperator.NOT_IN)) {
-        assertFalse(exists);
-      } else if (operator.equals(CriteriaOperator.NOT_EQUALS) && (all.size() == 1)) {
-        assertFalse(exists);
-      } else {
-        assertTrue(exists);
+                                                         .filters(modelFactory.buildValidUniqueFilters(operator, all, explodedRequest)).build());
+      switch (operator) {
+        case NOT_IN:
+          assertEquals(exists, explodedRequest && allSize > 1);
+          break;
+        case NOT_EQUALS:
+          assertFalse(exists && allSize == 1);
+          break;
+        default:
+          assertTrue(exists);
+          break;
       }
-
     }
   }
 

@@ -595,10 +595,10 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
         return;
       }
 
-      List<Predicate> orPredicates = new ArrayList<>();
+      List<List<Predicate>> orPredicates = new ArrayList<>();
+
       Set<RB> filters = searchRequest.getFilters();
       for (RB filter : filters) {
-
         List<Predicate> andPredicates = new ArrayList<>();
         for (Map.Entry<String, FilterParameterBO> entry : CriteriaBuilderHelper.getParameters(filter).entrySet()) {
           List<Predicate> predicates = CriteriaBuilderHelper.getPredicateValues(entry, root, rootPath, joinMap, cb);
@@ -607,9 +607,9 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
           }
         }
 
-        orPredicates.add(cb.or(andPredicates.toArray(new Predicate[0])));
+        orPredicates.add(andPredicates);
       }
-      query.where(cb.or(orPredicates.toArray(new Predicate[0])));
+      query.where(cb.or(orPredicates.stream().map(predicates -> cb.and(predicates.toArray(new Predicate[0]))).toArray(Predicate[]::new)));
     }
 
   }
