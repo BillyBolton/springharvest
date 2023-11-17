@@ -88,9 +88,9 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) @Min(0) @Nullable Integer pageNumber,
-                                         @RequestParam(name = "pageSize", required = false) @Min(1) @Nullable Integer pageSize,
+                                         @RequestParam(name = "pageSize", required = false) @Min(0) @Nullable Integer pageSize,
                                          @RequestParam(name = "sorts", required = false) List<String> sorts) {
-    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 1;
+    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
 
     Sort sort = isPageable && CollectionUtils.isNotEmpty(sorts) ?
                 Sort.by(sorts.stream().map(order -> {

@@ -121,8 +121,12 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
                                 createdDtos.size(),
                                 "The number of created dtos should be equal to the pageSize.");
 
-        int pageCount = (createCount < pageSize || pageSize <= 0) ? createCount : (createCount / pageSize);
-        int expectedCount = pageCount * pageNumber > createCount ? 0 : pageCount;
+        boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
+        int expectedCount = createCount;
+        if (isPageable) {
+          int pageCount = createCount < pageSize || pageSize == 0 ? createCount : createCount / pageSize;
+          expectedCount = pageCount * (pageNumber + 1) > createCount ? 0 : pageCount;
+        }
 
         Assertions.assertEquals(expectedCount, dtos.size(),
                                 "The number of retrieved dtos should be equal to the calculated pageSize.");
