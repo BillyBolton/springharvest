@@ -7,7 +7,6 @@ import dev.springharvest.shared.domains.embeddables.traces.trace.models.entities
 import dev.springharvest.shared.domains.embeddables.traces.traceable.models.entities.ITraceableEntity;
 import dev.springharvest.shared.domains.embeddables.traces.users.models.entities.TraceUsersEntity;
 import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -108,9 +107,8 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     validate(source);
     K id = source.getId();
     if (!existsById(id)) {
-      throw new EntityNotFoundException();
+      source = create(source);
     }
-
     if (source instanceof ITraceableEntity<?>) {
       TraceDataEntity<K> traceData = ((ITraceableEntity) source).getTraceData();
       if (traceData != null) {
