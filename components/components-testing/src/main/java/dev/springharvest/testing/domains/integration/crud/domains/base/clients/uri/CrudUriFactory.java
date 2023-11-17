@@ -28,20 +28,36 @@ public class CrudUriFactory implements ICrudUriFactory {
   }
 
   @Override
-  public String getFindAllUri(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts) {
+  public String getFindAllUri(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts) {
     StringBuilder params = new StringBuilder();
-    if (size != null && page != null && StringUtils.isNotBlank(sorts)) {
-      params.append("?").append(size);
+    if (pageNumber != null && pageSize != null && StringUtils.isNotBlank(sorts)) {
+      params.append("?").append(pageNumber);
     }
-    if (size != null) {
-      params.append("size=").append(size);
+
+    if (pageNumber != null) {
+      if (!params.toString().contains("&")) {
+        params.append("page=").append(pageNumber);
+      } else {
+        params.append("&page=").append(pageNumber);
+      }
     }
-    if (page != null) {
-      params.append("&page=").append(page);
+
+    if (pageSize != null) {
+      if (!params.toString().contains("&")) {
+        params.append("size=").append(pageNumber);
+      } else {
+        params.append("&size=").append(pageNumber);
+      }
     }
+
     if (StringUtils.isNotBlank(sorts)) {
-      params.append("&sorts=").append(sorts);
+      if (!params.toString().contains("&")) {
+        params.append("sorts=").append(pageNumber);
+      } else {
+        params.append("&sorts=").append(pageNumber);
+      }
     }
+    
     return UriUtils.buildUri(getDomainContext(), CrudControllerUri.FIND_ALL + params);
   }
 

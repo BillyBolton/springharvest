@@ -113,22 +113,35 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @ParameterizedTest
       @MethodSource("findAllArgumentsProvider")
       void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
+        int createCount = 5;
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        int createCount = 2;
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
-        Assertions.assertEquals(dtos.size(), createdDtos.size());
-        Assertions.assertEquals(createCount, dtos.size());
+        Assertions.assertEquals(createCount,
+                                createdDtos.size(),
+                                "The number of created dtos should be equal to the pageSize.");
+
+        boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
+        int expectedCount = createCount;
+        if (isPageable) {
+          int pageCount = createCount < pageSize || pageSize == 0 ? createCount : createCount / pageSize;
+          expectedCount = pageCount * (pageNumber + 1) > createCount ? 0 : pageCount;
+        }
+
+        Assertions.assertEquals(expectedCount, dtos.size(),
+                                "The number of retrieved dtos should be equal to the calculated pageSize.");
       }
 
       @Test
       void canFindAll() {
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        int createCount = 2;
+        int createCount = 5;
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract();
-        Assertions.assertEquals(dtos.size(), createdDtos.size());
-        Assertions.assertEquals(createCount, dtos.size());
+        Assertions.assertEquals(createCount,
+                                createdDtos.size(),
+                                "The number of created dtos should be equal to the number of dtos returned by the findAll method.");
+        Assertions.assertEquals(createCount, dtos.size(), "The number of created dtos should be equal to the number of dtos returned by the findAll method.");
       }
     }
 
