@@ -11,12 +11,12 @@ public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
   ValidatableResponse findAll();
 
   default List<D> findAllAndExtract() {
-    return findAllAndExtract(null, null, null);
+    return findAllAndExtract(0, Integer.MAX_VALUE, null);
   }
 
-  List<D> findAllAndExtract(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
+  List<D> findAllAndExtract(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts);
 
-  ValidatableResponse findAll(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
+  ValidatableResponse findAll(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts);
 
   ValidatableResponse findById(K id);
 

@@ -33,7 +33,7 @@ public interface ICrudUriFactory extends UriFactory {
    *
    * @return The URI for the findAll endpoint.
    */
-  String getFindAllUri(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
+  String getFindAllUri(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts);
 
   /**
    * > This function returns the URI for the POST request
