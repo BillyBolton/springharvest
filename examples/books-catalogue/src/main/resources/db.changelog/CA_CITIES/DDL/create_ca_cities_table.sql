@@ -1,6 +1,7 @@
 --liquibase formatted sql
 --changeset BillyBolton:create-ca-cities-table-1
 -- https://www.canadacitylist.com/specifications/
+
 DROP TABLE IF EXISTS ca_cities CASCADE;
 CREATE TABLE ca_cities
 (
@@ -18,20 +19,7 @@ CREATE TABLE ca_cities
     area_code        VARCHAR(3)       NOT NULL,
     time_zone        VARCHAR(21)      NOT NULL,
     point            GEOGRAPHY(POINT) NOT NULL,
-    UNIQUE (latitude, longitude)
+    UNIQUE (latitude, longitude),
+    UNIQUE (point)
 );
 
-CREATE OR REPLACE FUNCTION set_default_location()
-    RETURNS TRIGGER AS
-'
-    BEGIN
-        NEW.point = ST_SetSRID(ST_MakePoint(NEW.longitude, NEW.latitude), 4326);
-        RETURN NEW;
-    END;
-' LANGUAGE plpgsql;
-
-CREATE TRIGGER before_insert_ca_cities
-    BEFORE INSERT
-    ON ca_cities
-    FOR EACH ROW
-EXECUTE FUNCTION set_default_location();
