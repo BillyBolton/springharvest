@@ -12,6 +12,7 @@ import io.restassured.response.ValidatableResponse;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +22,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@Slf4j
 public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializable>
     extends AbstractBaseIT
     implements ICrudIT<D, K> {
@@ -53,7 +55,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canPostOne() {
-
+        log.debug("canPostOne for {}", modelFactory.getClazz().getSimpleName());
         int expectedResponseCode = 500;
         ValidatableResponse response = client.create(modelFactory.buildInvalidDto());
         response.statusCode(expectedResponseCode);
@@ -72,6 +74,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
        */
       @Test
       void canPostMany() {
+        log.debug("canPostMany for {}", modelFactory.getClazz().getSimpleName());
         D toCreate = modelFactory.buildValidDto();
         List<D> allCreated = client.createAllAndExtract(List.of(toCreate));
 
@@ -103,6 +106,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canFindById() {
+        log.debug("canFindById for {}", modelFactory.getClazz().getSimpleName());
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -113,6 +117,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @ParameterizedTest
       @MethodSource("findAllArgumentsProvider")
       void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
+        log.debug("canFindWithArguments for {}", modelFactory.getClazz().getSimpleName());
         int createCount = 5;
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         Assertions.assertEquals(0, client.findAllAndExtract().size());
@@ -120,7 +125,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
         Assertions.assertEquals(createCount,
                                 createdDtos.size(),
-                                "The number of created dtos should be equal to the pageSize.");
+                                "The number of created dtos should be equal to the pageSize. :: " + modelFactory.getClazz().getSimpleName());
 
         boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
         int expectedCount = createCount;
@@ -130,19 +135,24 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         }
 
         Assertions.assertEquals(expectedCount, dtos.size(),
-                                "The number of retrieved dtos should be equal to the calculated pageSize.");
+                                "The number of retrieved dtos should be equal to the calculated pageSize. :: " + modelFactory.getClazz().getSimpleName());
       }
 
       @Test
       void canFindAll() {
+        log.debug("canFindAll for {}", modelFactory.getClazz().getSimpleName());
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         int createCount = 5;
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertEquals(createCount,
                                 createdDtos.size(),
-                                "The number of created dtos should be equal to the number of dtos returned by the findAll method.");
-        Assertions.assertEquals(createCount, dtos.size(), "The number of created dtos should be equal to the number of dtos returned by the findAll method.");
+                                "The number of created dtos should be equal to the number of dtos returned by the findAll method. :: " +
+                                modelFactory.getClazz().getSimpleName());
+        Assertions.assertEquals(createCount,
+                                dtos.size(),
+                                "The number of created dtos should be equal to the number of dtos returned by the findAll method. :: " +
+                                modelFactory.getClazz().getSimpleName());
       }
     }
 
@@ -151,6 +161,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canUpdateOne() {
+        log.debug("canUpdateOne for {}", modelFactory.getClazz().getSimpleName());
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -166,6 +177,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canUpdateMany() {
+        log.debug("canUpdateMany for {}", modelFactory.getClazz().getSimpleName());
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -183,12 +195,14 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canDeleteOneAndCanExistsById() {
+        log.debug("canDeleteOneAndCanExistsById for {}", modelFactory.getClazz().getSimpleName());
         D created = client.createAndExtract(modelFactory.buildValidDto());
         client.deleteById(created.getId()).statusCode(204);
       }
 
       @Test
       void canDeleteAllByIds() {
+        log.debug("canDeleteAllByIds for {}", modelFactory.getClazz().getSimpleName());
         D created = client.createAndExtract(modelFactory.buildValidDto());
         client.deleteAllByIds(List.of(created.getId())).statusCode(204);
       }
