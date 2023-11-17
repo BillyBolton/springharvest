@@ -8,7 +8,9 @@ import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
 import dev.springharvest.shared.domains.base.mappers.IBaseModelMapper;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +87,10 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @Override
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) Integer pageNumber,
-                                         @RequestParam(name = "pageSize", required = false) Integer pageSize,
-                                         @RequestParam(name = "sorts", required = false) List<String> sorts
-                                        ) {
-    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 1 && CollectionUtils.isNotEmpty(sorts);
+  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) @Min(0) @Nullable Integer pageNumber,
+                                         @RequestParam(name = "pageSize", required = false) @Min(1) @Nullable Integer pageSize,
+                                         @RequestParam(name = "sorts", required = false) List<String> sorts) {
+    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 1;
 
     Sort sort = isPageable && CollectionUtils.isNotEmpty(sorts) ?
                 Sort.by(sorts.stream().map(order -> {
