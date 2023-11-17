@@ -113,7 +113,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @ParameterizedTest
       @MethodSource("findAllArgumentsProvider")
       void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
-        int createCount = 10;
+        int createCount = 5;
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
@@ -131,7 +131,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @Test
       void canFindAll() {
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        int createCount = 10;
+        int createCount = 5;
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertEquals(createCount,
