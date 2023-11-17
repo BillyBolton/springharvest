@@ -125,7 +125,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         int expectedCount = pageCount * pageNumber > createCount ? 0 : pageCount;
 
         Assertions.assertEquals(expectedCount, dtos.size(),
-                                "The number of retrieved dtos should be equal to the pageSize.");
+                                "The number of retrieved dtos should be equal to the calculated pageSize.");
       }
 
       @Test
