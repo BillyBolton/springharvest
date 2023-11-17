@@ -137,7 +137,7 @@ subprojects {
         SPRING_BATCH_EXCEL_VERSION = "0.1.1"
         SPRINGDOC_VERSION = "2.2.0"
         SPRING_SECURITY_VERSION = "3.1.0"
-        TESTCONTAINERS_VERSION = "1.19.1"
+        TESTCONTAINERS_VERSION = "1.19.2"
     }
 
     dependencyManagement {
