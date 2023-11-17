@@ -107,7 +107,7 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     validate(source);
     K id = source.getId();
     if (!existsById(id)) {
-      source = create(source);
+      return create(source);
     }
     if (source instanceof ITraceableEntity<?>) {
       TraceDataEntity<K> traceData = ((ITraceableEntity) source).getTraceData();
