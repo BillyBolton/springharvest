@@ -31,6 +31,7 @@ public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
   protected BookModelFactory(AuthorCrudClient authorCrudClient, AuthorModelFactory authorsModelFactory, PublisherCrudClient publisherCrudClient,
                              PublisherModelFactory publishersModelFactory,
                              TraceDataModelFactory traceDataModelFactory) {
+    super(BookDTO.class);
     this.authorCrudClient = authorCrudClient;
     this.authorsModelFactory = authorsModelFactory;
     this.publisherCrudClient = publisherCrudClient;

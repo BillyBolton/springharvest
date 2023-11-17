@@ -11,7 +11,7 @@ public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
   ValidatableResponse findAll();
 
   default List<D> findAllAndExtract() {
-    return findAllAndExtract(0, Integer.MAX_VALUE, null);
+    return findAllAndExtract(null, null, null);
   }
 
   List<D> findAllAndExtract(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts);

@@ -19,6 +19,7 @@ public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID> {
 
   @Autowired
   public AuthorModelFactory(TraceDataModelFactory traceDataModelFactory) {
+    super(AuthorDTO.class);
     this.traceDataModelFactory = traceDataModelFactory;
   }
 
