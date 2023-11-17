@@ -115,6 +115,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
         int createCount = 5;
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
+        Assertions.assertEquals(0, client.findAllAndExtract().size());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
         Assertions.assertEquals(createCount,
