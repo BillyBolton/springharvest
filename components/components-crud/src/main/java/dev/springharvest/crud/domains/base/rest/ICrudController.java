@@ -38,11 +38,11 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
   @Operation(operationId = "findAll", summary = "Retrieves a list of entities.",
              description = "Use this API to retrieve an entity by their primary key id. Leaving all parameters empty will return all entities.",
              parameters = {
-                 @Parameter(description = "The maximum number of entities to return on any single page.",
-                            name = "size",
-                            required = false),
                  @Parameter(description = "The page number of the pageable entities that are returned.",
-                            name = "page",
+                            name = "pageNumber",
+                            required = false),
+                 @Parameter(description = "The maximum number of entities to return on any single page.",
+                            name = "pageSize",
                             required = false),
                  @Parameter(description = "The attributes to sort by, ascending or descending.",
                             name = "sorts",
@@ -51,8 +51,8 @@ public interface ICrudController<D extends BaseDTO<K>, K extends Serializable> {
              },
              responses = {@ApiResponse(responseCode = "200", description = "The retrieved entities.")}
   )
-  ResponseEntity<Page<D>> findAll(@RequestParam(name = "size", required = false) Integer size,
-                                  @RequestParam(name = "page", required = false) Integer page,
+  ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) Integer pageNumber,
+                                  @RequestParam(name = "pageSize", required = false) Integer pageSize,
                                   @RequestParam(name = "sorts", required = false) List<String> sorts
                                  );
 

@@ -85,11 +85,11 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @Override
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "size", required = false) Integer size,
-                                         @RequestParam(name = "page", required = false) Integer page,
+  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(name = "pageSize", required = false) Integer pageSize,
                                          @RequestParam(name = "sorts", required = false) List<String> sorts
                                         ) {
-    boolean isPageable = size != null && size >= 1 && page != null && page >= 0 && CollectionUtils.isNotEmpty(sorts);
+    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 1 && CollectionUtils.isNotEmpty(sorts);
 
     Sort sort = isPageable && CollectionUtils.isNotEmpty(sorts) ?
                 Sort.by(sorts.stream().map(order -> {
@@ -100,7 +100,7 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                   return new Sort.Order(Sort.Direction.fromString(orderSplit[1]), orderSplit[0]);
                 }).toList()) :
                 Sort.unsorted();
-    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(size, page, sort) : Pageable.unpaged());
+    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(pageNumber, pageSize, sort) : Pageable.unpaged());
     Page<D> dtos = modelMapper.pagedEntityToPagedDto(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
   }

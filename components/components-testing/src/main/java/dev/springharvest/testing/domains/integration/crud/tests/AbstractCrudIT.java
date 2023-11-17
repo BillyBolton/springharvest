@@ -91,14 +91,14 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     class GetPaths {
 
       private static Stream<Arguments> findAllArgumentsProvider() {
-        List<Integer> pageSizeProvider = List.of(0, 1, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
         List<Integer> pageNumberProvider = List.of(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<Integer> pageSizeProvider = List.of(0, 1, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
         List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "", RandomStringUtils.randomNumeric(5));
 
-        return pageSizeProvider.stream()
-            .flatMap(pageSize -> pageNumberProvider.stream()
-                .flatMap(pageNumber -> sortsProvider.stream()
-                    .map(sorts -> Arguments.of(pageSize, pageNumber, sorts))));
+        return pageNumberProvider.stream()
+            .flatMap(pageNumber -> pageSizeProvider.stream()
+                .flatMap(pageSize -> sortsProvider.stream()
+                    .map(sorts -> Arguments.of(pageNumber, pageSize, sorts))));
       }
 
       @Test
@@ -112,19 +112,23 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @ParameterizedTest
       @MethodSource("findAllArgumentsProvider")
-      void canFindWithArguments(Integer pageSize, Integer pageNumber, String sorts) {
+      void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
-        List<D> dtos = client.findAllAndExtract(pageSize, pageNumber, sorts);
+        int createCount = 2;
+        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
+        List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
         Assertions.assertEquals(dtos.size(), createdDtos.size());
+        Assertions.assertEquals(createCount, dtos.size());
       }
 
       @Test
       void canFindAll() {
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
+        int createCount = 2;
+        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertEquals(dtos.size(), createdDtos.size());
+        Assertions.assertEquals(createCount, dtos.size());
       }
     }
 
