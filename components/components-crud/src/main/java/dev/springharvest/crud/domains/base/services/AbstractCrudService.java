@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,12 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   @Transactional(readOnly = true)
   public Optional<E> findById(K id) {
     return crudRepository.findById(id);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<E> findByExample(E entity) {
+    return crudRepository.findOne(Example.of(entity));
   }
 
   @Override
@@ -156,6 +163,5 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
     return entity;
   }
-
 
 }
