@@ -18,6 +18,7 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,8 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   @Override
   @Transactional(readOnly = true)
   public Optional<E> findByExample(E entity) {
-    return crudRepository.findOne(Example.of(entity));
+    entity.setId(null);
+    return crudRepository.findOne(Example.of(entity, ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()));
   }
 
   @Override
@@ -78,7 +80,7 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   public E create(@Valid E entity) {
     entity = beforeCreation(entity);
     try {
-      return crudRepository.save(entity);
+      return afterCreation(crudRepository.save(entity));
     } catch (EntityExistsException e) {
       log.error("Entity already exists", e);
       throw e;
@@ -87,17 +89,17 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Transactional
   public List<E> create(@Valid List<E> entities) {
-    return crudRepository.saveAll(beforeCreation(entities));
+    return afterCreation(crudRepository.saveAll(beforeCreation(entities)));
   }
 
   @Transactional
   public E update(@Valid E entity) {
-    return crudRepository.save(beforeUpdate(entity));
+    return afterUpdate(crudRepository.save(beforeUpdate(entity)));
   }
 
   @Transactional
   public List<E> update(@Valid List<E> entities) {
-    return entities.stream().map(this::update).toList();
+    return afterUpdate(entities.stream().map(this::update).toList());
   }
 
   @Transactional
@@ -108,6 +110,10 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   @Transactional
   public void deleteById(List<K> ids) {
     crudRepository.deleteAllById(ids);
+  }
+
+  protected List<E> afterUpdate(List<E> source) {
+    return source;
   }
 
   protected E beforeUpdate(E source) {
@@ -140,6 +146,10 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     // TODO: implement update validation
   }
 
+  protected E afterUpdate(E entity) {
+    return entity;
+  }
+
   protected List<E> beforeCreation(List<E> source) {
     source.forEach(this::beforeCreation);
     return source;
@@ -161,6 +171,14 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
                                                                  .build());
     }
 
+    return entity;
+  }
+
+  protected List<E> afterCreation(List<E> source) {
+    return source;
+  }
+
+  protected E afterCreation(E entity) {
     return entity;
   }
 
