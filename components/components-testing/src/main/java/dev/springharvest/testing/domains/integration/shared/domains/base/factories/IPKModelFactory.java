@@ -29,10 +29,4 @@ public interface IPKModelFactory<D extends BaseDTO<K>, K extends Serializable> e
 
   D buildInvalidDto();
 
-  default D buildValidUpdatedDto(K id) {
-    D dto = buildValidDto();
-    dto.setId(id);
-    return dto;
-  }
-
 }

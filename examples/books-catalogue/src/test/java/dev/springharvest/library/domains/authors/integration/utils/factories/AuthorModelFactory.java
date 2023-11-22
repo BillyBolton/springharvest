@@ -45,13 +45,6 @@ public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID> {
   }
 
   @Override
-  public AuthorDTO buildValidUpdatedDto(UUID id) {
-    AuthorDTO dto = buildValidDto();
-    dto.setId(id);
-    return dto;
-  }
-
-  @Override
   public AuthorDTO buildValidUpdatedDto(AuthorDTO dto) {
     dto.setName(RandomStringUtils.randomAlphabetic(5));
     return dto;
