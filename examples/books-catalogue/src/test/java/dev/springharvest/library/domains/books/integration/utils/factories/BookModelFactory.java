@@ -65,14 +65,6 @@ public class BookModelFactory extends AbstractModelFactory<BookDTO, UUID>
         .build();
   }
 
-
-  @Override
-  public BookDTO buildValidUpdatedDto(UUID id) {
-    BookDTO dto = buildValidDto();
-    dto.setId(id);
-    return dto;
-  }
-
   @Override
   public BookDTO buildValidUpdatedDto(BookDTO dto) {
     dto.setTitle(RandomStringUtils.randomAlphabetic(5));

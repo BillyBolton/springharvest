@@ -46,13 +46,6 @@ public class PublisherModelFactory extends AbstractModelFactory<PublisherDTO, UU
   }
 
   @Override
-  public PublisherDTO buildValidUpdatedDto(UUID id) {
-    PublisherDTO dto = buildValidDto();
-    dto.setId(id);
-    return dto;
-  }
-
-  @Override
   public PublisherDTO buildValidUpdatedDto(PublisherDTO dto) {
     dto.setName(RandomStringUtils.randomAlphabetic(5));
     return dto;

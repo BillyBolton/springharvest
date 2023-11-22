@@ -166,7 +166,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
         K id = firstDto.getId();
-        firstDto = modelFactory.buildValidUpdatedDto(id);
+        firstDto = modelFactory.buildValidUpdatedDto(firstDto);
         D updated = client.updateAndExtract(id, firstDto);
         D retrieved = client.findByIdAndExtract(id);
         SoftAssertions softly = new SoftAssertions();
