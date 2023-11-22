@@ -113,7 +113,12 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   }
 
   protected List<E> afterUpdate(List<E> source) {
+    source.forEach(this::afterUpdate);
     return source;
+  }
+
+  protected E afterUpdate(E entity) {
+    return entity;
   }
 
   protected E beforeUpdate(E source) {
@@ -146,10 +151,6 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     // TODO: implement update validation
   }
 
-  protected E afterUpdate(E entity) {
-    return entity;
-  }
-
   protected List<E> beforeCreation(List<E> source) {
     source.forEach(this::beforeCreation);
     return source;
@@ -175,6 +176,7 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   }
 
   protected List<E> afterCreation(List<E> source) {
+    source.forEach(this::afterCreation);
     return source;
   }
 
