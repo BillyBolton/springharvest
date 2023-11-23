@@ -66,6 +66,16 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
   }
 
   @Override
+  public ValidatableResponse count() {
+    return clientHelper.getAndThen(uriFactory.getCountUri());
+  }
+
+  @Override
+  public int countAndExtract() {
+    return count().extract().as(Integer.class);
+  }
+
+  @Override
   public ValidatableResponse createAll(List<D> dtos) {
     return clientHelper.postAndThen(uriFactory.getPostAllUri(), dtos);
   }

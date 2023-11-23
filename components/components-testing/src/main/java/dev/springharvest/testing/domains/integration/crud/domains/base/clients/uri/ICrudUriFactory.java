@@ -77,4 +77,6 @@ public interface ICrudUriFactory extends UriFactory {
    */
   String getDeleteAllByIdsUri();
 
+  String getCountUri();
+
 }

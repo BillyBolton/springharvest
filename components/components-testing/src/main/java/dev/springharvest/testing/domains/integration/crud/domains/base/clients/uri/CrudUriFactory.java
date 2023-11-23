@@ -57,7 +57,7 @@ public class CrudUriFactory implements ICrudUriFactory {
         params.append("&sorts=").append(pageNumber);
       }
     }
-    
+
     return UriUtils.buildUri(getDomainContext(), CrudControllerUri.FIND_ALL + params);
   }
 
@@ -89,6 +89,11 @@ public class CrudUriFactory implements ICrudUriFactory {
   @Override
   public String getDeleteAllByIdsUri() {
     return UriUtils.buildUri(getDomainContext(), CrudControllerUri.DELETE_ALL);
+  }
+
+  @Override
+  public String getCountUri() {
+    return UriUtils.buildUri(getDomainContext(), CrudControllerUri.COUNT);
   }
 
 
