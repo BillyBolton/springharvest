@@ -119,14 +119,15 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
         log.debug("canFindWithArguments for {}", modelFactory.getClazz().getSimpleName());
         int createCount = 5;
+        int creationRate = getCreationRate(createCount);
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         Assertions.assertEquals(0, client.findAllAndExtract().size());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
-        Assertions.assertEquals(createCount,
+        Assertions.assertEquals(creationRate,
                                 createdDtos.size(),
                                 "The number of created dtos should be equal to the pageSize. :: " + modelFactory.getClazz().getSimpleName());
-
+        createCount = creationRate;
         boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
         int expectedCount = createCount;
         if (isPageable) {
@@ -136,6 +137,13 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
         Assertions.assertEquals(expectedCount, dtos.size(),
                                 "The number of retrieved dtos should be equal to the calculated pageSize. :: " + modelFactory.getClazz().getSimpleName());
+      }
+
+      private int getCreationRate(int numToCreate) {
+        int currentCount = client.countAndExtract();
+        client.createAndExtract(modelFactory.buildValidDto());
+        int creationRate = client.countAndExtract() - currentCount;
+        return numToCreate * creationRate;
       }
 
       @Test

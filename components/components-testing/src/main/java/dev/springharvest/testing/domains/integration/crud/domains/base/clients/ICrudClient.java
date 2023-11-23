@@ -26,6 +26,10 @@ public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
 
   D createAndExtract(D dto);
 
+  ValidatableResponse count();
+
+  int countAndExtract();
+
   ValidatableResponse createAll(List<D> dtos);
 
   List<D> createAllAndExtract(List<D> dtos);
