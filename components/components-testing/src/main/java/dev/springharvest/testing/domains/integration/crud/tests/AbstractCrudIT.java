@@ -1,5 +1,6 @@
 package dev.springharvest.testing.domains.integration.crud.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,6 +10,7 @@ import dev.springharvest.testing.domains.integration.crud.domains.base.clients.I
 import dev.springharvest.testing.domains.integration.shared.domains.base.factories.IPKModelFactory;
 import dev.springharvest.testing.domains.integration.shared.tests.AbstractBaseIT;
 import io.restassured.response.ValidatableResponse;
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Stream;
@@ -93,15 +95,17 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     @Nested
     class GetPaths {
 
-      private static Stream<Arguments> findAllArgumentsProvider() {
+      private static Stream<Arguments> findAllPageArgumentsProvider() {
         List<Integer> pageNumberProvider = List.of(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         List<Integer> pageSizeProvider = List.of(0, 1, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "", RandomStringUtils.randomNumeric(5));
-
         return pageNumberProvider.stream()
             .flatMap(pageNumber -> pageSizeProvider.stream()
-                .flatMap(pageSize -> sortsProvider.stream()
-                    .map(sorts -> Arguments.of(pageNumber, pageSize, sorts))));
+                .map(pageSize -> Arguments.of(pageNumber, pageSize)));
+      }
+
+      private static Stream<Arguments> findAllSortArgumentsProvider() {
+        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "", RandomStringUtils.randomNumeric(5));
+        return sortsProvider.stream().map(Arguments::of);
       }
 
       @Test
@@ -115,12 +119,16 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       }
 
       @ParameterizedTest
-      @MethodSource("findAllArgumentsProvider")
-      void canFindWithArguments(Integer pageNumber, Integer pageSize, String sorts) {
+      @MethodSource("findAllPageArgumentsProvider")
+      void canFindAllWithPagingArguments(Integer pageNumber, Integer pageSize) {
+        doAndAssertFindAllWithPagingRequest(pageNumber, pageSize, null);
+      }
+
+      void doAndAssertFindAllWithPagingRequest(@Nullable Integer pageNumber, Integer pageSize, String sorts) {
         log.debug("canFindWithArguments for {}", modelFactory.getClazz().getSimpleName());
         int createCount = 5;
         int creationRate = getCreationRate(createCount);
-        client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
+        assertEquals(204, client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList()).extract().statusCode());
         Assertions.assertEquals(0, client.findAllAndExtract().size());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
@@ -144,6 +152,12 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         client.createAllAndExtract(modelFactory.buildValidDto(1));
         int creationRate = client.countAndExtract() - currentCount;
         return numToCreate * creationRate;
+      }
+
+      @ParameterizedTest
+      @MethodSource("findAllSortArgumentsProvider")
+      void canFindWithArguments(String sorts) {
+        doAndAssertFindAllWithPagingRequest(null, null, sorts);
       }
 
       @Test
