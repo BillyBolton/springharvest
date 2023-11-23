@@ -124,7 +124,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
         Assertions.assertEquals(0, client.findAllAndExtract().size());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
-        Assertions.assertEquals(creationRate,
+        Assertions.assertEquals(createCount,
                                 createdDtos.size(),
                                 "The number of created dtos should be equal to the pageSize. :: " + modelFactory.getClazz().getSimpleName());
         createCount = creationRate;
@@ -141,7 +141,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       private int getCreationRate(int numToCreate) {
         int currentCount = client.countAndExtract();
-        client.createAndExtract(modelFactory.buildValidDto());
+        client.createAllAndExtract(modelFactory.buildValidDto(1));
         int creationRate = client.countAndExtract() - currentCount;
         return numToCreate * creationRate;
       }
@@ -149,19 +149,20 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @Test
       void canFindAll() {
         log.debug("canFindAll for {}", modelFactory.getClazz().getSimpleName());
-        client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         int createCount = 5;
+        int creationRate = getCreationRate(createCount);
+        client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
         List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertEquals(createCount,
                                 createdDtos.size(),
                                 "The number of created dtos should be equal to the number of dtos returned by the findAll method. :: " +
                                 modelFactory.getClazz().getSimpleName());
-        Assertions.assertEquals(createCount,
+        Assertions.assertEquals(creationRate,
                                 dtos.size(),
-                                "The number of created dtos should be equal to the number of dtos returned by the findAll method. :: " +
                                 modelFactory.getClazz().getSimpleName());
       }
+
     }
 
     @Nested
