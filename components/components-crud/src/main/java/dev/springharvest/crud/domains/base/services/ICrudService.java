@@ -39,6 +39,8 @@ public interface ICrudService<E extends BaseEntity<K>, K extends Serializable> {
    */
   Optional<E> findById(K id);
 
+  Optional<E> findByExample(E entity);
+
   List<E> findAllByIds(Set<K> ids);
 
   /**

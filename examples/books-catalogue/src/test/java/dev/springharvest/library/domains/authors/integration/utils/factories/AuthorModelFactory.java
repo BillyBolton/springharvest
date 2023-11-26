@@ -19,6 +19,7 @@ public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID> {
 
   @Autowired
   public AuthorModelFactory(TraceDataModelFactory traceDataModelFactory) {
+    super(AuthorDTO.class);
     this.traceDataModelFactory = traceDataModelFactory;
   }
 
@@ -41,13 +42,6 @@ public class AuthorModelFactory extends AbstractModelFactory<AuthorDTO, UUID> {
         .name(RandomStringUtils.randomAlphabetic(5))
         .traceData(traceDataModelFactory.buildValidDto())
         .build();
-  }
-
-  @Override
-  public AuthorDTO buildValidUpdatedDto(UUID id) {
-    AuthorDTO dto = buildValidDto();
-    dto.setId(id);
-    return dto;
   }
 
   @Override

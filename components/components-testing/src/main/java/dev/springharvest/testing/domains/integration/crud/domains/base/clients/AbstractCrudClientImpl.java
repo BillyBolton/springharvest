@@ -37,12 +37,12 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
   }
 
   @Override
-  public ValidatableResponse findAll(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts) {
-    return clientHelper.getAndThen(uriFactory.getFindAllUri(size, page, sorts));
+  public ValidatableResponse findAll(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts) {
+    return clientHelper.getAndThen(uriFactory.getFindAllUri(pageNumber, pageSize, sorts));
   }
 
   @Override
-  public List<D> findAllAndExtract(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts) {
+  public List<D> findAllAndExtract(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts) {
     return extractObjectsFromPage(findAll());
   }
 
@@ -63,6 +63,16 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
   @Override
   public D createAndExtract(D dto) {
     return extractObject(create(dto));
+  }
+
+  @Override
+  public ValidatableResponse count() {
+    return clientHelper.getAndThen(uriFactory.getCountUri());
+  }
+
+  @Override
+  public int countAndExtract() {
+    return count().extract().as(Integer.class);
   }
 
   @Override

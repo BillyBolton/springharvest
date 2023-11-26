@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 
 public interface IPKModelFactory<D extends BaseDTO<K>, K extends Serializable> extends IDomainModelFactory<D> {
 
+  Class<D> getClazz();
+
   K getRandomId();
 
   default List<D> buildValidDto(int count) {
@@ -26,11 +28,5 @@ public interface IPKModelFactory<D extends BaseDTO<K>, K extends Serializable> e
   D buildValidUpdatedDto(D dto);
 
   D buildInvalidDto();
-
-  default D buildValidUpdatedDto(K id) {
-    D dto = buildValidDto();
-    dto.setId(id);
-    return dto;
-  }
 
 }

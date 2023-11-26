@@ -7,7 +7,6 @@ import dev.springharvest.shared.domains.embeddables.traces.trace.models.entities
 import dev.springharvest.shared.domains.embeddables.traces.traceable.models.entities.ITraceableEntity;
 import dev.springharvest.shared.domains.embeddables.traces.users.models.entities.TraceUsersEntity;
 import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -18,6 +17,8 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +59,13 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Override
   @Transactional(readOnly = true)
+  public Optional<E> findByExample(E entity) {
+    entity.setId(null);
+    return crudRepository.findOne(Example.of(entity, ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()));
+  }
+
+  @Override
+  @Transactional(readOnly = true)
   public List<E> findAllByIds(Set<K> ids) {
     return crudRepository.findAllById(ids);
   }
@@ -72,7 +80,7 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
   public E create(@Valid E entity) {
     entity = beforeCreation(entity);
     try {
-      return crudRepository.save(entity);
+      return afterCreation(crudRepository.save(entity));
     } catch (EntityExistsException e) {
       log.error("Entity already exists", e);
       throw e;
@@ -81,17 +89,17 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
 
   @Transactional
   public List<E> create(@Valid List<E> entities) {
-    return crudRepository.saveAll(beforeCreation(entities));
+    return afterCreation(crudRepository.saveAll(beforeCreation(entities)));
   }
 
   @Transactional
   public E update(@Valid E entity) {
-    return crudRepository.save(beforeUpdate(entity));
+    return afterUpdate(crudRepository.save(beforeUpdate(entity)));
   }
 
   @Transactional
   public List<E> update(@Valid List<E> entities) {
-    return entities.stream().map(this::update).toList();
+    return afterUpdate(entities.stream().map(this::update).toList());
   }
 
   @Transactional
@@ -104,13 +112,21 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     crudRepository.deleteAllById(ids);
   }
 
+  protected List<E> afterUpdate(List<E> source) {
+    source.forEach(this::afterUpdate);
+    return source;
+  }
+
+  protected E afterUpdate(E entity) {
+    return entity;
+  }
+
   protected E beforeUpdate(E source) {
     validate(source);
     K id = source.getId();
     if (!existsById(id)) {
-      throw new EntityNotFoundException();
+      return create(source);
     }
-
     if (source instanceof ITraceableEntity<?>) {
       TraceDataEntity<K> traceData = ((ITraceableEntity) source).getTraceData();
       if (traceData != null) {
@@ -159,5 +175,13 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     return entity;
   }
 
+  protected List<E> afterCreation(List<E> source) {
+    source.forEach(this::afterCreation);
+    return source;
+  }
+
+  protected E afterCreation(E entity) {
+    return entity;
+  }
 
 }

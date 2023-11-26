@@ -14,9 +14,9 @@ public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
     return findAllAndExtract(null, null, null);
   }
 
-  List<D> findAllAndExtract(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
+  List<D> findAllAndExtract(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts);
 
-  ValidatableResponse findAll(@Nullable Integer size, @Nullable Integer page, @Nullable String sorts);
+  ValidatableResponse findAll(@Nullable Integer pageNumber, @Nullable Integer pageSize, @Nullable String sorts);
 
   ValidatableResponse findById(K id);
 
@@ -25,6 +25,10 @@ public interface ICrudClient<D extends BaseDTO<K>, K extends Serializable> {
   ValidatableResponse create(D dto);
 
   D createAndExtract(D dto);
+
+  ValidatableResponse count();
+
+  int countAndExtract();
 
   ValidatableResponse createAll(List<D> dtos);
 

@@ -20,6 +20,7 @@ public class PublisherModelFactory extends AbstractModelFactory<PublisherDTO, UU
   private final TraceDataModelFactory traceDataModelFactory;
 
   public PublisherModelFactory(TraceDataModelFactory traceDataModelFactory) {
+    super(PublisherDTO.class);
     this.traceDataModelFactory = traceDataModelFactory;
   }
 
@@ -42,13 +43,6 @@ public class PublisherModelFactory extends AbstractModelFactory<PublisherDTO, UU
         .name(RandomStringUtils.randomAlphabetic(5))
         .traceData(traceDataModelFactory.buildValidDto())
         .build();
-  }
-
-  @Override
-  public PublisherDTO buildValidUpdatedDto(UUID id) {
-    PublisherDTO dto = buildValidDto();
-    dto.setId(id);
-    return dto;
   }
 
   @Override

@@ -8,7 +8,9 @@ import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
 import dev.springharvest.shared.domains.base.mappers.IBaseModelMapper;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +87,10 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @Override
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "size", required = false) Integer size,
-                                         @RequestParam(name = "page", required = false) Integer page,
-                                         @RequestParam(name = "sorts", required = false) List<String> sorts
-                                        ) {
-    boolean isPageable = size != null && size >= 1 && page != null && page >= 0 && CollectionUtils.isNotEmpty(sorts);
+  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) @Min(0) @Nullable Integer pageNumber,
+                                         @RequestParam(name = "pageSize", required = false) @Min(0) @Nullable Integer pageSize,
+                                         @RequestParam(name = "sorts", required = false) List<String> sorts) {
+    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
 
     Sort sort = isPageable && CollectionUtils.isNotEmpty(sorts) ?
                 Sort.by(sorts.stream().map(order -> {
@@ -100,7 +101,7 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                   return new Sort.Order(Sort.Direction.fromString(orderSplit[1]), orderSplit[0]);
                 }).toList()) :
                 Sort.unsorted();
-    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(size, page, sort) : Pageable.unpaged());
+    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(pageNumber, pageSize, sort) : Pageable.unpaged());
     Page<D> dtos = modelMapper.pagedEntityToPagedDto(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
   }

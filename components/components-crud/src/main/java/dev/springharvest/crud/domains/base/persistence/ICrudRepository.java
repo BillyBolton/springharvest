@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 /**
  * This interface is used to define the contract for a base repository. It wraps the ListCrudRepository and ListPagingAndSortingRepository interfaces.
@@ -17,7 +18,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public interface ICrudRepository<E extends BaseEntity<K>, K extends Serializable>
-    extends ListCrudRepository<E, K>, ListPagingAndSortingRepository<E, K> {
+    extends ListCrudRepository<E, K>, ListPagingAndSortingRepository<E, K>, QueryByExampleExecutor<E> {
 
   long count();
 

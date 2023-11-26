@@ -1,5 +1,6 @@
 package dev.springharvest.testing.domains.integration.crud.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,9 +10,11 @@ import dev.springharvest.testing.domains.integration.crud.domains.base.clients.I
 import dev.springharvest.testing.domains.integration.shared.domains.base.factories.IPKModelFactory;
 import dev.springharvest.testing.domains.integration.shared.tests.AbstractBaseIT;
 import io.restassured.response.ValidatableResponse;
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +24,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@Slf4j
 public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializable>
     extends AbstractBaseIT
     implements ICrudIT<D, K> {
@@ -53,7 +57,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canPostOne() {
-
+        log.debug("canPostOne for {}", modelFactory.getClazz().getSimpleName());
         int expectedResponseCode = 500;
         ValidatableResponse response = client.create(modelFactory.buildInvalidDto());
         response.statusCode(expectedResponseCode);
@@ -72,6 +76,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
        */
       @Test
       void canPostMany() {
+        log.debug("canPostMany for {}", modelFactory.getClazz().getSimpleName());
         D toCreate = modelFactory.buildValidDto();
         List<D> allCreated = client.createAllAndExtract(List.of(toCreate));
 
@@ -90,19 +95,22 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
     @Nested
     class GetPaths {
 
-      private static Stream<Arguments> findAllArgumentsProvider() {
-        List<Integer> pageSizeProvider = List.of(0, 1, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
+      private static Stream<Arguments> findAllPageArgumentsProvider() {
         List<Integer> pageNumberProvider = List.of(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "", RandomStringUtils.randomNumeric(5));
+        List<Integer> pageSizeProvider = List.of(0, 1, 100, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return pageNumberProvider.stream()
+            .flatMap(pageNumber -> pageSizeProvider.stream()
+                .map(pageSize -> Arguments.of(pageNumber, pageSize)));
+      }
 
-        return pageSizeProvider.stream()
-            .flatMap(pageSize -> pageNumberProvider.stream()
-                .flatMap(pageNumber -> sortsProvider.stream()
-                    .map(sorts -> Arguments.of(pageSize, pageNumber, sorts))));
+      private static Stream<Arguments> findAllSortArgumentsProvider() {
+        List<String> sortsProvider = List.of("id-asc", "id-desc", "id-asc,id-desc", ",", "", RandomStringUtils.randomNumeric(5));
+        return sortsProvider.stream().map(Arguments::of);
       }
 
       @Test
       void canFindById() {
+        log.debug("canFindById for {}", modelFactory.getClazz().getSimpleName());
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -111,21 +119,64 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       }
 
       @ParameterizedTest
-      @MethodSource("findAllArgumentsProvider")
-      void canFindWithArguments(Integer pageSize, Integer pageNumber, String sorts) {
-        client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
-        List<D> dtos = client.findAllAndExtract(pageSize, pageNumber, sorts);
-        Assertions.assertEquals(dtos.size(), createdDtos.size());
+      @MethodSource("findAllPageArgumentsProvider")
+      void canFindAllWithPagingArguments(Integer pageNumber, Integer pageSize) {
+        doAndAssertFindAllWithPagingRequest(pageNumber, pageSize, null);
+      }
+
+      void doAndAssertFindAllWithPagingRequest(@Nullable Integer pageNumber, Integer pageSize, String sorts) {
+        log.debug("canFindWithArguments for {}", modelFactory.getClazz().getSimpleName());
+        int createCount = 5;
+        int creationRate = getCreationRate(createCount);
+        assertEquals(204, client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList()).extract().statusCode());
+        Assertions.assertEquals(0, client.findAllAndExtract().size());
+        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
+        List<D> dtos = client.findAllAndExtract(pageNumber, pageSize, sorts);
+        Assertions.assertEquals(createCount,
+                                createdDtos.size(),
+                                "The number of created dtos should be equal to the pageSize. :: " + modelFactory.getClazz().getSimpleName());
+        createCount = creationRate;
+        boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
+        int expectedCount = createCount;
+        if (isPageable) {
+          int pageCount = createCount < pageSize || pageSize == 0 ? createCount : createCount / pageSize;
+          expectedCount = pageCount * (pageNumber + 1) > createCount ? 0 : pageCount;
+        }
+
+        Assertions.assertEquals(expectedCount, dtos.size(),
+                                "The number of retrieved dtos should be equal to the calculated pageSize. :: " + modelFactory.getClazz().getSimpleName());
+      }
+
+      private int getCreationRate(int numToCreate) {
+        int currentCount = client.countAndExtract();
+        client.createAllAndExtract(modelFactory.buildValidDto(1));
+        int creationRate = client.countAndExtract() - currentCount;
+        return numToCreate * creationRate;
+      }
+
+      @ParameterizedTest
+      @MethodSource("findAllSortArgumentsProvider")
+      void canFindWithArguments(String sorts) {
+        doAndAssertFindAllWithPagingRequest(null, null, sorts);
       }
 
       @Test
       void canFindAll() {
+        log.debug("canFindAll for {}", modelFactory.getClazz().getSimpleName());
+        int createCount = 5;
+        int creationRate = getCreationRate(createCount);
         client.deleteAllByIds(client.findAllAndExtract().stream().map(BaseDTO::getId).toList());
-        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(2));
+        List<D> createdDtos = client.createAllAndExtract(modelFactory.buildValidDto(createCount));
         List<D> dtos = client.findAllAndExtract();
-        Assertions.assertEquals(dtos.size(), createdDtos.size());
+        Assertions.assertEquals(createCount,
+                                createdDtos.size(),
+                                "The number of created dtos should be equal to the number of dtos returned by the findAll method. :: " +
+                                modelFactory.getClazz().getSimpleName());
+        Assertions.assertEquals(creationRate,
+                                dtos.size(),
+                                modelFactory.getClazz().getSimpleName());
       }
+
     }
 
     @Nested
@@ -133,11 +184,12 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canUpdateOne() {
+        log.debug("canUpdateOne for {}", modelFactory.getClazz().getSimpleName());
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
         K id = firstDto.getId();
-        firstDto = modelFactory.buildValidUpdatedDto(id);
+        firstDto = modelFactory.buildValidUpdatedDto(firstDto);
         D updated = client.updateAndExtract(id, firstDto);
         D retrieved = client.findByIdAndExtract(id);
         SoftAssertions softly = new SoftAssertions();
@@ -148,6 +200,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canUpdateMany() {
+        log.debug("canUpdateMany for {}", modelFactory.getClazz().getSimpleName());
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -165,12 +218,14 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
 
       @Test
       void canDeleteOneAndCanExistsById() {
+        log.debug("canDeleteOneAndCanExistsById for {}", modelFactory.getClazz().getSimpleName());
         D created = client.createAndExtract(modelFactory.buildValidDto());
         client.deleteById(created.getId()).statusCode(204);
       }
 
       @Test
       void canDeleteAllByIds() {
+        log.debug("canDeleteAllByIds for {}", modelFactory.getClazz().getSimpleName());
         D created = client.createAndExtract(modelFactory.buildValidDto());
         client.deleteAllByIds(List.of(created.getId())).statusCode(204);
       }
