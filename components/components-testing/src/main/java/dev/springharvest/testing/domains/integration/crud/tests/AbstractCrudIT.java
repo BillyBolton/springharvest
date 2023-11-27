@@ -111,6 +111,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @Test
       void canFindById() {
         log.debug("canFindById for {}", modelFactory.getClazz().getSimpleName());
+        client.createAll(modelFactory.buildValidDto(1));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -185,6 +186,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @Test
       void canUpdateOne() {
         log.debug("canUpdateOne for {}", modelFactory.getClazz().getSimpleName());
+        client.createAll(modelFactory.buildValidDto(2));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
@@ -201,6 +203,7 @@ public abstract class AbstractCrudIT<D extends BaseDTO<K>, K extends Serializabl
       @Test
       void canUpdateMany() {
         log.debug("canUpdateMany for {}", modelFactory.getClazz().getSimpleName());
+        client.createAll(modelFactory.buildValidDto(2));
         List<D> dtos = client.findAllAndExtract();
         Assertions.assertFalse(dtos.isEmpty());
         D firstDto = dtos.get(0);
