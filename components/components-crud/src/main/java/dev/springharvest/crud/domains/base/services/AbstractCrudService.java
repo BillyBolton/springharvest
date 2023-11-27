@@ -64,6 +64,14 @@ public abstract class AbstractCrudService<E extends BaseEntity<K>, K extends Ser
     return crudRepository.findOne(Example.of(entity, ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()));
   }
 
+
+  @Override
+  @Transactional(readOnly = true)
+  public Iterable<E> findAllByExample(E entity) {
+    entity.setId(null);
+    return crudRepository.findAll(Example.of(entity, ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase()));
+  }
+
   @Override
   @Transactional(readOnly = true)
   public List<E> findAllByIds(Set<K> ids) {
