@@ -139,7 +139,7 @@ jobs:
 
       - name: Publish package
         if: steps.verify_bump_commit_message.outputs.is_bump == 'true'
-        uses: gradle/gradle-build-action@9bca466e2722baf9e77b4f929bbe0af18848791f
+        uses: gradle/gradle-build-action@0280eb7de5ad3fb0deb50017b8ce842980b4789a
         with:
           arguments: publish -PcommitSHA=${{ github.sha }}
         env:
