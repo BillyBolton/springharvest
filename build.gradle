@@ -6,7 +6,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
     id 'jacoco'
     id "org.sonarqube" version "4.4.1.3373"
-    id 'org.owasp.dependencycheck' version '9.0.0'
+    id 'org.owasp.dependencycheck' version '9.0.1'
 }
 
 configurations {
@@ -122,7 +122,7 @@ subprojects {
         APACHE_COMMONS_COLLECTIONS_VERSION = "4.4"
         APACHE_COMMONS_COMPRESS_VERSION = "1.25.0"
         APACHE_COMMONS_LANG_VERSION = "3.14.0"
-        APACHE_POI_VERSION = "5.2.4"
+        APACHE_POI_VERSION = "5.2.5"
         APACHE_TOMCAT_VERSION = "10.1.16"
         GOOGLE_GSON_VERSION = "2.10.1"
         HAMCREST_VERSION = "1.3"
@@ -260,6 +260,6 @@ subprojects {
 }
 
 wrapper {
-    gradleVersion = "8.4"
+    gradleVersion = "8.5"
     distributionType = Wrapper.DistributionType.ALL
 }
