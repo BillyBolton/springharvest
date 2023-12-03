@@ -40,6 +40,9 @@ allprojects {
 
     java {
         sourceCompatibility = env.getProperty("JAVA_VERSION")
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(env.getProperty("JAVA_VERSION"))
+        }
     }
 
     repositories {
@@ -72,6 +75,13 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'org.sonarqube'
     apply plugin: 'org.owasp.dependencycheck'
+
+    java {
+        sourceCompatibility = env.getProperty("JAVA_VERSION")
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(env.getProperty("JAVA_VERSION"))
+        }
+    }
 
     test {
         useJUnitPlatform()

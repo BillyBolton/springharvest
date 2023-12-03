@@ -8,6 +8,7 @@ import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.mapstruct.BeforeMapping;
 import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 /**
  * A generic interface that can be used to map any domain model (data-transfer-object or Entity) to and from each other.
@@ -28,7 +30,7 @@ import org.springframework.data.domain.Page;
 public interface IBaseModelMapper<D extends BaseDTO<K>, E extends BaseEntity<K>, K extends Serializable> {
 
   default Page<D> pagedEntityToPagedDto(Page<E> page) {
-    return page.map(this::entityToDto);
+    return page.hasContent() ? page.map(this::entityToDto) : new PageImpl<>(Collections.emptyList());
   }
 
   /**

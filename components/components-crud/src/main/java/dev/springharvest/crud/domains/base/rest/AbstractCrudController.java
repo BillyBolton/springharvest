@@ -8,9 +8,7 @@ import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
 import dev.springharvest.shared.domains.base.mappers.IBaseModelMapper;
 import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -87,12 +84,18 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @Override
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) @Min(0) @Nullable Integer pageNumber,
-                                         @RequestParam(name = "pageSize", required = false) @Min(0) @Nullable Integer pageSize,
+  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+                                         @RequestParam(name = "pageSize", required = false, defaultValue = "25") Integer pageSize,
                                          @RequestParam(name = "sorts", required = false) List<String> sorts) {
-    boolean isPageable = pageNumber != null && pageNumber >= 0 && pageSize != null && pageSize >= 0;
+    if (pageNumber == null || pageNumber < 0) {
+      pageNumber = 0;
+    }
 
-    Sort sort = isPageable && CollectionUtils.isNotEmpty(sorts) ?
+    if (pageSize == null || pageSize < 1) {
+      pageSize = Integer.MAX_VALUE;
+    }
+
+    Sort sort = CollectionUtils.isNotEmpty(sorts) ?
                 Sort.by(sorts.stream().map(order -> {
                   String[] orderSplit = order.split("-");
                   if (orderSplit.length != 2) {
@@ -101,7 +104,7 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                   return new Sort.Order(Sort.Direction.fromString(orderSplit[1]), orderSplit[0]);
                 }).toList()) :
                 Sort.unsorted();
-    Page<E> entities = crudService.findAll(isPageable ? PageRequest.of(pageNumber, pageSize, sort) : Pageable.unpaged());
+    Page<E> entities = crudService.findAll(PageRequest.of(pageNumber, pageSize, sort));
     Page<D> dtos = modelMapper.pagedEntityToPagedDto(entities);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
   }
