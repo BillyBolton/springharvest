@@ -91,7 +91,7 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
       pageNumber = 0;
     }
 
-    if (pageSize == null || pageSize < 1) {
+    if (pageSize == null || pageSize < 0) {
       pageSize = Integer.MAX_VALUE;
     }
 
