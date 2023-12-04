@@ -19,7 +19,7 @@ jobs:
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "17"
+          java-version: 21
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -58,7 +58,7 @@ jobs:
         run: ./gradlew ${{ matrix.submodule }}:build
 
   bump_version:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -68,7 +68,7 @@ jobs:
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "17"
+          java-version: 21
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 

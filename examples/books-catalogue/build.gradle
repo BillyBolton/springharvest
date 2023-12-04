@@ -8,3 +8,9 @@ bootRun {
         println "Version: ${project.version}"
     }
 }
+java {
+    sourceCompatibility = "21"
+    toolchain {
+        languageVersion = JavaLanguageVersion.of("21")
+    }
+}

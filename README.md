@@ -26,9 +26,11 @@ further.
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+1. Install Java 21.+ with GraalVM support, such as the open-source [graalce distribution](https://github.com/graalvm/graalvm-ce-builds/releases).
 
-To use any of the
+- TIP: Use [SDKMAN](https://sdkman.io/install) to manage your SDKs more easily.
+
+2. TODO
 
 ## API Reference
 

@@ -46,6 +46,9 @@ subprojects {
         implementation "org.apache.commons:commons-lang3"
         testAnnotationProcessor "org.apache.commons:commons-compress"
 
+        annotationProcessor 'com.google.code.findbugs:jsr305'
+        testAnnotationProcessor 'com.google.code.findbugs:jsr305'
+
         // 	DATABASE:
         if (profiles.contains("h2")) {
             runtimeOnly 'com.h2database:h2'
