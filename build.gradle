@@ -23,6 +23,7 @@ subPropertiesFile.withInputStream {
 }
 
 allprojects {
+    apply plugin: 'org.graalvm.buildtools.native'
     apply plugin: 'org.sonarqube'
 
     group = env.APPLICATION_GROUP
