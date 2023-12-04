@@ -104,8 +104,9 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
                   return new Sort.Order(Sort.Direction.fromString(orderSplit[1]), orderSplit[0]);
                 }).toList()) :
                 Sort.unsorted();
+    PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
     Page<E> entities = crudService.findAll(PageRequest.of(pageNumber, pageSize, sort));
-    Page<D> dtos = modelMapper.pagedEntityToPagedDto(entities);
+    Page<D> dtos = entities.hasContent() ? modelMapper.pagedEntityToPagedDto(entities) : Page.empty(pageRequest);
     return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(dtos);
   }
 
