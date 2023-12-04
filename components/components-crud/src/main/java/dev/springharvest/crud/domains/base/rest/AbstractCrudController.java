@@ -84,8 +84,8 @@ public abstract class AbstractCrudController<D extends BaseDTO<K>, E extends Bas
   @Override
   @GetMapping(value = {CrudControllerUri.FIND_ALL},
               produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-                                         @RequestParam(name = "pageSize", required = false, defaultValue = "25") Integer pageSize,
+  public ResponseEntity<Page<D>> findAll(@RequestParam(name = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(name = "pageSize", required = false) Integer pageSize,
                                          @RequestParam(name = "sorts", required = false) List<String> sorts) {
     if (pageNumber == null || pageNumber < 0) {
       pageNumber = 0;
