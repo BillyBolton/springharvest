@@ -10,7 +10,7 @@ amount of code you need to write.
 ## Code Example
 
 An example project using these libraries is also included, and can be
-inspected [here](https://github.com/BillyBolton/springharvest/tree/main/examples/books-catalogue/src/main/java/dev/springharvest/library).
+inspected [here](https://github.com/SEG4510-Team-63/springharvest/tree/main/examples/rest/books-catalogue/src/main/java/dev/springharvest/library).
 
 ## Motivation
 
