@@ -84,7 +84,7 @@ jobs:
 
       - name: Validate Gradle wrapper
         if: steps.check_commit.outputs.match == 'false'
-        uses: gradle/wrapper-validation-action@342dbebe7272035434f9baccc29a816ec6dd2c7b
+        uses: gradle/wrapper-validation-action@83cf5fdbbf627c8da6fec32f28db58967a3136ac
 
       - name: Get Current Version
         id: get_version
