@@ -1,0 +1,9 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: "1"
+      author: BillyBolton
+
+  - include:
+      file: DDL/create_db_extensions.sql
+      relativeToChangelogFile: true
