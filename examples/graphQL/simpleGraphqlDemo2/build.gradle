@@ -1,0 +1,16 @@
+plugins {
+}
+
+bootRun {
+	doFirst {
+		println "Executing bootRun with:"
+		println "Group: ${project.group}"
+		println "Version: ${project.version}"
+	}
+}
+java {
+	sourceCompatibility = "21"
+	toolchain {
+		languageVersion = JavaLanguageVersion.of("21")
+	}
+}
