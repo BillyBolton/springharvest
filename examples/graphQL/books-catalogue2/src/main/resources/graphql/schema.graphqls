@@ -1,7 +1,0 @@
-type Query {
-    authors: [Author]
-}
-
-type Author {
-    name: String
-}
