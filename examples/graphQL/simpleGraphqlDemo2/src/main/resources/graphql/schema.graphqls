@@ -1,0 +1,28 @@
+type Query {
+    bookById(id: ID!): Book
+    allBooks: [Book]
+    authorById(id: ID!): Author
+    allAuthors: [Author]
+}
+
+type Book {
+    id: ID!
+    title: String!
+    genre: String
+    author: Author!
+    publisher: Publisher
+}
+
+type Author {
+    id: ID!
+    name: String!
+    #date_created: Date
+    #date_updated: Date
+    created_by: ID
+    updated_by: ID
+}
+
+type Publisher {
+    id: ID!
+    name: String!
+}
