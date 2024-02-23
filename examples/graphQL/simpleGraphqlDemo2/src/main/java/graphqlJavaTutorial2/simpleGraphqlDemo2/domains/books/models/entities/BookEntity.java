@@ -2,8 +2,10 @@ package graphqlJavaTutorial2.simpleGraphqlDemo2.domains.books.models.entities;
 
 import dev.springharvest.shared.domains.embeddables.traces.traceable.models.entities.AbstractTraceableEntity;
 import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.authors.models.entities.AuthorEntity;
+import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.publisher.models.entities.PublisherEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import java.util.UUID;
@@ -20,36 +22,30 @@ public class BookEntity extends AbstractTraceableEntity<UUID> {
     @Column(name = "genre")
     protected String genre;
 
-    @NotBlank
-    @Column(name = "publisher_id")
-    protected UUID publisher_id;
-
+    // Auhtor Getters Setters
+    @Getter
+    @Setter
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "author_id")
     private AuthorEntity author;
 
-    // Getters et Setters adaptés
+    @NotNull
+    @JoinColumn(name = "publisher_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PublisherEntity publisher;
 
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
-//
-//    public AuthorEntity getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(AuthorEntity author) {
-//        this.author = author;
-//    }
 
     @Override
     public boolean isEmpty() {
-        return StringUtils.isBlank(title); // Mis à jour pour vérifier si "title" est vide
+        return StringUtils.isBlank(title); // Check if "title" is empty
     }
+
+//    @Override
+//    public boolean isEmpty() {
+//        return super.isEmpty() && StringUtils.isBlank(title) && (author == null || author.isEmpty()) &&
+//                (publisher == null || publisher.isEmpty());
+//    }
 }
 
 

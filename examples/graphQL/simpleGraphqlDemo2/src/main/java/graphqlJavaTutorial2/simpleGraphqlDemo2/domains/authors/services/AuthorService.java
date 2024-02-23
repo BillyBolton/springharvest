@@ -13,12 +13,12 @@ import java.util.UUID;
 public class AuthorService {
     private final IAuthorRepository authorRepository;
 
-    // Retourne tous les auteurs
+    // Get all authors
     public List<AuthorEntity> getAllAuthors() {
         return authorRepository.findAll();
     }
 
-    // Trouve un auteur par son ID
+    // Get an auhtors by ID
     public AuthorEntity getById(UUID id) {
         return authorRepository.findById(id).orElse(null);
     }

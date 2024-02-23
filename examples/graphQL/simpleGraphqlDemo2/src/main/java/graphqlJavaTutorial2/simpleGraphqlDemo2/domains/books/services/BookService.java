@@ -13,12 +13,12 @@ import java.util.UUID;
 public class BookService {
     private final IBookRepository bookRepository;
 
-    // Retourne tous les books
+    // Get all books
     public List<BookEntity> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    // Trouve un book par son ID
+    // Get a book by ID
     public BookEntity getById(UUID id) {
         return bookRepository.findById(id).orElse(null);
     }
