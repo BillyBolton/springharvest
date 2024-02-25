@@ -1,9 +1,0 @@
-databaseChangeLog:
-
-  - changeSet:
-      id: "1"
-      author: BillyBolton
-
-  - include:
-      file: DDL/create_base_trace_parent_table.sql
-      relativeToChangelogFile: true
