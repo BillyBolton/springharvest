@@ -16,14 +16,12 @@ public class BookCrudService extends AbstractCrudService<BookEntity, UUID> {
     super(baseRepository);
   }
 
-  public List<BookEntity> findByAuthorId(UUID id)
-  {
+  public List<BookEntity> findByAuthorId(UUID id) {
     return ((IBookCrudRepository) crudRepository).findByAuthorId(id);
   }
 
-  public List<BookEntity> findByPublisherId(UUID id)
-  {
-    return  ((IBookCrudRepository) crudRepository).findByPublisherId(id);
+  public List<BookEntity> findByPublisherId(UUID id) {
+    return ((IBookCrudRepository) crudRepository).findByPublisherId(id);
   }
 
 }

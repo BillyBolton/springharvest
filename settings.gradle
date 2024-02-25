@@ -7,5 +7,4 @@ include ':components:components-search'
 include ':components:components-shared'
 include ':examples'
 include ':examples:books-catalogue'
-include 'examples:graphQL:books-catalogue2'
 
