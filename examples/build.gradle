@@ -21,6 +21,7 @@ subprojects {
         implementation project(':components:components-crud')
         implementation project(':components:components-search')
         implementation project(':components')
+        annotationProcessor project(':codegen')
 
         testImplementation project(':components:components-testing')
         testAnnotationProcessor project(':components:components-testing')

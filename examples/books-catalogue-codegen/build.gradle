@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+}
+
+bootRun {
+    doFirst {
+        println "Executing bootRun with:"
+        println "Group: ${project.group}"
+        println "Version: ${project.version}"
+    }
+}
+java {
+    sourceCompatibility = "21"
+    toolchain {
+        languageVersion = JavaLanguageVersion.of("21")
+    }
+}
+
+dependencies {
+    compileOnly files("$buildDir/generated/sources/annotationProcessor/java/main")
+    annotationProcessor files("$buildDir/generated/sources/annotationProcessor/java/main")
+    annotationProcessor project(":codegen")
+    compileOnly project(":codegen")
+//    aotTestAnnotationProcessor project(":codegen")
+    testAnnotationProcessor project(":codegen")
+}
+
+sourceSets {
+//    test {
+//        java {
+//            srcDirs += "$buildDir/generated/sources/annotationProcessor"
+//        }
+//    }
+}
+
+//task generateAnnotationProcessorSources(type: JavaCompile) {
+//    description = 'Generates sources using annotation processors'
+//    sourceSets.main.java.srcDirs.each { dir ->
+//        inputs.dir dir
+//    }
+//    source 'src/main/java' // or specify your source directory
+//    classpath = configurations.compileClasspath
+//    options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/sources/annotationProcessor")
+//
+//    // Set the destination directory for compiled classes
+//    destinationDirectory = file("$buildDir/classes/java/main")
+//}
+//
+//
+//tasks.named('compileJava') {
+//    dependsOn tasks.named('generateAnnotationProcessorSources')
+//}
