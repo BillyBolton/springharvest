@@ -7,7 +7,7 @@ type Author {
     id: ID!
     name: String!
     createdBy: ID
-    udpdatedBy: ID
+    updatedBy: ID
 }
 
 schema {

@@ -1,7 +1,7 @@
 extend type  Query
 {
     books: [Book]
-    bookbyId(id: ID!): Book
+    bookById(id: ID!): Book
     booksByAuthor(id: ID!): [Book]
     booksByPublisher(id: ID!): [Book]
 }
