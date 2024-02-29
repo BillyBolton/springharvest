@@ -22,7 +22,7 @@ public class PublisherGraphQLController {
   }
 
   @QueryMapping()
-  List<PublisherEntity> books() {
+  List<PublisherEntity> publishers() {
     //TODO: Fix
     return baseService.findAll(Pageable.unpaged()).getContent();
   }
