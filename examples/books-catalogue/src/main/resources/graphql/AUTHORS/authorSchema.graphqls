@@ -7,31 +7,9 @@ type Author {
     id: ID!
     name: String!
     createdBy: ID
-    updatedBy: ID
+    udpdatedBy: ID
 }
-
-"""type Mutation{
-    changeName(newName: String): Author
-}
-
-mutation mutationWithTwoFields {
-    first: changeName(newName: "Bradley"){
-        name
-    }
-    second: changeName(newName: "Brad"){
-        id
-        name
-        updatedBy
-    }
-}
-
-query authorsDetails{
-    authors{
-        name
-    }
-}"""
 
 schema {
     query: Query
-    #mutation: Mutation
 }
