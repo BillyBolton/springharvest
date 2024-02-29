@@ -49,6 +49,14 @@ public class BookEntity extends AbstractTraceableEntity<UUID> {
     @ManyToOne(fetch = FetchType.LAZY)
     private PublisherEntity publisher;
 
+    @NotNull
+    @Column(name = "created_by", insertable = false, updatable = false)
+    protected UUID created_by;
+
+    @NotNull
+    @Column(name = "updated_by", insertable = false, updatable = false)
+    protected UUID updated_by;
+
     @Override
     public boolean isEmpty() {
         return super.isEmpty() && StringUtils.isBlank(title) && (author == null || author.isEmpty()) &&

@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,6 +29,14 @@ public class AuthorEntity extends AbstractTraceableEntity<UUID> {
     @NotBlank
     @Column(name = "name")
     protected String name;
+
+    @NotNull
+    @Column(name = "created_by", insertable = false, updatable = false)
+    protected UUID created_by;
+
+    @NotNull
+    @Column(name = "updated_by", insertable = false, updatable = false)
+    protected UUID updated_by;
 
     @Override
     public boolean isEmpty() {

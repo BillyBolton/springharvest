@@ -1,11 +1,11 @@
-package graphqlJavaTutorial2.simpleGraphqlDemo2.global;
+package dev.springharvest.library.global;
 
-import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.authors.models.entities.AuthorEntity;
+/*import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.authors.models.entities.AuthorEntity;
 import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.authors.services.AuthorService;
 import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.books.models.entities.BookEntity;
 import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.books.services.BookService;
 import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.publisher.models.entities.PublisherEntity;
-import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.publisher.services.PublisherService;
+import graphqlJavaTutorial2.simpleGraphqlDemo2.domains.publisher.services.PublisherService;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Controller
 class GlobalResolver {
-    private final BookService bookService;
+    /*private final BookService bookService;
     private final AuthorService authorService;
     private final PublisherService publisherService;
 
@@ -65,6 +65,6 @@ class GlobalResolver {
     public PublisherEntity publisherById(@Argument UUID id) {
         return publisherService.getById(id);
     }
-
+*/
 }
 
