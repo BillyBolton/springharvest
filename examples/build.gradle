@@ -52,6 +52,13 @@ subprojects {
         annotationProcessor 'com.google.code.findbugs:jsr305'
         testAnnotationProcessor 'com.google.code.findbugs:jsr305'
 
+        //GraphQL
+        implementation 'org.springframework.boot:spring-boot-starter-graphql'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework:spring-webflux'
+        testImplementation 'org.springframework.graphql:spring-graphql-test'
+
         // 	DATABASE:
         if (profiles.contains("h2")) {
             runtimeOnly 'com.h2database:h2'
