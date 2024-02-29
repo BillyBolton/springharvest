@@ -6,5 +6,5 @@ include ':components:components-crud'
 include ':components:components-search'
 include ':components:components-shared'
 include ':examples'
-include ':examples:rest:books-catalogue'
-include 'examples:graphQL:books-catalogue2'
+include ':examples:books-catalogue'
+
