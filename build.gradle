@@ -229,6 +229,7 @@ subprojects {
         api 'org.springframework.boot:spring-boot-starter-validation'
         api 'org.springframework.session:spring-session-core'
         api 'org.springframework.boot:spring-boot-docker-compose'
+        api 'org.springframework.graphql:spring-graphql'
 
         api "org.mapstruct:mapstruct"
         compileOnly 'org.projectlombok:lombok'
@@ -251,6 +252,7 @@ subprojects {
         api "org.hamcrest:hamcrest-all"
         api 'org.springframework.boot:spring-boot-starter-test'
         api 'org.testcontainers:junit-jupiter'
+        api 'org.springframework.graphql:spring-graphql-test'
 
         // SEARCH
         // For easier Specification Search

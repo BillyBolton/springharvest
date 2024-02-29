@@ -1,0 +1,15 @@
+type Query {
+    authors: [Author]
+    authorById(id: ID!): Author
+}
+
+type Author {
+    id: ID!
+    name: String!
+    createdBy: ID
+    updatedBy: ID
+}
+
+schema {
+    query: Query
+}

@@ -1,0 +1,11 @@
+extend type Query {
+    publishers: [Publisher]
+    publisherById(id: ID!): Publisher
+}
+
+type Publisher {
+    id: ID!
+    name: String!
+    createdBy: ID
+    updatedBy: ID
+}

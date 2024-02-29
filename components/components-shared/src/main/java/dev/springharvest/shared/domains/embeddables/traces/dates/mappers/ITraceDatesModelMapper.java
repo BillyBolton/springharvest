@@ -1,8 +1,8 @@
 package dev.springharvest.shared.domains.embeddables.traces.dates.mappers;
 
 import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
-import dev.springharvest.shared.domains.embeddables.traces.dates.models.entities.TraceDatesEntity;
 import dev.springharvest.shared.domains.embeddables.traces.dates.models.dtos.TraceDatesDTO;
+import dev.springharvest.shared.domains.embeddables.traces.dates.models.entities.TraceDatesEntity;
 import java.util.Map;
 import org.mapstruct.Builder;
 import org.mapstruct.Context;
