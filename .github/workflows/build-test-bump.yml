@@ -33,6 +33,23 @@ jobs:
             echo "::set-output name=match::false"
           fi
 
+      #      - name: Cache Gradle packages
+      #        if: steps.check_commit.outputs.match == 'false'
+      #        uses: actions/cache@v4
+      #        with:
+      #          path: ~/.gradle/caches
+      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      #          restore-keys: |
+      #            ${{ runner.os }}-gradle-
+
+      #      - name: Cache SonarCloud packages
+      #        if: steps.check_commit.outputs.match == 'false'
+      #        uses: actions/cache@v4
+      #        with:
+      #          path: ~/.sonar/cache
+      #          key: ${{ runner.os }}-sonar
+      #          restore-keys: ${{ runner.os }}-sonar
+
       - name: Build and Test
         if: steps.check_commit.outputs.match == 'false'
         env:
@@ -67,7 +84,7 @@ jobs:
 
       - name: Validate Gradle wrapper
         if: steps.check_commit.outputs.match == 'false'
-        uses: gradle/wrapper-validation-action@342dbebe7272035434f9baccc29a816ec6dd2c7b
+        uses: gradle/wrapper-validation-action@63d15e7a1e697b1de6f3ba0507106f89100c8518
 
       - name: Get Current Version
         id: get_version
@@ -122,7 +139,7 @@ jobs:
 
       - name: Publish package
         if: steps.verify_bump_commit_message.outputs.is_bump == 'true'
-        uses: gradle/gradle-build-action@0280eb7de5ad3fb0deb50017b8ce842980b4789a
+        uses: gradle/gradle-build-action@585b565652cefbba63202a7f927df0ff99f34001
         with:
           arguments: publish -PcommitSHA=${{ github.sha }}
         env:

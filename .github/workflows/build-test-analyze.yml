@@ -23,6 +23,14 @@ jobs:
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      #      - name: Cache Gradle packages
+      #        uses: actions/cache@v4
+      #        with:
+      #          path: ~/.gradle/caches
+      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      #          restore-keys: |
+      #            ${{ runner.os }}-gradle-
+
       - name: Build
         id: build
         env:
@@ -51,6 +59,21 @@ jobs:
       - name: Fetch main branch
         run: git fetch origin main:main
 
+      #      - name: Cache SonarCloud packages
+      #        uses: actions/cache@v4
+      #        with:
+      #          path: ~/.sonar/cache
+      #          key: ${{ runner.os }}-sonar
+      #          restore-keys: ${{ runner.os }}-sonar
+      #
+      #      - name: Cache Gradle packages
+      #        uses: actions/cache@v4
+      #        with:
+      #          path: ~/.gradle/caches
+      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      #          restore-keys: |
+      #            ${{ runner.os }}-gradle-
+
       - name: Test
         id: test
         env:
@@ -59,7 +82,7 @@ jobs:
         run: ./gradlew ${{ matrix.submodule }}:test sonar
 
       - name: Cache Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: junit-test-results
