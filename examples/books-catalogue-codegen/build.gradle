@@ -24,29 +24,3 @@ dependencies {
 //    aotTestAnnotationProcessor project(":codegen")
     testAnnotationProcessor project(":codegen")
 }
-
-sourceSets {
-//    test {
-//        java {
-//            srcDirs += "$buildDir/generated/sources/annotationProcessor"
-//        }
-//    }
-}
-
-//task generateAnnotationProcessorSources(type: JavaCompile) {
-//    description = 'Generates sources using annotation processors'
-//    sourceSets.main.java.srcDirs.each { dir ->
-//        inputs.dir dir
-//    }
-//    source 'src/main/java' // or specify your source directory
-//    classpath = configurations.compileClasspath
-//    options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/sources/annotationProcessor")
-//
-//    // Set the destination directory for compiled classes
-//    destinationDirectory = file("$buildDir/classes/java/main")
-//}
-//
-//
-//tasks.named('compileJava') {
-//    dependsOn tasks.named('generateAnnotationProcessorSources')
-//}
