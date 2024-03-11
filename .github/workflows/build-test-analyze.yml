@@ -67,7 +67,7 @@ jobs:
         run: |
           ./gradlew ${{ matrix.submodule }}:jacocoTestReport
 
-  generate-test-annotations:
+  publish-test-coverage-reports:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -81,6 +81,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew sonar
+
+  generate-test-annotations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Publish Test Report Annotations
         uses: mikepenz/action-junit-report@v4
