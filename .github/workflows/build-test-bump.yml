@@ -8,13 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        submodule:
-          - ":examples:books-catalogue"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
@@ -33,30 +32,17 @@ jobs:
             echo "::set-output name=match::false"
           fi
 
-          - name: Checkout code
-          uses: actions/checkout@v4
+      - name: Build
+        id: build
+        run: |
+          ./gradlew :examples:books-catalogue:build -x test :examples:books-catalogue-codegen:build -x test
 
-      - name: Build or Test
-        id: build-test
+      - name: Test
+        id: test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         run: |
-          ./gradlew :codegen:test :components:components-testing:test :components:components-crud:test :components:components-search:test :components:components-shared:test :errors:test :examples:books-catalogue:build :examples:books-catalogue-codegen:build
-
-      - name: Generate Test Coverate Report
-        id: generate-test-coverage-report
-        if: success() || failure()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-        run: |
-          ./gradlew :examples:books-catalogue:jacocoTestReport :examples:books-catalogue-codegen:jacocoTestReport
-
-      - name: Publish Test Report Annotations
-        uses: mikepenz/action-junit-report@v4
-        if: success() || failure()
-        with:
-          check_name: JUnit Test Report Annotations
-          report_paths: "**/build/test-results/test/TEST-*.xml"
+          ./gradlew test
 
       - name: Publish Test Report
         id: sonar-publish
@@ -66,6 +52,13 @@ jobs:
         run: |
           ./gradlew sonar
 
+      - name: Publish Test Report Annotations
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          check_name: JUnit Test Report Annotations
+          report_paths: "**/build/test-results/test/TEST-*.xml"
+
   bump_version:
     needs: [build]
     runs-on: ubuntu-latest
@@ -73,7 +66,10 @@ jobs:
       contents: write
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
         with:
