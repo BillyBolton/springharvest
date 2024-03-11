@@ -90,8 +90,6 @@ subprojects {
         reports {
             xml.required.set(true)
             html.required.set(true)
-//            html.outputLocation = file("${rootProject.buildDir}/reports/jacoco/html/testCodeCoverageReport")
-//            xml.outputLocation = file("${rootProject.buildDir}/reports/jacoco/xml/testCodeCoverageReport/")
         }
         afterEvaluate {
             classDirectories.setFrom(files(classDirectories.files.collect {
