@@ -15,7 +15,7 @@ public class BookSearchClient extends AbstractSearchClientImpl<BookDTO, UUID, Bo
 
   @Autowired
   protected BookSearchClient(RestClientImpl restClient) {
-    super(restClient, new SearchUriFactory(BookConstants.Controller.DOMAIN_CONTEXT), BookDTO.class);
+    super(restClient, new SearchUriFactory("/api" + BookConstants.Controller.DOMAIN_CONTEXT), BookDTO.class);
   }
 
 }

@@ -17,7 +17,7 @@ public class BookCrudClient extends AbstractCrudClientImpl<BookDTO, UUID> {
 
   @Autowired(required = true)
   protected BookCrudClient(RestClientImpl clientHelper) {
-    super(clientHelper, new CrudUriFactory(BookConstants.Controller.DOMAIN_CONTEXT), BookDTO.class);
+    super(clientHelper, new CrudUriFactory("/api" + BookConstants.Controller.DOMAIN_CONTEXT), BookDTO.class);
   }
 
 }

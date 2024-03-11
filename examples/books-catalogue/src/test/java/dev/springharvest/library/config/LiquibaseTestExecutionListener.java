@@ -1,6 +1,5 @@
-package dev.springharvest.testing.domains.integration.shared.listeners;
+package dev.springharvest.library.config;
 
-import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseConnection;
@@ -29,7 +28,7 @@ public class LiquibaseTestExecutionListener implements TestExecutionListener {
 
       // Drop all tables and re-run all changesets
       liquibase.dropAll();
-      liquibase.update(new Contexts());
+      liquibase.update("test");
     }
   }
 

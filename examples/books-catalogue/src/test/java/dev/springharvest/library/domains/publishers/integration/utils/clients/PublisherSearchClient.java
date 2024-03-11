@@ -15,7 +15,7 @@ public class PublisherSearchClient extends AbstractSearchClientImpl<PublisherDTO
 
   @Autowired
   protected PublisherSearchClient(RestClientImpl restClient) {
-    super(restClient, new SearchUriFactory(PublisherConstants.Controller.DOMAIN_CONTEXT), PublisherDTO.class);
+    super(restClient, new SearchUriFactory("/api" + PublisherConstants.Controller.DOMAIN_CONTEXT), PublisherDTO.class);
   }
 
 }

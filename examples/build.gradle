@@ -69,13 +69,4 @@ subprojects {
     bootRun {
         args = ["--spring.profiles.active=${profiles.join(",")}"]
     }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-        systemProperty 'spring.profiles.active', "${profiles.join(",")}"
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = true
-        }
-    }
 }

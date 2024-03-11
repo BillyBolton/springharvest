@@ -17,7 +17,7 @@ public class PublisherCrudClient extends AbstractCrudClientImpl<PublisherDTO, UU
 
   @Autowired(required = true)
   protected PublisherCrudClient(RestClientImpl clientHelper) {
-    super(clientHelper, new CrudUriFactory(PublisherConstants.Controller.DOMAIN_CONTEXT), PublisherDTO.class);
+    super(clientHelper, new CrudUriFactory("/api" + PublisherConstants.Controller.DOMAIN_CONTEXT), PublisherDTO.class);
   }
 
 }

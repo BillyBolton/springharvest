@@ -22,13 +22,17 @@ subPropertiesFile.withInputStream {
     env.load(it)
 }
 
+tasks.named('sonar').configure {
+    dependsOn testCodeCoverageReport
+}
+
 sonar {
     def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
                       "**/*Mapper*.*", "**/*Application.*"]
     properties {
         property "sonar.projectKey", "BillyBolton_springharvest"
         property "sonar.organization", "billybolton"
-        property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
+        property "sonar.token", "6ba10d6015751f8a84192f66308ba408d2aabe9b"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
 //        property "sonar.coverage.jacoco.xmlReportPaths",
@@ -37,10 +41,6 @@ sonar {
 //                        "${rootProject.getRootDir().absolutePath}/books-catalogue/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
 //                        "${rootProject.getRootDir().absolutePath}/books-catalogue-codegen/components-crud/build/reports/jacoco/test/jacocoTestReport.xml,"
     }
-}
-
-tasks.named('sonar').configure {
-    dependsOn testCodeCoverageReport
 }
 
 allprojects {
@@ -91,10 +91,6 @@ subprojects {
         }
     }
 
-    test {
-        useJUnitPlatform()
-    }
-
     jacocoTestReport {
         reports {
             xml.required.set(true)
@@ -134,6 +130,14 @@ subprojects {
             gpr(MavenPublication) {
                 from(components.java)
             }
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+        testLogging {
+            outputs.upToDateWhen { false }
+            showStandardStreams = false
         }
     }
 
