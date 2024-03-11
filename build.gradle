@@ -27,7 +27,6 @@ sonar {
                       "**/*Mapper*.*", "**/*Application.*"]
     properties {
         property "sonar.projectKey", "BillyBolton_springharvest"
-        property "sonar."
         property "sonar.organization", "billybolton"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
