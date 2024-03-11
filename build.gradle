@@ -51,7 +51,7 @@ allprojects {
 
 
     sonar {
-        def exclusions = ["**/components/**", "**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/errors/**", "**/*Repository.*",
+        def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/errors/**", "**/*Repository.*",
                           "**/*Mapper*.*", "**/*Application.*"]
         properties {
             property "sonar.projectKey", "BillyBolton_springharvest"
