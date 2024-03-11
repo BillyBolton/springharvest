@@ -35,15 +35,15 @@ sonar {
         property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
-        property "sonar.coverage.jacoco.xmlReportPaths",
-                "${rootProject.getRootDir()}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/components/components-search/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/components/components-shared/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/components/components-testing/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/errors/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/examples/books-catalogue/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir()}/examples/books-catalogue-codegen/build/reports/jacoco/test/jacocoTestReport.xml"
+//        property "sonar.coverage.jacoco.xmlReportPaths",
+//                "${rootProject.getRootDir()}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/components/components-search/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/components/components-shared/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/components/components-testing/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/errors/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/examples/books-catalogue/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir()}/examples/books-catalogue-codegen/build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 
