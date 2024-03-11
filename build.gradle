@@ -28,6 +28,7 @@ sonar {
     properties {
         property "sonar.projectKey", "BillyBolton_springharvest"
         property "sonar.organization", "billybolton"
+        property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
 //        property "sonar.coverage.jacoco.xmlReportPaths",

@@ -97,6 +97,14 @@ jobs:
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Aggregate Code Coverage
+        id: test-code-coverage-report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          ./gradlew testCodeCoverageReport
+
       - name: Publish Test Report
         id: sonar-publish
         env:
