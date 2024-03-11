@@ -23,19 +23,19 @@ subPropertiesFile.withInputStream {
 }
 
 sonar {
-    def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/errors/**", "**/*Repository.*",
+    def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
                       "**/*Mapper*.*", "**/*Application.*"]
     properties {
         property "sonar.projectKey", "BillyBolton_springharvest"
         property "sonar.organization", "billybolton"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
-        property "sonar.coverage.jacoco.xmlReportPaths",
-                "${rootProject.getRootDir().absolutePath}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir().absolutePath}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir().absolutePath}/books-catalogue/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
-                        "${rootProject.getRootDir().absolutePath}/books-catalogue-codegen/components-crud/build/reports/jacoco/test/jacocoTestReport.xml,"
-    }
+//        property "sonar.coverage.jacoco.xmlReportPaths",
+//                "${rootProject.getRootDir().absolutePath}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir().absolutePath}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir().absolutePath}/books-catalogue/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                        "${rootProject.getRootDir().absolutePath}/books-catalogue-codegen/components-crud/build/reports/jacoco/test/jacocoTestReport.xml,"
+//    }
 }
 
 tasks.named('sonar').configure {
