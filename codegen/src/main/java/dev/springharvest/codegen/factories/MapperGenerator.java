@@ -23,6 +23,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
+import org.apache.commons.lang3.StringUtils;
 
 public class MapperGenerator {
 
@@ -92,8 +93,11 @@ public class MapperGenerator {
     for (Element enclosedElement : enclosedElements) {
       if (enclosedElement.getKind() == ElementKind.FIELD) {
         String fieldName = enclosedElement.getSimpleName().toString();
+        if (StringUtils.equalsIgnoreCase(fieldName, "log")) {
+          continue;
+        }
         TypeName fieldType = TypeName.get(enclosedElement.asType());
-
+//        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Harvest Mapper Field Name : " + fieldName);
         // Check if the field type is non-primitive
         if (!fieldType.isBoxedPrimitive() && !fieldType.equals(TypeName.get(String.class))) {
           toDtoMethodBuilder.addAnnotation(AnnotationSpec.builder(ClassName.get("org.mapstruct", "Mapping"))

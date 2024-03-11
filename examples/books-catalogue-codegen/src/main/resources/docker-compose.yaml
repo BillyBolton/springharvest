@@ -1,18 +1,19 @@
 version: '3.8'
 services:
-  postgres-library:
-    image: postgres:latest
+  db:
+    image: postgis/postgis:15-3.4-alpine
     restart: always
+    container_name: generated-library-db
     environment:
-      - POSTGRES_DB=library
       - POSTGRES_USER=changeme
       - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=generated-library
     ports:
-      - '5433:5432'
+      - '5434:5432'
     volumes:
-      - postgres-library-data:/var/lib/postgresql/data
+      - generated-library-dev-data:/var/lib/postgresql/data
 volumes:
-  postgres-library-data:
+  generated-library-dev-data:
     driver: local
 
 
