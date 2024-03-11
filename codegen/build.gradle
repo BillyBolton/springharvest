@@ -20,5 +20,6 @@ dependencies {
 
     testImplementation 'com.google.truth:truth'
     testImplementation 'com.google.testing.compile:compile-testing'
+
     testImplementation 'org.projectlombok:lombok'
 }

@@ -185,7 +185,7 @@ subprojects {
                 dependencySet(group: 'com.google.code.gson', version: "$GOOGLE_GSON_VERSION") {
                     entry 'gson'
                 }
-                dependencySet(group: 'com.google.testing.compile', version: "$GOOGLE_TRUTH_VERSION") {
+                dependencySet(group: 'com.google.testing.compile', version: "$GOOGLE_TESTING_COMPILE_VERSION") {
                     entry 'compile-testing'
                 }
                 dependencySet(group: 'com.google.truth', version: "$GOOGLE_TRUTH_VERSION") {
