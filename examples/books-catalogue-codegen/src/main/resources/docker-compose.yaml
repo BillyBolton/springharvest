@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  db:
+    image: postgis/postgis:15-3.4-alpine
+    restart: always
+    container_name: generated-library-db
+    environment:
+      - POSTGRES_USER=changeme
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=generated-library-codegen
+    ports:
+      - '5435:5432'
+    volumes:
+      - generated-library-dev-data:/var/lib/postgresql/data
+volumes:
+  generated-library-codegen-dev-data:
+    driver: local
+
+
+# If needed:
+# https://stackoverflow.com/questions/38249434/docker-postgres-failed-to-bind-tcp-0-0-0-05432-address-already-in-use

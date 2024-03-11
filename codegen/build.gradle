@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+}
+dependencies {
+
+    implementation project(':errors')
+    implementation project(':components:components-shared')
+    implementation project(':components:components-crud')
+    implementation project(':components:components-search')
+    implementation project(':components')
+
+    implementation 'com.squareup:javapoet'
+    implementation 'com.google.auto.service:auto-service'
+    annotationProcessor 'com.google.auto.service:auto-service'
+    implementation 'org.apache.commons:commons-lang3'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.mapstruct:mapstruct-processor"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
+    implementation "org.mapstruct:mapstruct"
+
+    testImplementation 'com.google.truth:truth'
+    testImplementation 'com.google.testing.compile:compile-testing'
+
+    testImplementation 'org.projectlombok:lombok'
+}

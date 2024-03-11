@@ -6,15 +6,13 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        submodule:
-          - ":examples:books-catalogue"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
@@ -22,80 +20,26 @@ jobs:
           java-version: 21
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      #      - name: Cache Gradle packages
-      #        uses: actions/cache@v4
-      #        with:
-      #          path: ~/.gradle/caches
-      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-      #          restore-keys: |
-      #            ${{ runner.os }}-gradle-
 
       - name: Build
         id: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew ${{ matrix.submodule }}:build -x test
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        submodule:
-          - ":examples:books-catalogue"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: 21
-          distribution: "graalvm-community"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Fetch main branch
-        run: git fetch origin main:main
-
-      #      - name: Cache SonarCloud packages
-      #        uses: actions/cache@v4
-      #        with:
-      #          path: ~/.sonar/cache
-      #          key: ${{ runner.os }}-sonar
-      #          restore-keys: ${{ runner.os }}-sonar
-      #
-      #      - name: Cache Gradle packages
-      #        uses: actions/cache@v4
-      #        with:
-      #          path: ~/.gradle/caches
-      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-      #          restore-keys: |
-      #            ${{ runner.os }}-gradle-
+        run: |
+          ./gradlew :examples:books-catalogue:build -x test :examples:books-catalogue-codegen:build -x test
 
       - name: Test
         id: test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew ${{ matrix.submodule }}:test sonar
-
-      - name: Cache Test Results
-        uses: actions/upload-artifact@v4
-        if: success() || failure()
-        with:
-          name: junit-test-results
-          path: "**/build/test-results/test/TEST-*.xml"
-          retention-days: 1
+        run: |
+          ./gradlew test
 
       - name: Publish Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: JUnit Test Report # Name of the check run which will be created
-          path: "**/build/test-results/test/TEST-*.xml" # Path to test results (inside artifact .zip)
-          reporter: java-junit # Format of test Results
+        id: sonar-publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          ./gradlew sonar
 
       - name: Publish Test Report Annotations
         uses: mikepenz/action-junit-report@v4

@@ -15,7 +15,7 @@ public class AuthorSearchClient extends AbstractSearchClientImpl<AuthorDTO, UUID
 
   @Autowired
   protected AuthorSearchClient(RestClientImpl restClient) {
-    super(restClient, new SearchUriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
+    super(restClient, new SearchUriFactory("/api" + AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
   }
 
 }

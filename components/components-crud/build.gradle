@@ -4,4 +4,5 @@ plugins {
 dependencies {
     api project(':components:components-shared')
     api project(':errors')
+    testImplementation project(':components:components-shared')
 }

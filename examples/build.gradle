@@ -21,6 +21,7 @@ subprojects {
         implementation project(':components:components-crud')
         implementation project(':components:components-search')
         implementation project(':components')
+        annotationProcessor project(':codegen')
 
         testImplementation project(':components:components-testing')
         testAnnotationProcessor project(':components:components-testing')
@@ -67,14 +68,5 @@ subprojects {
 
     bootRun {
         args = ["--spring.profiles.active=${profiles.join(",")}"]
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-        systemProperty 'spring.profiles.active', "${profiles.join(",")}"
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = true
-        }
     }
 }

@@ -17,7 +17,7 @@ public class AuthorCrudClient extends AbstractCrudClientImpl<AuthorDTO, UUID> {
 
   @Autowired(required = true)
   protected AuthorCrudClient(RestClientImpl clientHelper) {
-    super(clientHelper, new CrudUriFactory(AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
+    super(clientHelper, new CrudUriFactory("/api" + AuthorConstants.Controller.DOMAIN_CONTEXT), AuthorDTO.class);
   }
 
 }

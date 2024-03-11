@@ -26,7 +26,7 @@ public class TraceDatesEntity extends DomainModel implements ITraceableDatesAwar
 
   @Column(name = "date_updated", updatable = true, nullable = false)
   protected Date dateUpdated;
-  
+
   @JsonIgnore
   @Override
   public boolean isEmpty() {

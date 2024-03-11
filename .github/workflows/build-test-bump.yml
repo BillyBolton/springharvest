@@ -8,13 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        submodule:
-          - ":examples:books-catalogue"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
@@ -33,38 +32,44 @@ jobs:
             echo "::set-output name=match::false"
           fi
 
-      #      - name: Cache Gradle packages
-      #        if: steps.check_commit.outputs.match == 'false'
-      #        uses: actions/cache@v4
-      #        with:
-      #          path: ~/.gradle/caches
-      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-      #          restore-keys: |
-      #            ${{ runner.os }}-gradle-
+      - name: Build
+        id: build
+        run: |
+          ./gradlew :examples:books-catalogue:build -x test :examples:books-catalogue-codegen:build -x test
 
-      #      - name: Cache SonarCloud packages
-      #        if: steps.check_commit.outputs.match == 'false'
-      #        uses: actions/cache@v4
-      #        with:
-      #          path: ~/.sonar/cache
-      #          key: ${{ runner.os }}-sonar
-      #          restore-keys: ${{ runner.os }}-sonar
+      - name: Test
+        id: test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+        run: |
+          ./gradlew test
 
-      - name: Build and Test
-        if: steps.check_commit.outputs.match == 'false'
+      - name: Publish Test Report
+        id: sonar-publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew ${{ matrix.submodule }}:build
+        run: |
+          ./gradlew sonar
+
+      - name: Publish Test Report Annotations
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          check_name: JUnit Test Report Annotations
+          report_paths: "**/build/test-results/test/TEST-*.xml"
 
   bump_version:
-    needs: [ build ]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up JDK
         uses: graalvm/setup-graalvm@v1
         with:

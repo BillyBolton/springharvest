@@ -1,9 +1,11 @@
 rootProject.name = 'springharvest'
 
-include 'errors'
+include ':codegen'
 include ':components:components-testing'
 include ':components:components-crud'
 include ':components:components-search'
 include ':components:components-shared'
+include 'errors'
 include ':examples'
 include ':examples:books-catalogue'
+include ':examples:books-catalogue-codegen'
