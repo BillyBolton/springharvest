@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build, Test and Publish
 
 on:
   pull_request:
@@ -6,8 +6,7 @@ on:
       - main
 
 jobs:
-    build-and-test:
-    needs: build
+  build-test-publish:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,7 +28,7 @@ jobs:
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Conditional Test or Build
+      - name: Conditional Build or Test
         id: test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
@@ -39,14 +38,6 @@ jobs:
           else
             ./gradlew ${{ matrix.submodule }}:test
           fi
-
-      # - name: Test
-      #   id: test
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-      #     # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: |
-      #     ./gradlew ${{ matrix.submodule }}:test
 
       - name: Generate Test Coverate Report
         id: generate-test-coverage-report
@@ -63,28 +54,6 @@ jobs:
           check_name: JUnit Test Report Annotations
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
-      # - name: Publish Test Report
-      #   id: sonar-publish
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: |
-      #     ./gradlew ${{ matrix.submodule }}:sonar
-
-  publish-test-coverage-reports:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: 17
-          distribution: "graalvm-community"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Aggregate Code Coverage
         id: test-code-coverage-report
         env:
@@ -100,3 +69,32 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew sonar
+
+  # publish-test-coverage-reports:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Set up JDK
+  #       uses: graalvm/setup-graalvm@v1
+  #       with:
+  #         java-version: 17
+  #         distribution: "graalvm-community"
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Aggregate Code Coverage
+  #       id: test-code-coverage-report
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       run: |
+  #         ./gradlew testCodeCoverageReport
+
+  #     - name: Publish Test Report
+  #       id: sonar-publish
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       run: |
+  #         ./gradlew sonar
