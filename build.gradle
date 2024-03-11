@@ -64,7 +64,6 @@ allprojects {
                             "${rootProject.getRootDir().absolutePath}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
                             "${rootProject.getRootDir().absolutePath}/books-catalogue/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
                             "${rootProject.getRootDir().absolutePath}/books-catalogue-codegen/components-crud/build/reports/jacoco/test/jacocoTestReport.xml,"
-            property "sonar.java.coveragePlugin", "jacoco"
         }
     }
 

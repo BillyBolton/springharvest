@@ -56,8 +56,9 @@ jobs:
         id: test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew ${{ matrix.submodule }}:test
+          ./gradlew ${{ matrix.submodule }}:test sonar
 
       - name: Generate Test Coverate Report
         id: generate-test-coverage-report
@@ -74,13 +75,13 @@ jobs:
           check_name: JUnit Test Report Annotations
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
-      - name: Publish Test Report
-        id: sonar-publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          ./gradlew ${{ matrix.submodule }}:sonar
+      # - name: Publish Test Report
+      #   id: sonar-publish
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: |
+      #     ./gradlew ${{ matrix.submodule }}:sonar
 
   # publish-test-coverage-reports:
   #   needs: test
