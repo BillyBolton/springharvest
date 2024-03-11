@@ -2,4 +2,4 @@
 --changeset BillyBolton:create-db-extensions
 
 CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
+    EXTENSION IF NOT EXISTS "uuid-ossp";

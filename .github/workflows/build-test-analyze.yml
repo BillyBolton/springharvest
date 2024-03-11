@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         submodule:
-          [":examples:books-catalogue", ":examples:books-catalogue-codegen"]
+          [ ":examples:books-catalogue", ":examples:books-catalogue-codegen" ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew ${{ matrix.submodule }}:build
 
   bump_version:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
       contents: write
