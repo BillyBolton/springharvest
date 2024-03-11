@@ -6,31 +6,7 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        submodule:
-          [":examples:books-catalogue", ":examples:books-catalogue-codegen"]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: 21
-          distribution: "graalvm-community"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build
-        id: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew ${{ matrix.submodule }}:build -x test
-
-  test:
+    build-and-test:
     needs: build
     runs-on: ubuntu-latest
     strategy:
