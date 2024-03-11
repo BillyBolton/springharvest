@@ -7,13 +7,13 @@ services:
     environment:
       - POSTGRES_USER=changeme
       - POSTGRES_PASSWORD=changeme
-      - POSTGRES_DB=generated-library
+      - POSTGRES_DB=generated-library-codegen
     ports:
-      - '5434:5432'
+      - '5435:5432'
     volumes:
       - generated-library-dev-data:/var/lib/postgresql/data
 volumes:
-  generated-library-dev-data:
+  generated-library-codegen-dev-data:
     driver: local
 
 

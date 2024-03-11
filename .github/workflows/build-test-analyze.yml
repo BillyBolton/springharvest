@@ -1,4 +1,4 @@
-name: Build, Test and Publish
+name: Build and Test
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-test-publish:
+  build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -54,11 +54,23 @@ jobs:
           check_name: JUnit Test Report Annotations
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
+  publish-test-coverage-reports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 17
+          distribution: "graalvm-community"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Aggregate Code Coverage
         id: test-code-coverage-report
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew testCodeCoverageReport
 
@@ -69,32 +81,3 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew sonar
-
-  # publish-test-coverage-reports:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     - name: Set up JDK
-  #       uses: graalvm/setup-graalvm@v1
-  #       with:
-  #         java-version: 17
-  #         distribution: "graalvm-community"
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  #     - name: Aggregate Code Coverage
-  #       id: test-code-coverage-report
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #       run: |
-  #         ./gradlew testCodeCoverageReport
-
-  #     - name: Publish Test Report
-  #       id: sonar-publish
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #       run: |
-  #         ./gradlew sonar

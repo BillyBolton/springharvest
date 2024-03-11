@@ -22,13 +22,6 @@ subPropertiesFile.withInputStream {
     env.load(it)
 }
 
-//tasks.named('testCodeCoverageReport').configure {
-//    reports {
-//        xml.required.set(true)
-//        html.required.set(true)
-//    }
-//}
-
 sonar {
     def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
                       "**/*Mapper*.*", "**/*Application.*"]
