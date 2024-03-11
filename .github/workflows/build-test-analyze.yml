@@ -62,6 +62,7 @@ jobs:
 
       - name: Generate Test Coverate Report
         id: generate-test-coverage-report
+        if: success() || failure()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         run: |
