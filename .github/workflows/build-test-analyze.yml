@@ -24,7 +24,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         run: |
-          ./gradlew :codegen:test :components:components-testing:test :components:components-crud:test :components:components-crud-search:test :components:components-crud-shared:test :errors:test :examples:books-catalogue:build :examples:books-catalogue-codegen:build
+          ./gradlew :codegen:test :components:components-testing:test :components:components-crud:test :components:components-search:test :components:components-shared:test :errors:test :examples:books-catalogue:build :examples:books-catalogue-codegen:build
 
       - name: Generate Test Coverate Report
         id: generate-test-coverage-report
