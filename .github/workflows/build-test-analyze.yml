@@ -29,22 +29,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         run: |
-          ./gradlew :codegen:test :components:components-testing:test :components:components-crud:test :components:components-search:test :components:components-shared:test :errors:test :examples:books-catalogue:test :examples:books-catalogue-codegen:test
-
-      - name: Generate Test Coverate Report
-        id: generate-test-coverage-report
-        if: success() || failure()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-        run: |
-          ./gradlew testCodeCoverageReport
-
-      - name: Publish Test Report Annotations
-        uses: mikepenz/action-junit-report@v4
-        if: success() || failure()
-        with:
-          check_name: JUnit Test Report Annotations
-          report_paths: "**/build/test-results/test/TEST-*.xml"
+          ./gradlew test
 
       - name: Publish Test Report
         id: sonar-publish
@@ -53,3 +38,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew sonar
+
+      - name: Publish Test Report Annotations
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          check_name: JUnit Test Report Annotations
+          report_paths: "**/build/test-results/test/TEST-*.xml"
