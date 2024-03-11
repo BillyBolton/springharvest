@@ -58,9 +58,17 @@ allprojects {
             property "sonar.organization", "billybolton"
             property "sonar.host.url", "https://sonarcloud.io"
             property "sonar.coverage.exclusions", exclusions
+            property "sonar.coverage.jacoco.xmlReportPaths",
+                    "${rootProject.getRootDir().absolutePath}/moduleA/build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml," +
+                            "${rootProject.getRootDir().absolutePath}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
+                            "${rootProject.getRootDir().absolutePath}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
+                            "${rootProject.getRootDir().absolutePath}/books-catalogue/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
+                            "${rootProject.getRootDir().absolutePath}/books-catalogue-codegen/components-crud/build/reports/jacoco/test/jacocoTestReport.xml,"
+            property "sonar.java.coveragePlugin", "jacoco"
         }
     }
 }
+
 
 tasks.named('sonar').configure {
     dependsOn jacocoTestReport
