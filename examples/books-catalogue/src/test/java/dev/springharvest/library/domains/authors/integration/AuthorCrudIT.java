@@ -11,6 +11,7 @@ import dev.springharvest.library.domains.authors.models.dtos.AuthorDTO;
 import dev.springharvest.testing.domains.integration.crud.tests.AbstractCrudIT;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+@Disabled("Sonarcloud debugging")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(value = {TestComponentScanningConfig.class, TestContainerConfig.class})
 @TestExecutionListeners(
