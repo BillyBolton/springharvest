@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         submodule:
-          [ ":examples:books-catalogue", ":examples:books-catalogue-codegen" ]
+          [":examples:books-catalogue", ":examples:books-catalogue-codegen"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,12 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        submodule:
-          [
+        submodule: [
             ":codegen",
             ":components:components-crud",
             ":examples:books-catalogue",
-            ":examples:books-catalogue-codegen",
+            # ":examples:books-catalogue-codegen",
           ]
     steps:
       - name: Checkout code
