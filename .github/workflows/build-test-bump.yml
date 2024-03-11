@@ -33,15 +33,41 @@ jobs:
             echo "::set-output name=match::false"
           fi
 
-      - name: Build and Test
-        if: steps.check_commit.outputs.match == 'false'
+          - name: Checkout code
+          uses: actions/checkout@v4
+
+      - name: Build or Test
+        id: build-test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+        run: |
+          ./gradlew :codegen:test :components:components-testing:test :components:components-crud:test :components:components-search:test :components:components-shared:test :errors:test :examples:books-catalogue:build :examples:books-catalogue-codegen:build
+
+      - name: Generate Test Coverate Report
+        id: generate-test-coverage-report
+        if: success() || failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+        run: |
+          ./gradlew :examples:books-catalogue:jacocoTestReport :examples:books-catalogue-codegen:jacocoTestReport
+
+      - name: Publish Test Report Annotations
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          check_name: JUnit Test Report Annotations
+          report_paths: "**/build/test-results/test/TEST-*.xml"
+
+      - name: Publish Test Report
+        id: sonar-publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew ${{ matrix.submodule }}:build
+        run: |
+          ./gradlew sonar
 
   bump_version:
-    needs: [ build ]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       contents: write
