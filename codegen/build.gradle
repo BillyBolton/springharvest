@@ -17,4 +17,9 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor"
     annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
     implementation "org.mapstruct:mapstruct"
+
+    testImplementation 'com.google.truth:truth:1.4.2'
+    testImplementation 'com.google.testing.compile:compile-testing:0.21.0'
+
+    testImplementation 'org.projectlombok:lombok'
 }

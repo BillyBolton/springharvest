@@ -18,4 +18,3 @@ public @interface Harvest {
   String parentDomainName() default "";
 
 }
-

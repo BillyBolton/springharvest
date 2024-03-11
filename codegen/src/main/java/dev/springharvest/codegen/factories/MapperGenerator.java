@@ -1,4 +1,4 @@
-package dev.springharvest.codegen.generators;
+package dev.springharvest.codegen.factories;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
@@ -8,6 +8,7 @@ import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import dev.springharvest.codegen.models.HarvestBO;
 import dev.springharvest.codegen.utils.JavaPoetUtils;
 import dev.springharvest.errors.constants.ExceptionMessages;
 import java.util.ArrayList;
@@ -29,23 +30,19 @@ public class MapperGenerator {
     throw new UnsupportedOperationException(ExceptionMessages.PRIVATE_CONSTRUCTOR_MESSAGE);
   }
 
-  public static void generate(final String DOMAIN_NAME_SINGULAR,
+  public static void generate(HarvestBO harvestBO,
+                              final String ROOT_PACKAGE_NAME,
+                              final String DOMAIN_NAME_SINGULAR,
                               final String DOMAIN_NAME_PLURAL,
                               TypeMirror typeMirror,
                               ProcessingEnvironment processingEnv) {
 
     Types typeUtils = processingEnv.getTypeUtils();
 
-    String basePackage = String.format("dev.springharvest.library.domains.%s.%s", DOMAIN_NAME_PLURAL.toLowerCase(), DOMAIN_NAME_SINGULAR.toLowerCase());
-    String packageName = basePackage + ".mappers";
     String className = String.format("I%sMapper_", DOMAIN_NAME_SINGULAR);
-    String dtoPackage = basePackage + ".models.dtos";
-    String entityPackage = basePackage + ".models.entities";
-    String dtoClassName = String.format("%sDTO", DOMAIN_NAME_SINGULAR);
-    String entityClassName = String.format("%sEntity", DOMAIN_NAME_SINGULAR);
 
-    TypeName authorDtoType = ClassName.get(dtoPackage, dtoClassName);
-    TypeName authorEntityType = ClassName.get(entityPackage, entityClassName);
+    TypeName dtoType = harvestBO.getDtoTypeName();
+    TypeName entityType = harvestBO.getEntityTypeName();
     TypeName uuidType = ClassName.get("java.util", "UUID");
     TypeName mapType = ParameterizedTypeName.get(ClassName.get("java.util", "Map"), ClassName.get(String.class), ClassName.get(String.class));
     ClassName cyclicMappingHandlerType = ClassName.get("dev.springharvest.shared.domains.base.mappers", "CyclicMappingHandler");
@@ -70,7 +67,7 @@ public class MapperGenerator {
     // Create method toDto
     MethodSpec.Builder toDtoMethodBuilder = MethodSpec.methodBuilder("toDto")
         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .returns(authorDtoType)
+        .returns(dtoType)
         .addParameter(mapType, "source")
         .addParameter(ParameterSpec.builder(cyclicMappingHandlerType, "context").addAnnotation(ClassName.get("org.mapstruct", "Context")).build())
         .addAnnotation(Override.class);
@@ -78,7 +75,7 @@ public class MapperGenerator {
     // Create method toEntity
     MethodSpec.Builder toEntityMethodBuilder = MethodSpec.methodBuilder("toEntity")
         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .returns(authorEntityType)
+        .returns(entityType)
         .addParameter(mapType, "source")
         .addParameter(ParameterSpec.builder(cyclicMappingHandlerType, "context").addAnnotation(ClassName.get("org.mapstruct", "Context")).build())
         .addAnnotation(Override.class);
@@ -86,9 +83,9 @@ public class MapperGenerator {
     // Create method setDirtyFields
     MethodSpec.Builder setDirtyFieldsMethodBuilder = MethodSpec.methodBuilder("setDirtyFields")
         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-        .returns(authorDtoType)
-        .addParameter(ParameterSpec.builder(authorDtoType, "source").build())
-        .addParameter(ParameterSpec.builder(authorDtoType, "target").addAnnotation(ClassName.get("org.mapstruct", "MappingTarget")).build())
+        .returns(dtoType)
+        .addParameter(ParameterSpec.builder(dtoType, "source").build())
+        .addParameter(ParameterSpec.builder(dtoType, "target").addAnnotation(ClassName.get("org.mapstruct", "MappingTarget")).build())
         .addParameter(ParameterSpec.builder(cyclicMappingHandlerType, "context").addAnnotation(ClassName.get("org.mapstruct", "Context")).build())
         .addAnnotation(Override.class);
 
@@ -124,7 +121,7 @@ public class MapperGenerator {
     // Create IAuthorMapper interface
     TypeSpec mapperInterface = TypeSpec.interfaceBuilder(className)
         .addModifiers(Modifier.PUBLIC)
-        .addSuperinterface(ParameterizedTypeName.get(iBaseModelMapperType, authorDtoType, authorEntityType, uuidType))
+        .addSuperinterface(ParameterizedTypeName.get(iBaseModelMapperType, dtoType, entityType, uuidType))
         .addAnnotation(AnnotationSpec.builder(ClassName.get("org.mapstruct", "Mapper"))
                            .addMember("componentModel", "$S", "spring")
                            .addMember("builder", "@$T(disableBuilder = true)", mapStructBuilderType)
@@ -139,7 +136,7 @@ public class MapperGenerator {
         .build();
 
     // Create Java file
-    JavaFile javaFile = JavaFile.builder(packageName, mapperInterface)
+    JavaFile javaFile = JavaFile.builder(harvestBO.getMapperPackageName(), mapperInterface)
         .addStaticImport(Map.class, "*")
         .addStaticImport(UUID.class, "*")
         .addStaticImport(org.mapstruct.Mapping.class, "*")
