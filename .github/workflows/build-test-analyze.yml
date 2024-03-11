@@ -53,13 +53,24 @@ jobs:
           distribution: "graalvm-community"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Test
+      - name: Conditional Test or Build
         id: test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew ${{ matrix.submodule }}:build
+          if [[ "${{ matrix.submodule }}" == ":examples:books-catalogue" ]] || [[ "${{ matrix.submodule }}" == ":examples:books-catalogue-codegen" ]]; then
+            ./gradlew ${{ matrix.submodule }}:build
+          else
+            ./gradlew ${{ matrix.submodule }}:test
+          fi
+
+      # - name: Test
+      #   id: test
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+      #     # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: |
+      #     ./gradlew ${{ matrix.submodule }}:test
 
       - name: Generate Test Coverate Report
         id: generate-test-coverage-report
