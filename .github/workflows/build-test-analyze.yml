@@ -35,11 +35,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        submodule: [
+        submodule:
+          [
             ":codegen",
             ":components:components-crud",
             ":examples:books-catalogue",
-            # ":examples:books-catalogue-codegen",
+            ":examples:books-catalogue-codegen",
           ]
     steps:
       - name: Checkout code
@@ -58,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew ${{ matrix.submodule }}:test
+          ./gradlew ${{ matrix.submodule }}:build
 
       - name: Generate Test Coverate Report
         id: generate-test-coverage-report

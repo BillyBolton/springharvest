@@ -22,6 +22,13 @@ subPropertiesFile.withInputStream {
     env.load(it)
 }
 
+//tasks.named('testCodeCoverageReport').configure {
+//    reports {
+//        xml.required.set(true)
+//        html.required.set(true)
+//    }
+//}
+
 sonar {
     def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
                       "**/*Mapper*.*", "**/*Application.*"]
@@ -32,7 +39,7 @@ sonar {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
 //        property "sonar.coverage.jacoco.xmlReportPaths",
-//                "${rootProject.getRootDir().absolutePath}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
+//                "${rootProject.getRootDir().relativePath()}/codegen/build/reports/jacoco/test/jacocoTestReport.xml," +
 //                        "${rootProject.getRootDir().absolutePath}/components/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
 //                        "${rootProject.getRootDir().absolutePath}/books-catalogue/components-crud/build/reports/jacoco/test/jacocoTestReport.xml," +
 //                        "${rootProject.getRootDir().absolutePath}/books-catalogue-codegen/components-crud/build/reports/jacoco/test/jacocoTestReport.xml,"
@@ -100,7 +107,7 @@ subprojects {
             xml.required.set(true)
             html.required.set(true)
 //            html.outputLocation = file("${rootProject.buildDir}/reports/jacoco/html/testCodeCoverageReport")
-            xml.outputLocation = file("${rootProject.buildDir}/reports/jacoco/xml/testCodeCoverageReport/")
+//            xml.outputLocation = file("${rootProject.buildDir}/reports/jacoco/xml/testCodeCoverageReport/")
         }
         afterEvaluate {
             classDirectories.setFrom(files(classDirectories.files.collect {
