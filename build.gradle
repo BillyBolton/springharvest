@@ -1,5 +1,6 @@
 plugins {
     id 'idea'
+    id 'java-library'
     id "maven-publish"
     id 'org.sonarqube'
 }
@@ -16,7 +17,7 @@ ext.JAVA_SOURCE_COMPATIBILITY = env.JAVA_VERSION
 ext.JAVA_TARGET_COMPATIBILITY = env.JAVA_VERSION
 ext.OPTIONS_ENCODING = env.getProperty("ENCODING", "UTF-8")
 
-tasks.register("build") {
+tasks.named("build") {
     description = 'Runs tests for all subprojects'
     dependsOn subprojects.collect { project ->
 
@@ -29,6 +30,13 @@ tasks.register("build") {
         }
     }.flatten()
 }
+
+//tasks.register("test") {
+//    description = 'Runs tests for all subprojects'
+//    dependsOn subprojects.collect { project ->
+//        project.tasks.findByName('test') ?: []
+//    }.flatten()
+//}
 
 sonar {
     def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
@@ -45,7 +53,7 @@ sonar {
 }
 
 tasks.named("sonar") {
-    dependsOn "test"
+    dependsOn tasks.named("test")
 }
 
 project(":dependency-management") {
@@ -56,7 +64,6 @@ project(":dependency-management") {
 
 
 allprojects {
-
     group = env.APPLICATION_GROUP
     version = env.APPLICATION_VERSION
 
@@ -72,7 +79,6 @@ allprojects {
     if (file('secrets.gradle').exists()) {
         apply from: 'secrets.gradle'
     }
-
 }
 
 subprojects {

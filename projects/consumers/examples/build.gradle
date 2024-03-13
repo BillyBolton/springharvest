@@ -31,6 +31,10 @@ subprojects {
         }
     }
 
+    bootJar {
+        enabled = true
+    }
+
     bootRun {
         doFirst {
             println "Executing bootRun with:"
