@@ -50,6 +50,15 @@ subprojects {
         mavenCentral()
     }
 
+    test {
+        useJUnitPlatform()
+        testLogging {
+            outputs.upToDateWhen { false }
+            showStandardStreams = false
+        }
+        finalizedBy jacocoTestReport
+    }
+
     jacocoTestReport {
         reports {
             xml.required.set(true)
@@ -68,15 +77,6 @@ subprojects {
                 ])
             }))
         }
-    }
-
-    test {
-        useJUnitPlatform()
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = false
-        }
-        finalizedBy jacocoTestReport
     }
 
     publishing {

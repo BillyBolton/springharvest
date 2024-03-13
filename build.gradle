@@ -21,23 +21,12 @@ ext.OPTIONS_ENCODING = env.getProperty("ENCODING", "UTF-8")
 tasks.named("build") {
     description = 'Runs tests for all subprojects'
     dependsOn subprojects.collect { project ->
-
-        println("project: " + project.name)
-
         if (project.pluginManager.hasPlugin('java') && !project.pluginManager.hasPlugin('java-library')) {
             project.tasks.findByName('build') ?: []
         } else {
             []
         }
     }.flatten()
-}
-
-tasks.named("test") {
-    description = 'Runs tests for all subprojects'
-    dependsOn subprojects.collect { project ->
-        project.tasks.findByName('test') ?: []
-    }.flatten()
-    finalizedBy("testCodeCoverageReport")
 }
 
 sonar {
@@ -49,23 +38,32 @@ sonar {
         property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
-        property "sonar.branch", "test-coverage"
+//        property "sonar.branch", "test-coverage"
     }
-
 }
 
 tasks.named("sonar") {
-    dependsOn tasks.named("test")
+    dependsOn(tasks.named("test"))
 }
 
+tasks.named("test") {
+    dependsOn subprojects.collect { project ->
+        project.tasks.findByName('test') ?: []
+    }.flatten()
+    finalizedBy tasks.named("testCodeCoverageReport")
+}
+
+
 project(":dependency-management") {
-    sonarqube {
+    sonar {
         skipProject = true
     }
 }
 
 
 allprojects {
+    apply plugin: 'jacoco'
+
     group = env.APPLICATION_GROUP
     version = env.APPLICATION_VERSION
 
@@ -81,6 +79,8 @@ allprojects {
     if (file('secrets.gradle').exists()) {
         apply from: 'secrets.gradle'
     }
+
+
 }
 
 subprojects {
