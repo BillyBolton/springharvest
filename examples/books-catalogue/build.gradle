@@ -1,16 +1,2 @@
 plugins {
 }
-
-bootRun {
-    doFirst {
-        println "Executing bootRun with:"
-        println "Group: ${project.group}"
-        println "Version: ${project.version}"
-    }
-}
-java {
-    sourceCompatibility = "${JAVA_VERSION}"
-    toolchain {
-        languageVersion = JavaLanguageVersion.of("${JAVA_VERSION}")
-    }
-}

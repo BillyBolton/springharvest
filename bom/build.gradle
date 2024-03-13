@@ -96,7 +96,6 @@ dependencyManagement {
 
 dependencies {
     constraints {
-
         api "org.apache.commons:commons-compress:$APACHE_COMMONS_COMPRESS_VERSION"
         api "org.apache.commons:commons-collections4:$APACHE_COMMONS_COLLECTIONS_VERSION"
         api "org.apache.commons:commons-lang3:$APACHE_COMMONS_LANG_VERSION"
@@ -113,6 +112,7 @@ dependencies {
         api "ch.qos.logback:logback-classic:$LOGBACK_VERSION"
         api "ch.qos.logback:logback-core:$LOGBACK_VERSION"
         api "org.projectlombok:lombok-mapstruct-binding:$LOMBOK_MAPSTRUCT_VERSION"
+        api "org.projectlombok:lombok:$LOMBOK_VERSION"
         api "org.mapstruct:mapstruct:$MAPSTRUCT_VERSION"
         api "org.mapstruct:mapstruct-processor:$MAPSTRUCT_VERSION"
         api "org.modelmapper:modelmapper:$MODELMAPPER_VERSION"

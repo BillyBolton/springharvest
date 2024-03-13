@@ -70,7 +70,7 @@ allprojects {
         annotationProcessor 'org.projectlombok:lombok'
         annotationProcessor "org.mapstruct:mapstruct-processor"
         // required for binding mapstruct and lombok together
-//        annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
+        annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
 
         // TESTING:
         api 'org.springframework.boot:spring-boot-starter-data-jpa'
