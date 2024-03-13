@@ -1,10 +1,10 @@
 plugins {}
 
 dependencies {
-    api project(':libs:components:components-shared')
-    api project(':libs:errors')
-    api project(':libs:components:components-crud')
-    api project(':libs:components:components-search')
+    api project(':projects:components:components-shared')
+    api project(':projects:errors')
+    api project(':projects:components:components-crud')
+    api project(':projects:components:components-search')
 
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     api "org.mapstruct:mapstruct-processor"

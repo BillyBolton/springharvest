@@ -1,9 +1,0 @@
-plugins {
-}
-
-dependencies {
-    api project(':libs:errors')
-    api project(':libs:components:components-shared')
-    api project(':libs:components:components-crud')
-}
-

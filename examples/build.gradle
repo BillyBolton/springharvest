@@ -55,15 +55,15 @@ subprojects {
         testImplementation platform(project(":bom"))
         testAnnotationProcessor platform(project(":bom"))
 
-        implementation project(':libs:errors')
-        implementation project(':libs:components:components-shared')
-        implementation project(':libs:components:components-crud')
-        implementation project(':libs:components:components-search')
-        implementation project(':libs:components')
-        annotationProcessor project(':libs:codegen')
+        implementation project(':projects:errors')
+        implementation project(':projects:components:components-shared')
+        implementation project(':projects:components:components-crud')
+        implementation project(':projects:components:components-search')
+        implementation project(':projects:components')
+        annotationProcessor project(':projects:codegen')
 
-        testImplementation project(':libs:components:components-testing')
-        testAnnotationProcessor project(':libs:components:components-testing')
+        testImplementation project(':projects:components:components-testing')
+        testAnnotationProcessor project(':projects:components:components-testing')
 
         testImplementation 'org.testcontainers:junit-jupiter'
 
