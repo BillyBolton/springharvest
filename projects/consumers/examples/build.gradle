@@ -1,9 +1,8 @@
 plugins {
     id 'idea'
-    id 'jacoco'
-    id 'jacoco-report-aggregation'
-    id 'java-library'
-    id "org.sonarqube"
+//    id 'jacoco'
+//    id 'jacoco-report-aggregation'
+//    id 'java-library'
 }
 
 Properties env = new Properties()
@@ -21,8 +20,8 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'jacoco'
-    apply plugin: 'jacoco-report-aggregation'
+//    apply plugin: 'jacoco'
+//    apply plugin: 'jacoco-report-aggregation'
 }
 
 subprojects {
@@ -31,8 +30,8 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'jacoco'
-    apply plugin: 'jacoco-report-aggregation'
+//    apply plugin: 'jacoco'
+//    apply plugin: 'jacoco-report-aggregation'
 
     configurations {
         compileOnly {
@@ -43,35 +42,6 @@ subprojects {
             extendsFrom developmentOnly
         }
     }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = false
-        }
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        "**/models/**",
-                        "**/constants/**",
-                        "**/mappers/**",
-                        "**/config/**",
-                        "**/*Repository.*",
-                        "**/*Mapper*.*",
-                        "**/*Application.*"
-                ])
-            }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
 
     bootRun {
         doFirst {
@@ -88,15 +58,15 @@ subprojects {
         testImplementation platform(project(":dependency-management"))
         testAnnotationProcessor platform(project(":dependency-management"))
 
-        implementation project(':projects:errors')
-        implementation project(':projects:components:components-shared')
-        implementation project(':projects:components:components-crud')
-        implementation project(':projects:components:components-search')
-        implementation project(':projects:components')
-        annotationProcessor project(':projects:codegen')
+        implementation project(':projects:producers:errors')
+        implementation project(':projects:producers:components:components-shared')
+        implementation project(':projects:producers:components:components-crud')
+        implementation project(':projects:producers:components:components-search')
+        implementation project(':projects:producers:components')
+        annotationProcessor project(':projects:producers:codegen')
 
-        testImplementation project(':projects:components:components-testing')
-        testAnnotationProcessor project(':projects:components:components-testing')
+        testImplementation project(':projects:producers:components:components-testing')
+        testAnnotationProcessor project(':projects:producers:components:components-testing')
 
         testImplementation 'org.testcontainers:junit-jupiter'
 

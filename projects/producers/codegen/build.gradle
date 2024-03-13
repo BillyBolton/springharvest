@@ -2,12 +2,14 @@ plugins {
     id 'java-library'
 }
 dependencies {
+    compileOnly(platform(project(":dependency-management")))
     implementation(platform(project(":dependency-management")))
-    implementation project(':projects:errors')
-    implementation project(':projects:components:components-shared')
-    implementation project(':projects:components:components-crud')
-    implementation project(':projects:components:components-search')
-    implementation project(':projects:components')
+    annotationProcessor(platform(project(":dependency-management")))
+    implementation project(':projects:producers:errors')
+    implementation project(':projects:producers:components:components-shared')
+    implementation project(':projects:producers:components:components-crud')
+    implementation project(':projects:producers:components:components-search')
+    implementation project(':projects:producers:components')
 
     implementation 'com.squareup:javapoet'
     implementation 'com.google.auto.service:auto-service'

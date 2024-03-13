@@ -1,8 +1,9 @@
 plugins {
     id 'idea'
+    id 'java-library'
     id 'jacoco'
     id 'jacoco-report-aggregation'
-    id "org.sonarqube"
+    id 'org.sonarqube'
 }
 
 allprojects {
@@ -39,6 +40,35 @@ allprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/models/**",
+                        "**/constants/**",
+                        "**/mappers/**",
+                        "**/config/**",
+                        "**/*Repository.*",
+                        "**/*Mapper*.*",
+                        "**/*Application.*"
+                ])
+            }))
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            outputs.upToDateWhen { false }
+            showStandardStreams = false
+        }
+        finalizedBy jacocoTestReport
     }
 
     dependencies {
@@ -89,6 +119,11 @@ allprojects {
         api "org.yaml:snakeyaml"
         api "org.apache.commons:commons-compress"
         api "org.apache.commons:commons-compress"
+
+        // For easier Specification Search
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
     }
 
 }
@@ -104,35 +139,6 @@ subprojects {
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
-        }
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        "**/models/**",
-                        "**/constants/**",
-                        "**/mappers/**",
-                        "**/config/**",
-                        "**/*Repository.*",
-                        "**/*Mapper*.*",
-                        "**/*Application.*"
-                ])
-            }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
-
-    tasks.named('test') {
-        useJUnitPlatform()
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = false
         }
     }
 

@@ -26,14 +26,7 @@ jobs:
         run: |
           ./gradlew :examples:books-catalogue:build -x test :examples:books-catalogue-codegen:build -x test
 
-      - name: Test
-        id: test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-        run: |
-          ./gradlew test testCodeCoverageReport
-
-      - name: Publish Test Report
+      - name: Test and Upload Coverage
         id: sonar-publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any

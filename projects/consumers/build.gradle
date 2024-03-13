@@ -1,0 +1,9 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+    apply plugin: 'java'
+}
+
+subprojects {}

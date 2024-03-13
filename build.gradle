@@ -1,11 +1,6 @@
 plugins {
     id 'idea'
-    id 'jacoco'
-    id 'jacoco-report-aggregation'
     id "maven-publish"
-    id 'org.springframework.boot'
-    id 'io.spring.dependency-management'
-    id 'java-library'
     id 'org.sonarqube'
 }
 
@@ -15,11 +10,18 @@ subPropertiesFile.withInputStream {
     env.load(it)
 }
 
-ext.GRADLE_VERSION = ext.JAVA_VERSION = env.getProperty("GRADLE_VERSION", "8.6")
+ext.GRADLE_VERSION = env.getProperty("GRADLE_VERSION", "8.6")
 ext.JAVA_VERSION = JavaVersion.toVersion(env.getProperty("JAVA_VERSION", "21.0.1"))
 ext.JAVA_SOURCE_COMPATIBILITY = env.JAVA_VERSION
 ext.JAVA_TARGET_COMPATIBILITY = env.JAVA_VERSION
 ext.OPTIONS_ENCODING = env.getProperty("ENCODING", "UTF-8")
+
+tasks.register("test") {
+    description = 'Runs tests for all subprojects'
+    dependsOn subprojects.collect { project ->
+        project.tasks.findByName('test') ?: []
+    }.flatten()
+}
 
 sonar {
     def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
@@ -30,6 +32,18 @@ sonar {
         property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
+        property "sonar.branch", "test-coverage"
+    }
+
+}
+
+tasks.named("sonar") {
+    dependsOn "test"
+}
+
+project(":dependency-management") {
+    sonarqube {
+        skipProject = true
     }
 }
 
@@ -51,29 +65,7 @@ allprojects {
         apply from: 'secrets.gradle'
     }
 
-    jacocoTestReport {
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        "**/models/**",
-                        "**/constants/**",
-                        "**/mappers/**",
-                        "**/config/**",
-                        "**/*Repository.*",
-                        "**/*Mapper*.*",
-                        "**/*Application.*"
-                ])
-            }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
-
 }
 
 subprojects {
-    test.finalizedBy jacocoTestReport
 }
