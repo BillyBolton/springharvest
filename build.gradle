@@ -16,10 +16,17 @@ ext.JAVA_SOURCE_COMPATIBILITY = env.JAVA_VERSION
 ext.JAVA_TARGET_COMPATIBILITY = env.JAVA_VERSION
 ext.OPTIONS_ENCODING = env.getProperty("ENCODING", "UTF-8")
 
-tasks.register("test") {
+tasks.register("build") {
     description = 'Runs tests for all subprojects'
     dependsOn subprojects.collect { project ->
-        project.tasks.findByName('test') ?: []
+
+        println("project: " + project.name)
+
+        if (project.pluginManager.hasPlugin('java') && !project.pluginManager.hasPlugin('java-library')) {
+            project.tasks.findByName('build') ?: []
+        } else {
+            []
+        }
     }.flatten()
 }
 
@@ -45,6 +52,13 @@ project(":dependency-management") {
     sonarqube {
         skipProject = true
     }
+}
+
+def isExecutable = { proj ->
+    return !proj.pluginManager.hasPlugin('java-library')
+//            && proj.pluginManager.hasPlugin('java')
+//            && proj.pluginManager.hasPlugin('org.springframework.boot')
+//            && proj.pluginManager.hasPlugin('io.spring.dependency-management')
 }
 
 allprojects {

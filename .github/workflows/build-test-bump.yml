@@ -35,7 +35,7 @@ jobs:
       - name: Build
         id: build
         run: |
-          ./gradlew :examples:books-catalogue:build -x test :examples:books-catalogue-codegen:build -x test
+          ./gradlew build
 
       - name: Test and Upload Coverage
         id: sonar-publish

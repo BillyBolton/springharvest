@@ -1,8 +1,11 @@
-plugins {}
+plugins {
+}
 
-dependencies {
-    // For easier Specification Search
-    api "org.hibernate.orm:hibernate-jpamodelgen"
-    api "org.hibernate.orm:hibernate-jpamodelgen"
-    api "org.hibernate.orm:hibernate-jpamodelgen"
+subprojects {
+    dependencies {
+        // For easier Specification Search
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+    }
 }
