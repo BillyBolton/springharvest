@@ -141,6 +141,6 @@ jobs:
         if: steps.verify_bump_commit_message.outputs.is_bump == 'true'
         uses: gradle/gradle-build-action@585b565652cefbba63202a7f927df0ff99f34001
         with:
-          arguments: :dependency-management publish -PcommitSHA=${{ github.sha }} :projects publish -PcommitSHA=${{ github.sha }}
+          arguments: publish -PcommitSHA=${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}
