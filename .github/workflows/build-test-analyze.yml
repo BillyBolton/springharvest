@@ -41,7 +41,7 @@ jobs:
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew sonar
+          ./gradlew testCodeCoverageReport sonar
 
       - name: Publish Test Report Annotations
         uses: mikepenz/action-junit-report@v4

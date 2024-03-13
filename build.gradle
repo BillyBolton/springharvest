@@ -33,10 +33,6 @@ sonar {
     }
 }
 
-tasks.named('sonar').configure {
-    dependsOn testCodeCoverageReport
-}
-
 allprojects {
 
     group = env.APPLICATION_GROUP
@@ -55,7 +51,29 @@ allprojects {
         apply from: 'secrets.gradle'
     }
 
+    jacocoTestReport {
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/models/**",
+                        "**/constants/**",
+                        "**/mappers/**",
+                        "**/config/**",
+                        "**/*Repository.*",
+                        "**/*Mapper*.*",
+                        "**/*Application.*"
+                ])
+            }))
+        }
+    }
+    test.finalizedBy jacocoTestReport
+
 }
 
 subprojects {
+    test.finalizedBy jacocoTestReport
 }

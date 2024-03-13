@@ -27,6 +27,13 @@ allprojects {
 
 subprojects {
 
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'jacoco'
+    apply plugin: 'jacoco-report-aggregation'
+
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
@@ -44,6 +51,27 @@ subprojects {
             showStandardStreams = false
         }
     }
+
+    jacocoTestReport {
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/models/**",
+                        "**/constants/**",
+                        "**/mappers/**",
+                        "**/config/**",
+                        "**/*Repository.*",
+                        "**/*Mapper*.*",
+                        "**/*Application.*"
+                ])
+            }))
+        }
+    }
+    test.finalizedBy jacocoTestReport
 
     bootRun {
         doFirst {

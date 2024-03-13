@@ -119,7 +119,6 @@ subprojects {
                         "**/constants/**",
                         "**/mappers/**",
                         "**/config/**",
-                        "**/errors/**",
                         "**/*Repository.*",
                         "**/*Mapper*.*",
                         "**/*Application.*"
