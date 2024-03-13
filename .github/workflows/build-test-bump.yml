@@ -60,7 +60,7 @@ jobs:
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
   bump_version:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -145,7 +145,7 @@ jobs:
       - name: Publish package
         if: steps.verify_bump_commit_message.outputs.is_bump == 'true'
         uses: gradle/gradle-build-action@585b565652cefbba63202a7f927df0ff99f34001
-        with:
-          arguments: publish -PcommitSHA=${{ github.sha }}
+        run: |
+          ./gradlew :dependency-management publish -PcommitSHA=${{ github.sha }} :projects publish -PcommitSHA=${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_PACKAGE_TOKEN }}

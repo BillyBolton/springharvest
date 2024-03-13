@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenLocal()
+    gradlePluginPortal()
+}
+
+var SPRING_BOOT_GRADLE_PLUGIN_VERSION = "3.2.3"
+var SPRING_GRADLE_DEPENDENCY_MANAGEMENT_PLUGIN_VERSION = "1.1.4"
+var SONARQUBE_GRADLE_PLUGIN_VERSION = "4.4.1.3373"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:$SPRING_BOOT_GRADLE_PLUGIN_VERSION")
+    implementation("io.spring.gradle:dependency-management-plugin:$SPRING_GRADLE_DEPENDENCY_MANAGEMENT_PLUGIN_VERSION")
+    implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$SONARQUBE_GRADLE_PLUGIN_VERSION")
+}

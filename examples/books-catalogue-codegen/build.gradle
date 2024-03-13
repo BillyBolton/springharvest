@@ -1,26 +1,10 @@
 plugins {
-    id 'java'
-}
-
-bootRun {
-    doFirst {
-        println "Executing bootRun with:"
-        println "Group: ${project.group}"
-        println "Version: ${project.version}"
-    }
-}
-java {
-    sourceCompatibility = "21"
-    toolchain {
-        languageVersion = JavaLanguageVersion.of("21")
-    }
 }
 
 dependencies {
+    annotationProcessor project(":projects:codegen")
+    compileOnly project(":projects:codegen")
+    testAnnotationProcessor project(":projects:codegen")
     compileOnly files("$buildDir/generated/sources/annotationProcessor/java/main")
     annotationProcessor files("$buildDir/generated/sources/annotationProcessor/java/main")
-    annotationProcessor project(":codegen")
-    compileOnly project(":codegen")
-//    aotTestAnnotationProcessor project(":codegen")
-    testAnnotationProcessor project(":codegen")
 }

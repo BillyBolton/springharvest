@@ -1,5 +1,6 @@
 plugins {
     id 'jacoco'
+    id 'java-library'
 }
 
 Properties env = new Properties()
@@ -12,19 +13,57 @@ def profiles = (project.hasProperty('profiles')
         ? project.property('profiles')
         : env.DEFAULT_LOCAL_SPRING_PROFILES).split(",")
 
+allprojects {
+}
+
 subprojects {
     apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+        developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+        testLogging {
+            outputs.upToDateWhen { false }
+            showStandardStreams = false
+        }
+    }
+
+    bootRun {
+        doFirst {
+            println "Executing bootRun with:"
+            println "Group: ${project.group}"
+            println "Version: ${project.version}"
+        }
+        args = ["--spring.profiles.active=${profiles.join(",")}"]
+    }
 
     dependencies {
-        implementation project(':errors')
-        implementation project(':components:components-shared')
-        implementation project(':components:components-crud')
-        implementation project(':components:components-search')
-        implementation project(':components')
-        annotationProcessor project(':codegen')
+        implementation platform(project(":dependency-management"))
+        annotationProcessor platform(project(":dependency-management"))
+        testImplementation platform(project(":dependency-management"))
+        testAnnotationProcessor platform(project(":dependency-management"))
 
-        testImplementation project(':components:components-testing')
-        testAnnotationProcessor project(':components:components-testing')
+        implementation project(':projects:errors')
+        implementation project(':projects:components:components-shared')
+        implementation project(':projects:components:components-crud')
+        implementation project(':projects:components:components-search')
+        implementation project(':projects:components')
+        annotationProcessor project(':projects:codegen')
+
+        testImplementation project(':projects:components:components-testing')
+        testAnnotationProcessor project(':projects:components:components-testing')
 
         testImplementation 'org.testcontainers:junit-jupiter'
 
@@ -64,9 +103,20 @@ subprojects {
         if (profiles.contains("liquibase")) {
             implementation 'org.liquibase:liquibase-core'
         }
+
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        compileOnly 'org.projectlombok:lombok'
+
+        // ANNOTATIONS:
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.mapstruct:mapstruct-processor"
+        // required for binding mapstruct and lombok together
+        annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
+
+        // SEARCH
+        annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
     }
 
-    bootRun {
-        args = ["--spring.profiles.active=${profiles.join(",")}"]
-    }
 }
