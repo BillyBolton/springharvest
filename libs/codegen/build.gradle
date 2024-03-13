@@ -3,11 +3,11 @@ plugins {
 }
 dependencies {
 
-    implementation project(':errors')
-    implementation project(':components:components-shared')
-    implementation project(':components:components-crud')
-    implementation project(':components:components-search')
-    implementation project(':components')
+    implementation project(':libs:errors')
+    implementation project(':libs:components:components-shared')
+    implementation project(':libs:components:components-crud')
+    implementation project(':libs:components:components-search')
+    implementation project(':libs:components')
 
     implementation 'com.squareup:javapoet'
     implementation 'com.google.auto.service:auto-service'

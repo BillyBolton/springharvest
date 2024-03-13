@@ -1,6 +1,5 @@
 plugins {
     id 'idea'
-    id 'java-library'
     id 'jacoco'
     id 'jacoco-report-aggregation'
     id "maven-publish"
@@ -10,10 +9,43 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+wrapper {
+    gradleVersion = "8.6"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+ext {
+    AZURE_SPRING_VERSION = "5.1.0"
+    APACHE_COMMONS_COLLECTIONS_VERSION = "4.4"
+    APACHE_COMMONS_COMPRESS_VERSION = "1.26.1"
+    APACHE_COMMONS_LANG_VERSION = "3.14.0"
+    APACHE_POI_VERSION = "5.2.5"
+    APACHE_TOMCAT_VERSION = "10.1.19"
+    GOOGLE_AUTO_SERVICE_VERSION = "1.1.1"
+    GOOGLE_FIND_BUGS_VERSION = "3.0.2"
+    GOOGLE_GSON_VERSION = "2.10.1"
+    GOOGLE_TESTING_COMPILE_VERSION = "0.21.0"
+    GOOGLE_TRUTH_VERSION = "1.4.2"
+    HAMCREST_VERSION = "1.3"
+    HIBERNATE_JPA_MODELGEN_VERSION = "6.3.1.Final"
+    JAVA_VERSION = "21"
+    JAVA_SOURCE_COMPATIBILITY = JAVA_VERSION
+    JAVA_TARGET_COMPATIBILITY = JAVA_VERSION
+    JSON_VERSION = "20240303"
+    JSON_PATH_VERSION = "2.9.0"
+    LOGBACK_VERSION = "1.5.3"
+    LOMBOK_MAPSTRUCT_VERSION = "0.2.0"
+    MAPSTRUCT_VERSION = "1.5.5.Final"
+    MODELMAPPER_VERSION = "3.2.0"
+    OPTIONS_ENCODING = "UTF-8"
+    POSTGRES_VERSION = "42.7.2"
+    RESTASSURED_VERSION = "5.4.0"
+    SNAKE_YAML_VERSION = "2.2"
+    SPRING_BATCH_EXCEL_VERSION = "0.1.1"
+    SPRINGDOC_VERSION = "2.3.0"
+    SPRING_SECURITY_VERSION = "3.1.0"
+    SQUAREUP_JAVAPOET_VERSION = "1.13.0"
+    TESTCONTAINERS_VERSION = "1.19.7"
 }
 
 Properties env = new Properties()
@@ -22,21 +54,10 @@ subPropertiesFile.withInputStream {
     env.load(it)
 }
 
-tasks.named('sonar').configure {
-    dependsOn testCodeCoverageReport
-}
-
-sonar {
-    def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
-                      "**/*Mapper*.*", "**/*Application.*"]
-    properties {
-        property "sonar.projectKey", project.findProperty("SONAR_PROJECT_KEY") ?: System.getenv("SONAR_PROJECT_KEY")
-        property "sonar.organization", project.findProperty("SONAR_ORGANIZATION") ?: System.getenv("SONAR_ORGANIZATION")
-        property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
-        property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.coverage.exclusions", exclusions
-    }
-}
+ext.JAVA_VERSION = JavaVersion.toVersion(env.JAVA_VERSION)
+ext.JAVA_SOURCE_COMPATIBILITY = env.JAVA_VERSION
+ext.JAVA_TARGET_COMPATIBILITY = env.JAVA_VERSION
+ext.OPTIONS_ENCODING = env.ENCODING
 
 allprojects {
     apply plugin: 'org.sonarqube'
@@ -45,24 +66,6 @@ allprojects {
     group = env.APPLICATION_GROUP
     version = env.APPLICATION_VERSION
 
-    def javaVersion = JavaVersion.toVersion(env.JAVA_VERSION)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-
-    compileJava {
-        options.compilerArgs += [
-                '-Amapstruct.defaultComponentModel=spring'
-        ]
-        options.encoding = env.ENCODING
-    }
-
-    java {
-        sourceCompatibility = env.getProperty("JAVA_VERSION")
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(env.getProperty("JAVA_VERSION"))
-        }
-    }
-
     repositories {
         mavenCentral()
     }
@@ -70,232 +73,4 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'idea'
-    apply plugin: 'java-library'
-    apply plugin: "maven-publish"
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'jacoco'
-    apply plugin: 'org.sonarqube'
-    apply plugin: 'org.owasp.dependencycheck'
-
-    java {
-        sourceCompatibility = env.getProperty("JAVA_VERSION")
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(env.getProperty("JAVA_VERSION"))
-        }
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        "**/models/**",
-                        "**/constants/**",
-                        "**/mappers/**",
-                        "**/config/**",
-                        "**/errors/**",
-                        "**/*Repository.*",
-                        "**/*Mapper*.*",
-                        "**/*Application.*"
-                ])
-            }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
-
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/billybolton/springharvest")
-                credentials {
-                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
-                }
-            }
-        }
-        publications {
-            gpr(MavenPublication) {
-                from(components.java)
-            }
-        }
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = false
-        }
-    }
-
-    ext {
-        AZURE_SPRING_VERSION = "5.1.0"
-        APACHE_COMMONS_COLLECTIONS_VERSION = "4.4"
-        APACHE_COMMONS_COMPRESS_VERSION = "1.26.1"
-        APACHE_COMMONS_LANG_VERSION = "3.14.0"
-        APACHE_POI_VERSION = "5.2.5"
-        APACHE_TOMCAT_VERSION = "10.1.19"
-        GOOGLE_AUTO_SERVICE_VERSION = "1.1.1"
-        GOOGLE_FIND_BUGS_VERSION = "3.0.2"
-        GOOGLE_GSON_VERSION = "2.10.1"
-        GOOGLE_TESTING_COMPILE_VERSION = "0.21.0"
-        GOOGLE_TRUTH_VERSION = "1.4.2"
-        HAMCREST_VERSION = "1.3"
-        HIBERNATE_JPA_MODELGEN_VERSION = "6.3.1.Final"
-        JSON_VERSION = "20240303"
-        JSON_PATH_VERSION = "2.9.0"
-        LOGBACK_VERSION = "1.5.3"
-        LOMBOK_MAPSTRUCT_VERSION = "0.2.0"
-        MAPSTRUCT_VERSION = "1.5.5.Final"
-        MODELMAPPER_VERSION = "3.2.0"
-        POSTGRES_VERSION = "42.7.2"
-        RESTASSURED_VERSION = "5.4.0"
-        SNAKE_YAML_VERSION = "2.2"
-        SPRING_BATCH_EXCEL_VERSION = "0.1.1"
-        SPRINGDOC_VERSION = "2.3.0"
-        SPRING_SECURITY_VERSION = "3.1.0"
-        SQUAREUP_JAVAPOET_VERSION = "1.13.0"
-        TESTCONTAINERS_VERSION = "1.19.7"
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom "org.testcontainers:testcontainers-bom:$TESTCONTAINERS_VERSION"
-        }
-        dependencies {
-            dependencies {
-
-                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COMPRESS_VERSION") {
-                    entry 'commons-compress'
-                }
-                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COLLECTIONS_VERSION") {
-                    entry 'commons-collections4'
-                }
-                dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_LANG_VERSION") {
-                    entry 'commons-lang3'
-                }
-                dependencySet(group: 'org.apache.tomcat.embed', version: "$APACHE_TOMCAT_VERSION") {
-                    entry 'tomcat-embed-core'
-                }
-                dependencySet(group: 'com.google.auto.service', version: "$GOOGLE_AUTO_SERVICE_VERSION") {
-                    entry 'auto-service'
-                }
-                dependencySet(group: 'com.google.code.findbugs', version: "$GOOGLE_FIND_BUGS_VERSION") {
-                    entry 'jsr305'
-                }
-                dependencySet(group: 'com.google.code.gson', version: "$GOOGLE_GSON_VERSION") {
-                    entry 'gson'
-                }
-                dependencySet(group: 'com.google.testing.compile', version: "$GOOGLE_TESTING_COMPILE_VERSION") {
-                    entry 'compile-testing'
-                }
-                dependencySet(group: 'com.google.truth', version: "$GOOGLE_TRUTH_VERSION") {
-                    entry 'truth'
-                }
-                dependencySet(group: 'org.hamcrest', version: "$HAMCREST_VERSION") {
-                    entry 'hamcrest-all'
-                }
-                dependencySet(group: 'org.hibernate', version: "$HIBERNATE_JPA_MODELGEN_VERSION") {
-                    entry 'hibernate-jpamodelgen-jakarta'
-                }
-                dependencySet(group: 'org.json', version: "$JSON_VERSION") {
-                    entry 'json'
-                }
-                dependencySet(group: 'com.jayway.jsonpath', version: "$JSON_PATH_VERSION") {
-                    entry 'json-path'
-                }
-                dependencySet(group: 'ch.qos.logback', version: "$LOGBACK_VERSION") {
-                    entry 'logback-classic'
-                    entry 'logback-core'
-                }
-                dependencySet(group: 'org.projectlombok', version: "$LOMBOK_MAPSTRUCT_VERSION") {
-                    entry 'lombok-mapstruct-binding'
-                }
-                dependencySet(group: 'org.mapstruct', version: "$MAPSTRUCT_VERSION") {
-                    entry 'mapstruct'
-                    entry 'mapstruct-processor'
-                }
-                dependencySet(group: 'org.modelmapper', version: "$MODELMAPPER_VERSION") {
-                    entry 'modelmapper'
-                }
-                dependencySet(group: 'org.postgresql', version: "$POSTGRES_VERSION") {
-                    entry 'postgresql'
-                }
-                dependencySet(group: 'io.rest-assured', version: "$RESTASSURED_VERSION") {
-                    entry 'spring-mock-mvc'
-                }
-                dependencySet(group: 'org.yaml', version: "$SNAKE_YAML_VERSION") {
-                    entry 'snakeyaml'
-                }
-                dependencySet(group: 'org.springdoc', version: "$SPRINGDOC_VERSION") {
-                    entry 'springdoc-openapi-webmvc-core'
-                    entry 'springdoc-openapi-starter-webmvc-ui'
-                    entry 'springdoc-openapi-starter-webmvc-api'
-                    entry 'springdoc-openapi-ui'
-                }
-                dependencySet(group: 'com.squareup', version: "$SQUAREUP_JAVAPOET_VERSION") {
-                    entry 'javapoet'
-                }
-            }
-        }
-    }
-
-    dependencies {
-        developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        api 'org.springframework.boot:spring-boot-starter-actuator'
-        api 'org.springframework.boot:spring-boot-starter-data-jpa'
-        api 'org.springframework.boot:spring-boot-starter-web'
-        api 'org.springframework.boot:spring-boot-starter-validation'
-        api 'org.springframework.session:spring-session-core'
-        api 'org.springframework.boot:spring-boot-docker-compose'
-
-        api "org.mapstruct:mapstruct"
-        compileOnly 'org.projectlombok:lombok'
-
-        //  API documentation
-        api "org.springdoc:springdoc-openapi-starter-webmvc-ui:$SPRINGDOC_VERSION"
-        api "org.springdoc:springdoc-openapi-starter-webmvc-api:$SPRINGDOC_VERSION"
-
-        // ANNOTATIONS:
-        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-        annotationProcessor 'org.projectlombok:lombok'
-        annotationProcessor "org.mapstruct:mapstruct-processor"
-        // required for binding mapstruct and lombok together
-        annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
-
-        // TESTING:
-        api 'org.springframework.boot:spring-boot-starter-data-jpa'
-        api "org.mapstruct:mapstruct-processor"
-        api "io.rest-assured:spring-mock-mvc"
-        api "org.hamcrest:hamcrest-all"
-        api 'org.springframework.boot:spring-boot-starter-test'
-        api 'org.testcontainers:junit-jupiter'
-
-        // SEARCH
-        // For easier Specification Search
-        annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
-        api "org.hibernate.orm:hibernate-jpamodelgen"
-
-        api "org.modelmapper:modelmapper"
-
-        api "org.apache.commons:commons-collections4"
-        api "org.apache.commons:commons-lang3"
-
-        // VULNERABILITY FIXES
-        api "org.apache.tomcat.embed:tomcat-embed-core"
-        api "org.yaml:snakeyaml"
-        api "org.apache.commons:commons-compress"
-        api "org.apache.commons:commons-compress"
-    }
-}
-
-wrapper {
-    gradleVersion = "8.6"
-    distributionType = Wrapper.DistributionType.ALL
 }

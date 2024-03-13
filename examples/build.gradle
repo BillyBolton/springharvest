@@ -1,5 +1,6 @@
 plugins {
     id 'jacoco'
+    id 'java-library'
 }
 
 Properties env = new Properties()
@@ -12,19 +13,33 @@ def profiles = (project.hasProperty('profiles')
         ? project.property('profiles')
         : env.DEFAULT_LOCAL_SPRING_PROFILES).split(",")
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 subprojects {
     apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
 
     dependencies {
-        implementation project(':errors')
-        implementation project(':components:components-shared')
-        implementation project(':components:components-crud')
-        implementation project(':components:components-search')
-        implementation project(':components')
-        annotationProcessor project(':codegen')
+        implementation platform(project(":bom"))
+        implementation project(':libs:errors')
+        implementation project(':libs:components:components-shared')
+        implementation project(':libs:components:components-crud')
+        implementation project(':libs:components:components-search')
+        implementation project(':libs:components')
+        annotationProcessor project(':libs:codegen')
 
-        testImplementation project(':components:components-testing')
-        testAnnotationProcessor project(':components:components-testing')
+        testImplementation project(':libs:components:components-testing')
+        testAnnotationProcessor project(':libs:components:components-testing')
 
         testImplementation 'org.testcontainers:junit-jupiter'
 

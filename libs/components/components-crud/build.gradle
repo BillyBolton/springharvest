@@ -1,0 +1,8 @@
+plugins {
+}
+
+dependencies {
+    api project(':libs:components:components-shared')
+    api project(':libs:errors')
+    testImplementation project(':libs:components:components-shared')
+}

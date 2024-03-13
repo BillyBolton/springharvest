@@ -9,8 +9,8 @@ bootRun {
     }
 }
 java {
-    sourceCompatibility = "21"
+    sourceCompatibility = "${JAVA_VERSION}"
     toolchain {
-        languageVersion = JavaLanguageVersion.of("21")
+        languageVersion = JavaLanguageVersion.of("${JAVA_VERSION}")
     }
 }

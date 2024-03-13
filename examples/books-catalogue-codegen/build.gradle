@@ -19,8 +19,8 @@ java {
 dependencies {
     compileOnly files("$buildDir/generated/sources/annotationProcessor/java/main")
     annotationProcessor files("$buildDir/generated/sources/annotationProcessor/java/main")
-    annotationProcessor project(":codegen")
-    compileOnly project(":codegen")
-//    aotTestAnnotationProcessor project(":codegen")
-    testAnnotationProcessor project(":codegen")
+    annotationProcessor project(":libs:codegen")
+    compileOnly project(":libs:codegen")
+//    aotTestAnnotationProcessor project(":libs:codegen")
+    testAnnotationProcessor project(":libs:codegen")
 }

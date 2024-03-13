@@ -1,0 +1,130 @@
+plugins {
+    id("java-platform")
+    id("maven-publish")
+    id("signing")
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+description = "springharvest BOM"
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:$TESTCONTAINERS_VERSION"
+    }
+    dependencies {
+        dependencies {
+
+            dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COMPRESS_VERSION") {
+                entry 'commons-compress'
+            }
+            dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_COLLECTIONS_VERSION") {
+                entry 'commons-collections4'
+            }
+            dependencySet(group: 'org.apache.commons', version: "$APACHE_COMMONS_LANG_VERSION") {
+                entry 'commons-lang3'
+            }
+            dependencySet(group: 'org.apache.tomcat.embed', version: "$APACHE_TOMCAT_VERSION") {
+                entry 'tomcat-embed-core'
+            }
+            dependencySet(group: 'com.google.auto.service', version: "$GOOGLE_AUTO_SERVICE_VERSION") {
+                entry 'auto-service'
+            }
+            dependencySet(group: 'com.google.code.findbugs', version: "$GOOGLE_FIND_BUGS_VERSION") {
+                entry 'jsr305'
+            }
+            dependencySet(group: 'com.google.code.gson', version: "$GOOGLE_GSON_VERSION") {
+                entry 'gson'
+            }
+            dependencySet(group: 'com.google.testing.compile', version: "$GOOGLE_TESTING_COMPILE_VERSION") {
+                entry 'compile-testing'
+            }
+            dependencySet(group: 'com.google.truth', version: "$GOOGLE_TRUTH_VERSION") {
+                entry 'truth'
+            }
+            dependencySet(group: 'org.hamcrest', version: "$HAMCREST_VERSION") {
+                entry 'hamcrest-all'
+            }
+            dependencySet(group: 'org.hibernate', version: "$HIBERNATE_JPA_MODELGEN_VERSION") {
+                entry 'hibernate-jpamodelgen-jakarta'
+            }
+            dependencySet(group: 'org.json', version: "$JSON_VERSION") {
+                entry 'json'
+            }
+            dependencySet(group: 'com.jayway.jsonpath', version: "$JSON_PATH_VERSION") {
+                entry 'json-path'
+            }
+            dependencySet(group: 'ch.qos.logback', version: "$LOGBACK_VERSION") {
+                entry 'logback-classic'
+                entry 'logback-core'
+            }
+            dependencySet(group: 'org.projectlombok', version: "$LOMBOK_MAPSTRUCT_VERSION") {
+                entry 'lombok-mapstruct-binding'
+            }
+            dependencySet(group: 'org.mapstruct', version: "$MAPSTRUCT_VERSION") {
+                entry 'mapstruct'
+                entry 'mapstruct-processor'
+            }
+            dependencySet(group: 'org.modelmapper', version: "$MODELMAPPER_VERSION") {
+                entry 'modelmapper'
+            }
+            dependencySet(group: 'org.postgresql', version: "$POSTGRES_VERSION") {
+                entry 'postgresql'
+            }
+            dependencySet(group: 'io.rest-assured', version: "$RESTASSURED_VERSION") {
+                entry 'spring-mock-mvc'
+            }
+            dependencySet(group: 'org.yaml', version: "$SNAKE_YAML_VERSION") {
+                entry 'snakeyaml'
+            }
+            dependencySet(group: 'org.springdoc', version: "$SPRINGDOC_VERSION") {
+                entry 'springdoc-openapi-webmvc-core'
+                entry 'springdoc-openapi-starter-webmvc-ui'
+                entry 'springdoc-openapi-starter-webmvc-api'
+                entry 'springdoc-openapi-ui'
+            }
+            dependencySet(group: 'com.squareup', version: "$SQUAREUP_JAVAPOET_VERSION") {
+                entry 'javapoet'
+            }
+        }
+    }
+}
+
+dependencies {
+    constraints {
+
+        api "org.apache.commons:commons-compress:$APACHE_COMMONS_COMPRESS_VERSION"
+        api "org.apache.commons:commons-collections4:$APACHE_COMMONS_COLLECTIONS_VERSION"
+        api "org.apache.commons:commons-lang3:$APACHE_COMMONS_LANG_VERSION"
+        api "org.apache.tomcat.embed:tomcat-embed-core:$APACHE_TOMCAT_VERSION"
+        api "com.google.auto.service:auto-service:$GOOGLE_AUTO_SERVICE_VERSION"
+        api "com.google.code.findbugs:jsr305:$GOOGLE_FIND_BUGS_VERSION"
+        api "com.google.code.gson:gson:$GOOGLE_GSON_VERSION"
+        api "com.google.testing.compile:compile-testing:$GOOGLE_TESTING_COMPILE_VERSION"
+        api "com.google.truth:truth:$GOOGLE_TRUTH_VERSION"
+        api "org.hamcrest:hamcrest-all:$HAMCREST_VERSION"
+        api "org.hibernate:hibernate-jpamodelgen-jakarta:$HIBERNATE_JPA_MODELGEN_VERSION"
+        api "org.json:json:$JSON_VERSION"
+        api "com.jayway.jsonpath:json-path:$JSON_PATH_VERSION"
+        api "ch.qos.logback:logback-classic:$LOGBACK_VERSION"
+        api "ch.qos.logback:logback-core:$LOGBACK_VERSION"
+        api "org.projectlombok:lombok-mapstruct-binding:$LOMBOK_MAPSTRUCT_VERSION"
+        api "org.mapstruct:mapstruct:$MAPSTRUCT_VERSION"
+        api "org.mapstruct:mapstruct-processor:$MAPSTRUCT_VERSION"
+        api "org.modelmapper:modelmapper:$MODELMAPPER_VERSION"
+        api "org.postgresql:postgresql:$POSTGRES_VERSION"
+        api "io.rest-assured:spring-mock-mvc:$RESTASSURED_VERSION"
+        api "org.yaml:snakeyaml:$SNAKE_YAML_VERSION"
+        api "org.springdoc:springdoc-openapi-webmvc-core:$SPRINGDOC_VERSION"
+        api "org.springdoc:springdoc-openapi-starter-webmvc-ui:$SPRINGDOC_VERSION"
+        api "org.springdoc:springdoc-openapi-starter-webmvc-api:$SPRINGDOC_VERSION"
+        api "org.springdoc:springdoc-openapi-ui:$SPRINGDOC_VERSION"
+        api "com.squareup:javapoet:$SQUAREUP_JAVAPOET_VERSION"
+        api "org.testcontainers:testcontainers-bom:$TESTCONTAINERS_VERSION"
+    }
+}
+

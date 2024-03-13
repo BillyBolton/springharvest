@@ -1,0 +1,6 @@
+plugins {
+}
+
+dependencies {
+    api project(':libs:errors')
+}
