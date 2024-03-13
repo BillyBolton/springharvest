@@ -54,12 +54,6 @@ project(":dependency-management") {
     }
 }
 
-def isExecutable = { proj ->
-    return !proj.pluginManager.hasPlugin('java-library')
-//            && proj.pluginManager.hasPlugin('java')
-//            && proj.pluginManager.hasPlugin('org.springframework.boot')
-//            && proj.pluginManager.hasPlugin('io.spring.dependency-management')
-}
 
 allprojects {
 
