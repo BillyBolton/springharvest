@@ -11,3 +11,6 @@ include ':libs:errors'
 include ':examples'
 include ':examples:books-catalogue'
 include ':examples:books-catalogue-codegen'
+include 'bom:buildSrc'
+findProject(':bom:buildSrc')?.name = 'buildSrc'
+
