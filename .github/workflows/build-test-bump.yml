@@ -35,7 +35,7 @@ jobs:
       - name: Build
         id: build
         run: |
-          ./gradlew build
+          ./gradlew build -x test
 
       - name: Test and Upload Coverage
         id: sonar-publish

@@ -3,6 +3,7 @@ plugins {
     id 'java-library'
     id "maven-publish"
     id 'org.sonarqube'
+    id 'jacoco-report-aggregation'
 }
 
 Properties env = new Properties()
@@ -31,12 +32,13 @@ tasks.named("build") {
     }.flatten()
 }
 
-//tasks.register("test") {
-//    description = 'Runs tests for all subprojects'
-//    dependsOn subprojects.collect { project ->
-//        project.tasks.findByName('test') ?: []
-//    }.flatten()
-//}
+tasks.named("test") {
+    description = 'Runs tests for all subprojects'
+    dependsOn subprojects.collect { project ->
+        project.tasks.findByName('test') ?: []
+    }.flatten()
+    finalizedBy("testCodeCoverageReport")
+}
 
 sonar {
     def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
