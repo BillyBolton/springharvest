@@ -31,7 +31,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
         run: |
-          ./gradlew test
+          ./gradlew test testCodeCoverageReport
 
       - name: Publish Test Report
         id: sonar-publish
@@ -41,7 +41,7 @@ jobs:
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew testCodeCoverageReport sonar
+          ./gradlew sonar
 
       - name: Publish Test Report Annotations
         uses: mikepenz/action-junit-report@v4
