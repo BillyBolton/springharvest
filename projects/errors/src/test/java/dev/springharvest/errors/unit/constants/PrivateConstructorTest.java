@@ -1,4 +1,4 @@
-package dev.springharvest.errors.unit;
+package dev.springharvest.errors.unit.constants;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
