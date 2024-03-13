@@ -3,10 +3,10 @@ plugins {
     id 'jacoco'
     id 'jacoco-report-aggregation'
     id "maven-publish"
-    id "org.sonarqube"
     id 'org.springframework.boot'
     id 'io.spring.dependency-management'
     id 'java-library'
+    id 'org.sonarqube'
 }
 
 Properties env = new Properties()
@@ -33,9 +33,11 @@ sonar {
     }
 }
 
+tasks.named('sonar').configure {
+    dependsOn testCodeCoverageReport
+}
+
 allprojects {
-    apply plugin: 'org.sonarqube'
-    apply plugin: 'jacoco-report-aggregation'
 
     group = env.APPLICATION_GROUP
     version = env.APPLICATION_VERSION

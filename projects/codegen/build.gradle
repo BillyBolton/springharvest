@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
 }
 dependencies {
-
+    implementation(platform(project(":dependency-management")))
     implementation project(':projects:errors')
     implementation project(':projects:components:components-shared')
     implementation project(':projects:components:components-crud')

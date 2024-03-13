@@ -1,9 +1,13 @@
 // https://dev.to/mfvanek/creation-and-usage-of-bom-in-gradle-ca1#:~:text=Creating%20a%20BOM%20in%20Gradle,full%20example%20is%20here)%3A
 
 plugins {
+    id 'idea'
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
     id("java-platform")
-    id("maven-publish")
+    id "maven-publish"
     id("signing")
+    id "org.sonarqube"
     id 'org.springframework.boot'
     id 'io.spring.dependency-management'
 }
@@ -11,6 +15,22 @@ plugins {
 javaPlatform {
     allowDependencies()
 }
+
+sonar {
+    def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
+                      "**/*Mapper*.*", "**/*Application.*"]
+    properties {
+        property "sonar.projectKey", project.findProperty("SONAR_PROJECT_KEY") ?: System.getenv("SONAR_PROJECT_KEY")
+        property "sonar.organization", project.findProperty("SONAR_ORGANIZATION") ?: System.getenv("SONAR_ORGANIZATION")
+        property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.exclusions", exclusions
+    }
+}
+
+//tasks.named('sonar').configure {
+//    dependsOn testCodeCoverageReport
+//}
 
 publishing {
     repositories {
