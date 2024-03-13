@@ -1,6 +1,9 @@
 plugins {
+    id 'idea'
     id 'jacoco'
+    id 'jacoco-report-aggregation'
     id 'java-library'
+    id "org.sonarqube"
 }
 
 Properties env = new Properties()
@@ -14,13 +17,15 @@ def profiles = (project.hasProperty('profiles')
         : env.DEFAULT_LOCAL_SPRING_PROFILES).split(",")
 
 allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'jacoco'
+    apply plugin: 'jacoco-report-aggregation'
 }
 
 subprojects {
-    apply plugin: 'idea'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
 
     configurations {
         compileOnly {
