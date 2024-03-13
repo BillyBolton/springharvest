@@ -1,8 +1,0 @@
-plugins {
-}
-
-dependencies {
-    api project(':projects:components:components-shared')
-    api project(':projects:errors')
-    testImplementation project(':projects:components:components-shared')
-}

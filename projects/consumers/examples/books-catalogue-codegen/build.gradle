@@ -1,0 +1,10 @@
+plugins {
+}
+
+dependencies {
+    annotationProcessor project(":projects:producers:codegen")
+    compileOnly project(":projects:producers:codegen")
+    testAnnotationProcessor project(":projects:producers:codegen")
+    compileOnly files("$buildDir/generated/sources/annotationProcessor/java/main")
+    annotationProcessor files("$buildDir/generated/sources/annotationProcessor/java/main")
+}

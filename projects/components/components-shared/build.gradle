@@ -1,6 +1,0 @@
-plugins {
-}
-
-dependencies {
-    api project(':projects:errors')
-}

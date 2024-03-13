@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    compileOnly(platform(project(":dependency-management")))
+    implementation(platform(project(":dependency-management")))
+    annotationProcessor(platform(project(":dependency-management")))
+    implementation project(':projects:producers:errors')
+    implementation project(':projects:producers:components:components-shared')
+    implementation project(':projects:producers:components:components-crud')
+    implementation project(':projects:producers:components:components-search')
+    implementation project(':projects:producers:components')
+
+    implementation 'com.squareup:javapoet'
+    implementation 'com.google.auto.service:auto-service'
+    annotationProcessor 'com.google.auto.service:auto-service'
+    implementation 'org.apache.commons:commons-lang3'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.mapstruct:mapstruct-processor"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
+    implementation "org.mapstruct:mapstruct"
+
+    testImplementation 'com.google.truth:truth'
+    testImplementation 'com.google.testing.compile:compile-testing'
+
+    testImplementation 'org.projectlombok:lombok'
+}

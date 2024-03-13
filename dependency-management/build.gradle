@@ -1,11 +1,15 @@
 // https://dev.to/mfvanek/creation-and-usage-of-bom-in-gradle-ca1#:~:text=Creating%20a%20BOM%20in%20Gradle,full%20example%20is%20here)%3A
 
 plugins {
-    id("java-platform")
-    id("maven-publish")
-    id("signing")
-    id 'org.springframework.boot'
+    id 'idea'
     id 'io.spring.dependency-management'
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
+    id 'java-platform'
+    id "maven-publish"
+    id 'org.sonarqube'
+    id 'org.springframework.boot'
+    id 'signing'
 }
 
 javaPlatform {

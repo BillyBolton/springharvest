@@ -1,20 +1,26 @@
 plugins {
-    id 'idea'
-    id 'jacoco'
-    id 'jacoco-report-aggregation'
-//    id "maven-publish"
-    id "org.sonarqube"
 }
 
 allprojects {
+}
+
+subprojects {
     apply plugin: 'idea'
     apply plugin: 'java-library'
-//    apply plugin: "maven-publish"
+    apply plugin: "maven-publish"
+    apply plugin: 'jacoco'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'jacoco'
-    apply plugin: 'jacoco-report-aggregation'
-    apply plugin: 'org.sonarqube'
+
+    bootJar {
+        enabled = false
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
     def javaVersion = "${JAVA_VERSION}"
     sourceCompatibility = javaVersion
@@ -44,71 +50,13 @@ allprojects {
         mavenCentral()
     }
 
-    dependencies {
-        api platform(project(":dependency-management"))
-        annotationProcessor platform(project(":dependency-management"))
-        developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        api 'org.springframework.boot:spring-boot-starter-actuator'
-        api 'org.springframework.boot:spring-boot-starter-data-jpa'
-        api 'org.springframework.boot:spring-boot-starter-web'
-        api 'org.springframework.boot:spring-boot-starter-validation'
-        api 'org.springframework.session:spring-session-core'
-        api 'org.springframework.boot:spring-boot-docker-compose'
-
-        api "org.mapstruct:mapstruct"
-        compileOnly 'org.projectlombok:lombok'
-
-        //  API documentation
-        api "org.springdoc:springdoc-openapi-starter-webmvc-ui"
-        api "org.springdoc:springdoc-openapi-starter-webmvc-api"
-
-        // ANNOTATIONS:
-        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-        annotationProcessor 'org.projectlombok:lombok'
-        annotationProcessor "org.mapstruct:mapstruct-processor"
-        // required for binding mapstruct and lombok together
-        annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
-
-        // TESTING:
-        api 'org.springframework.boot:spring-boot-starter-data-jpa'
-        api "org.mapstruct:mapstruct-processor"
-        api "io.rest-assured:spring-mock-mvc"
-        api "org.hamcrest:hamcrest-all"
-        api 'org.springframework.boot:spring-boot-starter-test'
-        api 'org.testcontainers:junit-jupiter'
-
-        // SEARCH
-        // For easier Specification Search
-        annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
-        api "org.hibernate.orm:hibernate-jpamodelgen"
-
-        api "org.modelmapper:modelmapper"
-
-        api "org.apache.commons:commons-collections4"
-        api "org.apache.commons:commons-lang3"
-
-        // VULNERABILITY FIXES
-        api "org.apache.tomcat.embed:tomcat-embed-core"
-        api "org.yaml:snakeyaml"
-        api "org.apache.commons:commons-compress"
-        api "org.apache.commons:commons-compress"
-    }
-
-}
-
-subprojects {
-    apply plugin: 'idea'
-    apply plugin: 'java-library'
-    apply plugin: "maven-publish"
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'jacoco'
-    apply plugin: 'org.sonarqube'
-
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
+    test {
+        useJUnitPlatform()
+        testLogging {
+            outputs.upToDateWhen { false }
+            showStandardStreams = false
         }
+        finalizedBy jacocoTestReport
     }
 
     jacocoTestReport {
@@ -123,21 +71,11 @@ subprojects {
                         "**/constants/**",
                         "**/mappers/**",
                         "**/config/**",
-                        "**/errors/**",
                         "**/*Repository.*",
                         "**/*Mapper*.*",
                         "**/*Application.*"
                 ])
             }))
-        }
-    }
-    test.finalizedBy jacocoTestReport
-
-    tasks.named('test') {
-        useJUnitPlatform()
-        testLogging {
-            outputs.upToDateWhen { false }
-            showStandardStreams = false
         }
     }
 
@@ -182,5 +120,57 @@ subprojects {
             }
         }
     }
+    dependencies {
+        api platform(project(":dependency-management"))
+        annotationProcessor platform(project(":dependency-management"))
+        api 'org.springframework.boot:spring-boot-starter-actuator'
+        api 'org.springframework.boot:spring-boot-starter-data-jpa'
+        api 'org.springframework.boot:spring-boot-starter-web'
+        api 'org.springframework.boot:spring-boot-starter-validation'
+        api 'org.springframework.session:spring-session-core'
+        api 'org.springframework.boot:spring-boot-docker-compose'
 
+        api "org.mapstruct:mapstruct"
+        compileOnly 'org.projectlombok:lombok'
+
+        //  API documentation
+        api "org.springdoc:springdoc-openapi-starter-webmvc-ui"
+        api "org.springdoc:springdoc-openapi-starter-webmvc-api"
+
+        // ANNOTATIONS:
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.mapstruct:mapstruct-processor"
+        // required for binding mapstruct and lombok together
+        annotationProcessor "org.projectlombok:lombok-mapstruct-binding"
+
+        // TESTING:
+        api 'org.springframework.boot:spring-boot-starter-data-jpa'
+        api "org.mapstruct:mapstruct-processor"
+        api "io.rest-assured:spring-mock-mvc"
+        api "org.hamcrest:hamcrest-all"
+        api 'org.springframework.boot:spring-boot-starter-test'
+        api 'org.testcontainers:junit-jupiter'
+
+        // SEARCH
+        // For easier Specification Search
+        annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+
+        api "org.modelmapper:modelmapper"
+
+        api "org.apache.commons:commons-collections4"
+        api "org.apache.commons:commons-lang3"
+
+        // VULNERABILITY FIXES
+        api "org.apache.tomcat.embed:tomcat-embed-core"
+        api "org.yaml:snakeyaml"
+        api "org.apache.commons:commons-compress"
+        api "org.apache.commons:commons-compress"
+
+        // For easier Specification Search
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+        api "org.hibernate.orm:hibernate-jpamodelgen"
+    }
 }
