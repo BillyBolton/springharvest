@@ -2,14 +2,14 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'jacoco-report-aggregation'
-    id "maven-publish"
+//    id "maven-publish"
     id "org.sonarqube"
 }
 
 allprojects {
     apply plugin: 'idea'
     apply plugin: 'java-library'
-    apply plugin: "maven-publish"
+//    apply plugin: "maven-publish"
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'jacoco'
@@ -45,8 +45,8 @@ allprojects {
     }
 
     dependencies {
-        api platform(project(":bom"))
-        annotationProcessor platform(project(":bom"))
+        api platform(project(":dependency-management"))
+        annotationProcessor platform(project(":dependency-management"))
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
         api 'org.springframework.boot:spring-boot-starter-actuator'
         api 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -133,14 +133,6 @@ subprojects {
     }
     test.finalizedBy jacocoTestReport
 
-    publishing {
-        publications {
-            gpr(MavenPublication) {
-                from(components.java)
-            }
-        }
-    }
-
     tasks.named('test') {
         useJUnitPlatform()
         testLogging {
@@ -148,11 +140,47 @@ subprojects {
             showStandardStreams = false
         }
     }
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/billybolton/springharvest")
+                credentials {
+                    username = project.findProperty("GPR_USER") ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("GPR_KEY") ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+                pom {
+                    packaging = "pom"
+                    name = project.getName()
+                    url = 'https://github.com/billybolton/springharvest'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'billybolton'
+                            name = 'Billy Bolton'
+                            email = 'billybolton16@gmail.com'
+                            url = "https://www.github.com/billybolton"
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/billybolton/springharvest.git'
+                        developerConnection = 'scm:git:ssh://github.com/billybolton/springharvest.git'
+                        url = 'https://github.com/billybolton/springharvest/tree/master'
+                    }
+                }
+            }
         }
     }
-
 
 }

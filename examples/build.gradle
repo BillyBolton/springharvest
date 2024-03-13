@@ -50,10 +50,10 @@ subprojects {
     }
 
     dependencies {
-        implementation platform(project(":bom"))
-        annotationProcessor platform(project(":bom"))
-        testImplementation platform(project(":bom"))
-        testAnnotationProcessor platform(project(":bom"))
+        implementation platform(project(":dependency-management"))
+        annotationProcessor platform(project(":dependency-management"))
+        testImplementation platform(project(":dependency-management"))
+        testAnnotationProcessor platform(project(":dependency-management"))
 
         implementation project(':projects:errors')
         implementation project(':projects:components:components-shared')
