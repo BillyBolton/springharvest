@@ -6,11 +6,11 @@ dependencies {
     compileOnly(platform(project(":dependency-management")))
     implementation(platform(project(":dependency-management")))
     annotationProcessor(platform(project(":dependency-management")))
-    implementation project(':projects:producers:errors')
-    implementation project(':projects:producers:components:components-shared')
-    implementation project(':projects:producers:components:components-crud')
-    implementation project(':projects:producers:components:components-search')
-    implementation project(':projects:producers:components')
+    implementation project(':projects:core:errors')
+    implementation project(':projects:core:components:components-shared')
+    implementation project(':projects:core:components:components-crud')
+    implementation project(':projects:core:components:components-search')
+    implementation project(':projects:core:components')
 
     implementation 'com.squareup:javapoet'
     implementation 'com.google.auto.service:auto-service'

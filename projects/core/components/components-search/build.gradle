@@ -1,0 +1,9 @@
+plugins {
+}
+
+dependencies {
+    api project(':projects:core:errors')
+    api project(':projects:core:components:components-shared')
+    api project(':projects:core:components:components-crud')
+}
+
