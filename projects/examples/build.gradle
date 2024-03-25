@@ -50,15 +50,15 @@ subprojects {
         testImplementation platform(project(":dependency-management"))
         testAnnotationProcessor platform(project(":dependency-management"))
 
-        implementation project(':projects:producers:errors')
-        implementation project(':projects:producers:components:components-shared')
-        implementation project(':projects:producers:components:components-crud')
-        implementation project(':projects:producers:components:components-search')
-        implementation project(':projects:producers:components')
-        annotationProcessor project(':projects:producers:codegen')
+        implementation project(':projects:core:errors')
+        implementation project(':projects:core:components:components-shared')
+        implementation project(':projects:core:components:components-crud')
+        implementation project(':projects:core:components:components-search')
+        implementation project(':projects:core:components')
+        annotationProcessor project(':projects:core:codegen')
 
-        testImplementation project(':projects:producers:components:components-testing')
-        testAnnotationProcessor project(':projects:producers:components:components-testing')
+        testImplementation project(':projects:core:components:components-testing')
+        testAnnotationProcessor project(':projects:core:components:components-testing')
 
         testImplementation 'org.testcontainers:junit-jupiter'
 
