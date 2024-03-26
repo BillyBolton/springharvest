@@ -9,7 +9,7 @@ repositories {
 
 var SPRING_BOOT_GRADLE_PLUGIN_VERSION = "3.2.4"
 var SPRING_GRADLE_DEPENDENCY_MANAGEMENT_PLUGIN_VERSION = "1.1.4"
-var SONARQUBE_GRADLE_PLUGIN_VERSION = "4.4.1.3373"
+var SONARQUBE_GRADLE_PLUGIN_VERSION = "5.0.0.4638"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-gradle-plugin:$SPRING_BOOT_GRADLE_PLUGIN_VERSION")
