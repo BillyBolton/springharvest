@@ -35,11 +35,12 @@ public class HarvestProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Processing annotations");
+    processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Processing annotations: @Harvest");
     for (Element element : roundEnv.getElementsAnnotatedWith(Harvest.class)) {
+
       if (element.getKind() != ElementKind.CLASS) {
         error(element, "Only classes can be annotated with @Harvest");
-        return true; // Exit processing
+        return false; // Exit processing
       }
 
       // Extract the qualified name of the annotated class
@@ -52,38 +53,12 @@ public class HarvestProcessor extends AbstractProcessor {
       final String DOMAIN_NAME_PLURAL = annotation.domainNamePlural();
       final String PARENT_DOMAIN_NAME = annotation.parentDomainName();
       final String DOMAIN_CONTEXT_PATH = annotation.domainContextPath();
-
       final String PACKAGE_NAME = AnnotationPackageFinder.findAnnotationPackage(processingEnv, Harvest.class, typeElement);
-      if (PACKAGE_NAME != null && !PACKAGE_NAME.isEmpty()) {
-        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Package of entity using Harvest annotation: " + PACKAGE_NAME);
-      } else {
-        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Failed to find package of entity using Harvest annotation", element);
-      }
 
-      StringBuilder sb = new StringBuilder();
-      String[] packageParts = PACKAGE_NAME.split("\\.");
-      if (packageParts.length == 0) {
-        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Failed to find package of entity using Harvest annotation", element);
-      } else {
-        String prev = packageParts[0];
-        sb.append(prev);
-        for (int i = 1; i < packageParts.length; i++) {
-          String curr = packageParts[i];
-
-          if (!StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_SINGULAR)
-              && !StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_PLURAL)) {
-            sb.append(".");
-            prev = curr;
-            sb.append(curr);
-          }
-
-          if (StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_SINGULAR)
-              || StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_PLURAL) || StringUtils.equalsIgnoreCase(curr, "domains")) {
-            break;
-          }
-        }
-      }
-      final String ROOT_PACKAGE_NAME = sb.toString();
+      final String ROOT_PACKAGE_NAME = buildRootPackageName(element,
+                                                            DOMAIN_NAME_SINGULAR,
+                                                            DOMAIN_NAME_PLURAL,
+                                                            PACKAGE_NAME);
       processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "ROOT_PACKAGE_NAME: " + ROOT_PACKAGE_NAME);
       HarvestBO harvestBO = new HarvestBO(ROOT_PACKAGE_NAME, DOMAIN_NAME_SINGULAR, DOMAIN_NAME_PLURAL, PARENT_DOMAIN_NAME, DOMAIN_CONTEXT_PATH);
       processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "DOMAIN_NAME_SINGULAR: " + harvestBO.getDomainNameSingular());
@@ -107,4 +82,41 @@ public class HarvestProcessor extends AbstractProcessor {
   private void error(Element element, String message, Object... args) {
     processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format(message, args), element);
   }
+
+  private String buildRootPackageName(Element element,
+                                      final String DOMAIN_NAME_SINGULAR,
+                                      final String DOMAIN_NAME_PLURAL,
+                                      final String PACKAGE_NAME) {
+    if (PACKAGE_NAME != null && !PACKAGE_NAME.isEmpty()) {
+      processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Package of entity using Harvest annotation: " + PACKAGE_NAME);
+    } else {
+      processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Failed to find package of entity using Harvest annotation", element);
+    }
+
+    StringBuilder sb = new StringBuilder();
+    String[] packageParts = PACKAGE_NAME.split("\\.");
+    if (packageParts.length == 0) {
+      processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Failed to find package of entity using Harvest annotation", element);
+    } else {
+      String prev = packageParts[0];
+      sb.append(prev);
+      for (int i = 1; i < packageParts.length; i++) {
+        String curr = packageParts[i];
+
+        if (!StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_SINGULAR)
+            && !StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_PLURAL)) {
+          sb.append(".");
+          prev = curr;
+          sb.append(curr);
+        }
+
+        if (StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_SINGULAR)
+            || StringUtils.equalsIgnoreCase(curr, DOMAIN_NAME_PLURAL) || StringUtils.equalsIgnoreCase(curr, "domains")) {
+          break;
+        }
+      }
+    }
+    return sb.toString();
+  }
+
 }

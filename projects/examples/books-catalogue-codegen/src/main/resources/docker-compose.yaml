@@ -3,7 +3,7 @@ services:
   db:
     image: postgis/postgis:15-3.4-alpine
     restart: always
-    container_name: generated-library-db
+    container_name: generated-codegen-library-db
     environment:
       - POSTGRES_USER=changeme
       - POSTGRES_PASSWORD=changeme
@@ -11,7 +11,7 @@ services:
     ports:
       - '5435:5432'
     volumes:
-      - generated-library-dev-data:/var/lib/postgresql/data
+      - generated-library-codegen-dev-data:/var/lib/postgresql/data
 volumes:
   generated-library-codegen-dev-data:
     driver: local
