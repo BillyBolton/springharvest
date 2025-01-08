@@ -3,6 +3,7 @@ plugins {
     id 'java-library'
     id "maven-publish"
     id 'org.sonarqube'
+    id 'jacoco'
     id 'jacoco-report-aggregation'
 }
 
@@ -18,6 +19,27 @@ ext.JAVA_SOURCE_COMPATIBILITY = env.JAVA_VERSION
 ext.JAVA_TARGET_COMPATIBILITY = env.JAVA_VERSION
 ext.OPTIONS_ENCODING = env.getProperty("ENCODING", "UTF-8")
 
+// JaCoCo Configuration
+jacoco {
+    toolVersion = "0.8.8"  
+}
+
+tasks.named("jacocoTestReport") {
+    dependsOn(tasks.named("test"))
+    reports {
+        xml.required.set(true)  // Enable XML report for SonarQube
+        html.required.set(true)  // Enable HTML report for local viewing
+    }
+}
+
+// Unified test task configuration
+tasks.named("test") {
+    dependsOn subprojects.collect { project ->
+        project.tasks.findByName('test') ?: []
+    }.flatten()
+    finalizedBy(tasks.named("jacocoTestReport"))  // Ensure coverage is generated after tests
+}
+
 tasks.named("build") {
     description = 'Runs tests for all subprojects'
     dependsOn subprojects.collect { project ->
@@ -29,37 +51,30 @@ tasks.named("build") {
     }.flatten()
 }
 
+// SonarQube Configuration
 sonar {
-    def exclusions = ["**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**", "**/*Repository.*",
-                      "**/*Mapper*.*", "**/*Application.*"]
+    def exclusions = [
+        "**/errors/**", "**/models/**", "**/constants/**", "**/mappers/**", "**/config/**",
+        "**/*Repository.*", "**/*Mapper*.*", "**/*Application.*"
+    ]
     properties {
         property "sonar.projectKey", project.findProperty("SONAR_PROJECT_KEY") ?: System.getenv("SONAR_PROJECT_KEY")
         property "sonar.organization", project.findProperty("SONAR_ORGANIZATION") ?: System.getenv("SONAR_ORGANIZATION")
         property "sonar.token", project.findProperty("SONAR_TOKEN") ?: System.getenv("SONAR_TOKEN")
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.exclusions", exclusions
-//        property "sonar.branch", "test-coverage"
     }
 }
 
 tasks.named("sonar") {
-    dependsOn(tasks.named("test"))
+    dependsOn(tasks.named("jacocoTestReport"))  // Ensure coverage report is available for SonarQube
 }
-
-tasks.named("test") {
-    dependsOn subprojects.collect { project ->
-        project.tasks.findByName('test') ?: []
-    }.flatten()
-    finalizedBy tasks.named("testCodeCoverageReport")
-}
-
 
 project(":dependency-management") {
     sonar {
         skipProject = true
     }
 }
-
 
 allprojects {
     apply plugin: 'jacoco'
@@ -79,9 +94,16 @@ allprojects {
     if (file('secrets.gradle').exists()) {
         apply from: 'secrets.gradle'
     }
-
-
 }
 
 subprojects {
+}
+
+dependencies {
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+
+
 }

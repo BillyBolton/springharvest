@@ -1,0 +1,13 @@
+input SortOrder {
+  # The field to sort the results by
+  field: String!
+  # The direction to sort the results by
+  sortDirection: SortDirection!
+}
+
+enum SortDirection {
+  # Sort the results in ascending order
+  ASC
+  # Sort the results in descending order
+  DESC
+}

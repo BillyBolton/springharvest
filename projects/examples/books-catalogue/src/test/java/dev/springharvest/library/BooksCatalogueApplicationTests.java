@@ -16,8 +16,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(value = {TestComponentScanningConfig.class, TestContainerConfig.class})
 @TestExecutionListeners(
-    listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
-    mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
+        listeners = {DependencyInjectionTestExecutionListener.class, LiquibaseTestExecutionListener.class},
+        mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @TestPropertySource(locations = "classpath:application.properties")
 @ActiveProfiles("test")
 class BooksCatalogueApplicationTests {

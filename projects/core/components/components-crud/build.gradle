@@ -1,8 +1,11 @@
 plugins {
+    id 'java'
 }
 
 dependencies {
     api project(':projects:core:components:components-shared')
+    api project(':projects:core:components:components-expressions')
     api project(':projects:core:errors')
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
     testImplementation project(':projects:core:components:components-shared')
 }

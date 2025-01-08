@@ -1,5 +1,24 @@
 package dev.springharvest.search.domains.base.persistence;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+
 import dev.springharvest.errors.constants.ExceptionMessages;
 import dev.springharvest.errors.models.ClientException;
 import dev.springharvest.errors.models.ExceptionDetail;
@@ -26,25 +45,8 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Selection;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Function;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 
 /**
  * This class is used to provide a base implementation of the criteria search
@@ -68,6 +70,11 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
   private final Function<Tuple, E> tupleTransformer;
   @PersistenceContext
   protected EntityManager entityManager;
+  
+  public void setEntityManager(EntityManager entityManager) {
+      this.entityManager = entityManager;
+  }
+
 
   @Autowired
   protected AbstractCriteriaSearchDao(String rootPath, Function<Tuple, E> tupleTransformer) {
@@ -613,5 +620,7 @@ public abstract class AbstractCriteriaSearchDao<E extends BaseEntity<K>, K exten
     }
 
   }
+
+
 
 }

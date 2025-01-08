@@ -1,0 +1,43 @@
+extend type Query
+{
+    searchPets(filter: PetFilter = {}, clause: ClauseFilter = {}, paging: PageRequest = {page: 0, size: 20, sortOrders: []}) : PetPageData
+    countPets(filter : PetFilter = {}, clause: ClauseFilter = {}, fields: PetField) : Long
+}
+
+type Pet implements BaseEntity
+{
+    id: ID!
+    name: String!
+    traceData: TraceData
+}
+
+type PetPageData implements PageData{
+    currentPage : Int
+    pageSize : Int
+    total : Long
+    totalPages : Int
+    currentPageCount : Int
+    data : [Pet!]
+}
+
+input PetFilter{
+    id: IdExpression
+    name: StringExpression
+    traceData: TraceDataFilter
+
+    and: [PetFilter!]
+    or: [PetFilter!]
+    not: PetFilter
+}
+
+# the PetField enum type is used to select the fields to be returned in the response or on which the query should be based on
+# Would be nice to be able to generate this from the model
+enum PetField
+{
+    Pet_id
+    Pet_name
+    Pet_traceData_traceDates_dateCreated
+    Pet_traceData_traceDates_dateUpdated
+    Pet_traceData_traceUsers_createdBy
+    Pet_traceData_traceUsers_updatedBy
+}

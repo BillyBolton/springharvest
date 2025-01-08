@@ -1,0 +1,12 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: "1"
+      author: NeroNemesis
+
+  - include:
+      file: DDL/create_pets_table.sql
+      relativeToChangelogFile: true
+  - include:
+      file: DML/insert_data_pets.sql
+      relativeToChangelogFile: true

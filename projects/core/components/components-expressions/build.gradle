@@ -1,0 +1,10 @@
+plugins {
+}
+
+dependencies {
+    api project(':projects:core:components:components-shared')
+    testImplementation project(':projects:core:components:components-shared')
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    implementation 'com.graphql-java:graphql-java-extended-scalars'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
+}

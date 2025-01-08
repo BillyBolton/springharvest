@@ -1,15 +1,15 @@
 package dev.springharvest.shared.domains.embeddables.traces.dates;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface ITraceableDatesAware {
 
-  Date getDateCreated();
+  LocalDate getDateCreated();
 
-  void setDateCreated(Date date);
+  void setDateCreated(LocalDate date);
 
-  Date getDateUpdated();
+  LocalDate getDateUpdated();
 
-  void setDateUpdated(Date date);
+  void setDateUpdated(LocalDate date);
 
 }

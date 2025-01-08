@@ -1,0 +1,53 @@
+extend type Query {
+    searchAuthors(filter: AuthorFilter = {}, clause: ClauseFilter = {}, paging: PageRequest = { page: 1, size: 2, sortOrders: []}) : AuthorPageData
+    countAuthors(filter : AuthorFilter = {}, clause: ClauseFilter = {}, fields: String) : Long
+}
+
+extend type Mutation {
+    authorMutation(id: ID!, input: authorMutationInput!) : Author
+}
+
+type Author implements BaseEntity{
+    id: ID!
+    name: String!
+    pet(join: Join): Pet
+    traceData: TraceData
+}
+
+type AuthorPageData implements PageData{
+    currentPage : Int
+    pageSize : Int
+    total : Long
+    totalPages : Int
+    currentPageCount : Int
+    data : [Author]!
+}
+
+input AuthorFilter{
+    id: IdExpression
+    name: StringExpression
+    pet: PetFilter
+    traceData: TraceDataFilter
+
+    and: [AuthorFilter!]
+    or: [AuthorFilter!]
+    not: AuthorFilter
+}
+
+input authorMutationInput {
+    name: String!
+    updatedBy: ID!
+}
+
+# the AuthorField enum type is used to select the fields to be returned in the response or on which the query should be based on
+# Would be nice to be able to generate this from the model
+enum AuthorField {
+    Author_id
+    Author_name
+    Author_pet_id
+    Author_pet_name
+    Author_traceData_traceDates_dateCreated
+    Author_traceData_traceDates_dateUpdated
+    Author_traceData_traceUsers_createdBy
+    Author_traceData_traceUsers_updatedBy
+}

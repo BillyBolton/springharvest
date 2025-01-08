@@ -12,5 +12,5 @@ include ':projects:core:components:components-search'
 include ':projects:core:components:components-shared'
 include ':projects:core:components:components-testing'
 include ':projects:core:errors'
-
+include ':projects:core:components:components-expressions'
 

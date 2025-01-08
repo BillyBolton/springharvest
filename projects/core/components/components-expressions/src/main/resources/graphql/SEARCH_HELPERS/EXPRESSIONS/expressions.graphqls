@@ -1,0 +1,46 @@
+# The StringExpression input type is used to filter string fields
+input StringExpression {
+    equals: String # The exact string to match
+    equalsic: String # The exact string to match, case insensitive
+    contains: String # The substring to match within the string
+    containsic: String # The substring to match within the string, case insensitive
+    in: [String!] # The list of strings to match
+    starts: String # The prefix to match in the string
+    startsic: String # The prefix to match in the string, case insensitive
+    ends: String # The suffix to match in the string
+    endsic: String # The suffix to match in the string, case insensitive
+}
+
+# The IdExpression input type is used to filter UUID fields
+input IdExpression {
+    equals: String
+    in: [String!]
+    between: [String!]
+}
+
+# The IntExpression input type is used to filter integer fields
+input IntExpression {
+    eq: Int # The exact integer to match
+    gt: Int # The lower bound to match (exclusive)
+    gte: Int # The lower bound to match (inclusive)
+    lt: Int # The upper bound to match (exclusive)
+    lte: Int # The upper bound to match (inclusive)
+    in: [Int!] # The list of integers to match
+    between: [Int!] #The intrval of integers to match (inclusive)
+}
+
+# The DateExpression input type is used to filter date fields
+input DateExpression {
+    eq: Date # The exact date to match
+    gt: Date # The lower bound to match (exclusive)
+    gte: Date # The lower bound to match (inclusive)
+    lt: Date # The upper bound to match (exclusive)
+    lte: Date # The upper bound to match (inclusive)
+    between: [Date!] # The range of dates to match (inclusive)
+}
+
+#SQL clauses
+input ClauseFilter
+{
+    distinct : Boolean
+}

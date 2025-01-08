@@ -15,4 +15,8 @@ dependencies {
     api 'org.testcontainers:junit-jupiter'
     api "org.testcontainers:postgresql"
     api 'org.liquibase:liquibase-core'
+    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+    testImplementation 'org.mockito:mockito-core:5.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'io.rest-assured:json-path:5.3.0'
 }

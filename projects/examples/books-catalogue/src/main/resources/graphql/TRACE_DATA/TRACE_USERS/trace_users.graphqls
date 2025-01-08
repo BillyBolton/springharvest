@@ -1,0 +1,14 @@
+type TraceUsers{
+    createdBy: ID
+    updatedBy: ID
+}
+
+input TraceUsersFilter{
+    createdBy: StringExpression
+    updatedBy: StringExpression
+
+    and: [TraceUsersFilter!]
+    or: [TraceUsersFilter!]
+    not: TraceUsersFilter
+    distinct: [TraceUsersFilter!]
+}
