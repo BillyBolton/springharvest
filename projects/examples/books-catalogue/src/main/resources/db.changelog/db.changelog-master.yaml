@@ -9,6 +9,9 @@ databaseChangeLog:
       file: PUBLISHERS/master.yaml
       relativeToChangelogFile: true
   - include:
+      file: PETS/master.yaml
+      relativeToChangelogFile: true
+  - include:
       file: AUTHORS/master.yaml
       relativeToChangelogFile: true
   - include:

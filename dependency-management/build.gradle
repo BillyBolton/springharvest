@@ -99,6 +99,8 @@ var SPRING_BATCH_EXCEL_VERSION = "0.1.1"
 var SPRING_CLOUD_AZURE_VERSION = "5.12.0"
 var SPRINGDOC_VERSION = "2.4.0"
 var SQUAREUP_JAVAPOET_VERSION = "1.13.0"
+var GRAPHQLSCALARS_VERSION = "19.1"
+var ELASTICSEARCH_VERSION = "5.2.0"
 var TESTCONTAINERS_VERSION = "1.19.8"
 var XMLUNIT_VERSION = "2.10.0"
 
@@ -317,6 +319,17 @@ dependencies {
             }
         }
 
+        api("com.graphql-java:graphql-java-extended-scalars") {
+            version {
+                strictly("$GRAPHQLSCALARS_VERSION")
+            }
+        }
+
+        api("org.springframework.data:spring-data-elasticsearch") {
+            version {
+                strictly("$ELASTICSEARCH_VERSION")
+            }
+        }
         api("org.xmlunit:xmlunit-core") {
             version {
                 strictly("$XMLUNIT_VERSION")

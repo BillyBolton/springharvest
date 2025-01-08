@@ -1,0 +1,65 @@
+extend type Query
+{
+    searchBooks(filter: BookFilter = {}, clause: ClauseFilter = {}, paging: PageRequest = {page: 1, size: 10, sortOrders: []}) : BookPageData
+    complexBooksSearch(filter: BookFilter = {}, clause: ClauseFilter = {}, fields : [BookField], aggregates : BookAggregatesFilter, paging: PageRequest = {page: 1, size: 2, sortOrders: [{ field: "Book.title", sortDirection: ASC }]}) : JSON
+    countBooks(filter : BookFilter = {}, clause: ClauseFilter = {}, fields: BookField) : Long
+}
+
+type Book implements BaseEntity
+{
+    id: ID!
+    title: String!
+    genre: String!
+    author(join: Join): Author!
+    publisher(join: Join): Publisher!
+    traceData: TraceData
+}
+
+type BookPageData implements PageData{
+    currentPage : Int
+    pageSize : Int
+    total : Long
+    totalPages : Int
+    currentPageCount : Int
+    data : [Book!]
+}
+
+input BookFilter{
+    id: IdExpression
+    title: StringExpression
+    genre: StringExpression
+    author: AuthorFilter
+    publisher: PublisherFilter
+    traceData: TraceDataFilter
+
+    and: [BookFilter!]
+    or: [BookFilter!]
+    not: BookFilter
+}
+
+# the BookField enum type is used to select the fields to be returned in the response or on which the query should be based on
+# Would be nice to be able to generate this from the model
+enum BookField
+{
+    Book_id
+    Book_title
+    Book_genre
+    Book_author_pet_id
+    Book_author_pet_name
+    Book_publisher_id
+    Book_publisher_name
+    Book_traceData_traceDates_dateCreated
+    Book_traceData_traceDates_dateUpdated
+    Book_traceData_traceUsers_createdBy
+    Book_traceData_traceUsers_updatedBy
+}
+
+# Would be nice to be able to generate this too
+input BookAggregatesFilter{
+    sum: [BookField]
+    avg: [BookField]
+    min: [BookField]
+    max: [BookField]
+    count: [BookField]
+    groupBy: [BookField]
+}

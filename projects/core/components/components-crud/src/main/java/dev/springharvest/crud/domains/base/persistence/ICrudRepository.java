@@ -2,6 +2,7 @@ package dev.springharvest.crud.domains.base.persistence;
 
 import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
 import java.io.Serializable;
+
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 import org.springframework.data.repository.NoRepositoryBean;

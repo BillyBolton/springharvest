@@ -5,5 +5,22 @@ dependencies {
     api project(':projects:core:errors')
     api project(':projects:core:components:components-shared')
     api project(':projects:core:components:components-crud')
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+
+
+}
+configurations.all {
+    resolutionStrategy {
+        force 'org.mockito:mockito-core:4.11.0'
+        force 'org.mockito:mockito-junit-jupiter:4.11.0'
+        force 'org.junit.jupiter:junit-jupiter:5.9.3'
+    }
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
 }
 

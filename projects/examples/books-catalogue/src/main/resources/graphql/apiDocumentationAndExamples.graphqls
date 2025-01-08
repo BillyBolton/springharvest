@@ -1,0 +1,6 @@
+
+### Documentation on how to use this API is available at:
+### https://github.com/BillyBolton/springharvest/wiki/GraphQL
+extend type Query {
+_dummy: String
+}

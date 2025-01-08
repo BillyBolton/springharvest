@@ -1,11 +1,10 @@
-plugins {
-}
+plugins {}
 
-subprojects {
-    dependencies {
-        // For easier Specification Search
-        api "org.hibernate.orm:hibernate-jpamodelgen"
-        api "org.hibernate.orm:hibernate-jpamodelgen"
-        api "org.hibernate.orm:hibernate-jpamodelgen"
-    }
+dependencies {
+    // For easier Specification Search
+    api "org.hibernate.orm:hibernate-jpamodelgen"
+    api "org.hibernate.orm:hibernate-jpamodelgen"
+    api "org.hibernate.orm:hibernate-jpamodelgen"
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
 }

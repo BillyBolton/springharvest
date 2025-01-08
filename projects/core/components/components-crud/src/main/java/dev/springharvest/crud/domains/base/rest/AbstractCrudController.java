@@ -1,20 +1,11 @@
 package dev.springharvest.crud.domains.base.rest;
 
-import dev.springharvest.crud.domains.base.rest.constants.CrudControllerUri;
-import dev.springharvest.crud.domains.base.services.AbstractCrudService;
-import dev.springharvest.errors.models.ClientException;
-import dev.springharvest.errors.models.ExceptionDetail;
-import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
-import dev.springharvest.shared.domains.base.mappers.IBaseModelMapper;
-import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
-import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
-import jakarta.persistence.EntityNotFoundException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +21,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+
+import dev.springharvest.crud.domains.base.rest.constants.CrudControllerUri;
+import dev.springharvest.crud.domains.base.services.AbstractCrudService;
+import dev.springharvest.errors.models.ClientException;
+import dev.springharvest.errors.models.ExceptionDetail;
+import dev.springharvest.shared.domains.base.mappers.CyclicMappingHandler;
+import dev.springharvest.shared.domains.base.mappers.IBaseModelMapper;
+import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
+import dev.springharvest.shared.domains.base.models.entities.BaseEntity;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A generic implementation of the IBaseCrudController interface.

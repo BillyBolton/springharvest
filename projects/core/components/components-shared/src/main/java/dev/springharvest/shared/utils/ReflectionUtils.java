@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -231,7 +232,7 @@ public class ReflectionUtils {
     if (type == null) {
       return true;
     }
-    return type.isPrimitive() || type.equals(Boolean.class) || type.equals(Date.class) ||
+    return type.isPrimitive() || type.equals(Boolean.class) || type.equals(Date.class) || type.equals(LocalDate.class) ||
            type.equals(String.class) || type.equals(Character.class) || type.equals(Long.class) ||
            type.equals(Integer.class) || type.equals(Double.class) || type.equals(Float.class) ||
            type.equals(Short.class) || type.equals(Byte.class) || Number.class.isAssignableFrom(type) ||

@@ -1,0 +1,15 @@
+# The Query type is used to define all the available queries in the system
+type Query {
+    ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
+}
+
+# The Mutation type is used to define all the available mutations in the system
+type Mutation {
+    ping: String @deprecated(reason: "https://stackoverflow.com/questions/59868942/graphql-a-schema-must-have-a-query-operation-defined")
+}
+
+# The schema is the root GraphQL object type, and it groups all the available operations
+schema {
+    query: Query # The available queries
+    mutation: Mutation # The available mutations
+}

@@ -1,0 +1,8 @@
+# The Date scalar represents a date in the system
+# To register a new scalar, add a new line to the file and specify the scalar name and the URL of the specification
+# Then in the GraphQLConfig config, add the scalar to the scalars list. Follow the examples
+# It is specified by the URL "https://scalars.graphql.org/andimarek/local-date"
+scalar Date @specifiedBy(url: "https://scalars.graphql.org/andimarek/local-date")
+scalar JSON
+scalar Long
+scalar Object

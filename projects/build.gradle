@@ -129,7 +129,7 @@ subprojects {
         api 'org.springframework.boot:spring-boot-starter-validation'
         api 'org.springframework.session:spring-session-core'
         api 'org.springframework.boot:spring-boot-docker-compose'
-
+        api 'org.springframework.boot:spring-boot-starter-graphql'
         api "org.mapstruct:mapstruct"
         compileOnly 'org.projectlombok:lombok'
 
@@ -150,6 +150,7 @@ subprojects {
         api "io.rest-assured:spring-mock-mvc"
         api "org.hamcrest:hamcrest-all"
         api 'org.springframework.boot:spring-boot-starter-test'
+        api 'org.springframework.graphql:spring-graphql-test'
         api 'org.testcontainers:junit-jupiter'
 
         // SEARCH
@@ -172,5 +173,12 @@ subprojects {
         api "org.hibernate.orm:hibernate-jpamodelgen"
         api "org.hibernate.orm:hibernate-jpamodelgen"
         api "org.hibernate.orm:hibernate-jpamodelgen"
+
+        //EXPRESSiONS
+        api "org.springframework.data:spring-data-elasticsearch"
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+        testImplementation 'org.mockito:mockito-core:5.4.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     }
 }

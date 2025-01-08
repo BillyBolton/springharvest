@@ -54,6 +54,7 @@ subprojects {
         implementation project(':projects:core:components:components-shared')
         implementation project(':projects:core:components:components-crud')
         implementation project(':projects:core:components:components-search')
+        implementation project(':projects:core:components:components-expressions')
         implementation project(':projects:core:components')
         annotationProcessor project(':projects:core:codegen')
 
@@ -66,6 +67,8 @@ subprojects {
         implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui"
         implementation "org.springdoc:springdoc-openapi-starter-webmvc-api"
 
+        implementation 'org.springframework.boot:spring-boot-starter-graphql'
+        testImplementation 'org.springframework.graphql:spring-graphql-test'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         testAnnotationProcessor "org.mapstruct:mapstruct-processor"
@@ -73,6 +76,7 @@ subprojects {
         testImplementation "org.hamcrest:hamcrest-all"
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.testcontainers:junit-jupiter'
+
         implementation "org.hibernate.orm:hibernate-jpamodelgen"
         implementation "org.modelmapper:modelmapper"
         developmentOnly 'org.springframework.boot:spring-boot-devtools'

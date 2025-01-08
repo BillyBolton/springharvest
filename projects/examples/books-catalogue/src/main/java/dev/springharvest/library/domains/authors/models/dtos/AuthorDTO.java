@@ -2,6 +2,7 @@ package dev.springharvest.library.domains.authors.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.springharvest.library.domains.pet.models.dtos.PetDTO;
 import dev.springharvest.shared.domains.embeddables.traces.traceable.models.dtos.AbstractTraceableDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
@@ -28,6 +29,8 @@ public class AuthorDTO extends AbstractTraceableDTO<UUID> {
   public UUID getId() {
     return id;
   }
+
+  private PetDTO pet;
 
   @JsonIgnore
   @Override

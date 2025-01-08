@@ -1,0 +1,8 @@
+input AggregatesFilter{
+    sum: [String]
+    avg: [String]
+    min: [String]
+    max: [String]
+    count: [String]
+    groupBy: [String]
+}

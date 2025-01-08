@@ -1,0 +1,22 @@
+# TraceDates type represents the creation and update dates for a trace
+type TraceDates{
+    # dateCreated represents the date when the trace was created
+    dateCreated: Date
+    # dateUpdated represents the date when the trace was last updated
+    dateUpdated: Date
+}
+
+# TraceDatesFilter input type is used to filter traces based on their creation and update dates
+input TraceDatesFilter{
+    # dateCreated is used to filter traces based on their creation date
+    dateCreated: DateExpression
+    # dateUpdated is used to filter traces based on their update date
+    dateUpdated: DateExpression
+
+    # and is used to combine multiple filters with a logical AND
+    and: [TraceDatesFilter!]
+    # or is used to combine multiple filters with a logical OR
+    or: [TraceDatesFilter!]
+    # not is used to negate a filter
+    not: TraceDatesFilter
+}

@@ -5,6 +5,7 @@ import dev.springharvest.shared.domains.base.models.dtos.BaseDTO;
 import dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri.CrudUriFactory;
 import dev.springharvest.testing.domains.integration.crud.domains.base.clients.uri.ICrudUriFactory;
 import dev.springharvest.testing.domains.integration.shared.domains.base.clients.RestClientImpl;
+import io.restassured.response.ExtractableResponse;
 import io.restassured.response.ValidatableResponse;
 import jakarta.annotation.Nullable;
 import java.io.Serializable;
@@ -152,5 +153,6 @@ public abstract class AbstractCrudClientImpl<D extends BaseDTO<K>, K extends Ser
         .jsonPath()
         .getList("content", getClazz());
   }
+
 
 }

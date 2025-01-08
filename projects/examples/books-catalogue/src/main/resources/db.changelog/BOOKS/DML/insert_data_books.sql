@@ -48,3 +48,15 @@ values
      'Children''s Literature',
      '00000000-0000-0000-0000-000000000001',
      '00000000-0000-0000-0000-000000000001');
+INSERT INTO books
+    (id,
+     title,
+     genre,
+     author_id,
+     publisher_id)
+values
+    ('00000000-0000-0000-0000-000000000005',
+     'The Tales Of Amadou Koumba',
+     'Folklore',
+     '00000000-0000-0000-0000-000000000002',
+     '00000000-0000-0000-0000-000000000001');

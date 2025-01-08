@@ -1,0 +1,9 @@
+# The BaseEntity interface represents a base entity in the system
+interface BaseEntity
+{
+    id: ID! # The unique ID of the entity
+    traceData: TraceData # Trace data for the entity
+}
+
+# The Parent union represents a parent entity which can be an Author, Book, Publisher or Pet
+union  Parent = Author | Book | Publisher | Pet

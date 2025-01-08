@@ -1,0 +1,14 @@
+# TraceData type represents the data for a trace
+type TraceData{
+    # traceDates represents the creation and update dates for a trace
+    traceDates: TraceDates
+    # traceUsers represents the users associated with a trace
+    traceUsers: TraceUsers
+}
+
+# TraceDataFilter input type is used to filter traces based on their data
+input TraceDataFilter{
+    # traceDates is used to filter traces based on their creation and update dates
+    traceDates: TraceDatesFilter
+    traceUsers: TraceUsersFilter
+}
