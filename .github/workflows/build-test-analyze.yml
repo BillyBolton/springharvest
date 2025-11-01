@@ -37,7 +37,7 @@ jobs:
           ./gradlew sonar
 
       - name: Publish Test Report Annotations
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v6
         if: success() || failure()
         with:
           check_name: JUnit Test Report Annotations
